@@ -12,4 +12,12 @@
   text-align: center;
   color: #2c3e50;
 }
+.letter {
+  color: #00ab84;
+}
+input[type="text"] {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #00ab84;
+}
 </style>

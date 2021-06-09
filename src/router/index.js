@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import InicioSesion from "../views/InicioSesion.vue";
+import consultaCursos from "../views/consultaCursos.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/InicioSesion",
     name: "InicioSesion",
     component: InicioSesion,
+  },
+  {
+    path: "/consultaCursos",
+    name: "consultaCursos",
+    component: consultaCursos,
   },
 ];
 

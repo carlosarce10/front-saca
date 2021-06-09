@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <InicioSesion />
+    <HeaderInicio />
   </div>
 </template>
 
 <script>
-import InicioSesion from "@/components/InicioSesion.vue";
+import HeaderInicio from "@/components/HeaderInicio.vue";
 
 export default {
   name: "Home",
   components: {
-    InicioSesion,
+    HeaderInicio,
   },
 };
 </script>

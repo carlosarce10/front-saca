@@ -12,7 +12,7 @@
           type="submit"
           style="margin-top: 10%;"
           variant="outline-success"
-          >GO</b-button
+          >Entrar</b-button
         >
       </div>
     </div>
@@ -30,7 +30,7 @@
 .sesion {
   background: #f8f8f8;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 43px;
+  border-radius: 25px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;

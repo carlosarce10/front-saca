@@ -1,22 +1,21 @@
 <template>
-  <div >
+  <div>
     <div class="home">
-      <HeaderInicio />      
-    </div >
-        
+      <HeaderInicio />
+      <Footer class="fixed-bottom" />
+    </div>
   </div>
 </template>
 
 <script>
 import HeaderInicio from "@/components/HeaderInicio.vue";
-
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "Home",
   components: {
     HeaderInicio,
+    Footer,
   },
-  
 };
-
 </script>

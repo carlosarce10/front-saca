@@ -19,4 +19,13 @@ input[type="text"] {
   border: none;
   border-bottom: 1px solid #00ab84;
 }
+input[type="password"] {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #00ab84;
+}
+.fondo {
+  background-image: url("assets/fondo.png");
+  height: 100vh;
+}
 </style>

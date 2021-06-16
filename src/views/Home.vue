@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fondo">
     <div class="home">
       <HeaderInicio />
       <Footer class="fixed-bottom" />

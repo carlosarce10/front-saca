@@ -5,7 +5,7 @@
     </div>
     <div class="offset-5 col-2 sesion">
       <p class="fs-4 letter letra">Login</p>
-      <b-form class="d-grid gap-2 col-11 mx-auto" method="POST">
+      <b-form class="d-grid gap-2 col-11 mx-auto">
         <b-form-input
           id="usuario"
           v-model="user.nickname"
@@ -69,31 +69,31 @@ export default {
   },
   methods: {
     authenticate() {
-      api.doPost("/login", this.user).then((response) => {
-        if (response.data.token !== null || response.data.token !== "") {
-          let authority = JSON.stringify(
-            response.data.authorities[0].authority
-          );
-          let nickname = JSON.stringify(response.data.nickname);
-          let token = JSON.stringify(response.data.token);
+      console.log(this.user);
+      api
+        .doPost("auth/login", this.user)
+        .then((response) => {
+          console.log(response);
+          if (response.data.token !== null || response.data.token !== "") {
+            let authority = response.data.authorities[1].authority;
+            let nickname = response.data.username;
+            let token = response.data.token;
 
-          authority = authority.substring(1, authority.length - 1);
-          nickname = nickname.substring(1, nickname.length - 1);
-          token = token.substring(1, token.length - 1);
+            console.log(authority + " " + nickname + " " + token);
 
-          localStorage.setItem("authority", authority);
-          localStorage.setItem("nickname", nickname);
-          localStorage.setItem("token", token);
+            localStorage.setItem("authority", authority);
+            localStorage.setItem("username", nickname);
+            localStorage.setItem("token", token);
 
-          if (authority == "ROLE_ADMIN") {
-            this.$$router.push("/administrador/inicio");
-          } else if (authority == "ROLE_DOCENTE") {
-            this.$$router.push("/docente/inicio");
-          } else if (authority == "ROLE_ESTUDIANTE") {
-            this.$$router.push("/estudiante/inicio");
+            if (authority == "ROLE_ADMIN") {
+              this.$router.push("/administrador/inicio");
+            } else if (authority == "ROLE_DOCENTE") {
+              this.$router.push("/docente/inicio");
+            } else if (authority == "ROLE_ESTUDIANTE") {
+              this.$router.push("/estudiante/inicio");
+            }
           }
-        }
-      });
+        })
     },
   },
 };

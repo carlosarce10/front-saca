@@ -27,7 +27,7 @@
             <img class="logo2" id="popover1" src="../assets/logo.png" />
           </div>
           <div class="col-6">
-            <h4 style="color: #707273">SACA</h4>
+            <h4 style="color: #707273; font-family: 'Times New Roman'">SACA</h4>
           </div>
           <div class="linea"></div>
         </div>

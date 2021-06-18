@@ -5,10 +5,10 @@
     </div>
     <div class="offset-5 col-2 sesion">
       <p class="fs-4 letter letra">Login</p>
-      <b-form class="d-grid gap-2 col-11 mx-auto">
+      <b-form class="d-grid gap-2 col-11 mx-auto" method="POST">
         <b-form-input
           id="usuario"
-          v-model="usuario"
+          v-model="user.nickname"
           type="text"
           placeholder="Usuario"
           required
@@ -16,7 +16,7 @@
         />
         <b-form-input
           id="contrasenia"
-          v-model="contrasenia"
+          v-model="user.password"
           type="password"
           placeholder="Contraseña"
           required
@@ -28,6 +28,7 @@
           type="button"
           style="margin-top: 30%"
           class="btn btn-outline-success"
+          @click="authenticate()"
         >
           GO
         </button>
@@ -35,6 +36,68 @@
     </div>
   </div>
 </template>
+
+<script>
+import Vue from "vue";
+import VueRouter from "vue-router";
+import api from "../util/api";
+
+Vue.use(VueRouter);
+export default {
+  data() {
+    return {
+      user: {
+        nickname: "",
+        password: "",
+      },
+    };
+  },
+  beforeMount() {
+    let token = localStorage.getItem("token");
+    if (token !== null) {
+      let auth = localStorage.getItem("authority");
+      if ((auth !== null) & "ROLE_ADMIN") {
+        this.$$router.push("/administrador/inicio");
+      }
+      if ((auth !== null) & "ROLE_DOCENTE") {
+        this.$$router.push("/docente/inicio");
+      }
+      if ((auth !== null) & "ROLE_ESTUDIANTE") {
+        this.$$router.push("/estudiante/inicio");
+      }
+    }
+  },
+  methods: {
+    authenticate() {
+      api.doPost("/login", this.user).then((response) => {
+        if (response.data.token !== null || response.data.token !== "") {
+          let authority = JSON.stringify(
+            response.data.authorities[0].authority
+          );
+          let nickname = JSON.stringify(response.data.nickname);
+          let token = JSON.stringify(response.data.token);
+
+          authority = authority.substring(1, authority.length - 1);
+          nickname = nickname.substring(1, nickname.length - 1);
+          token = token.substring(1, token.length - 1);
+
+          localStorage.setItem("authority", authority);
+          localStorage.setItem("nickname", nickname);
+          localStorage.setItem("token", token);
+
+          if (authority == "ROLE_ADMIN") {
+            this.$$router.push("/administrador/inicio");
+          } else if (authority == "ROLE_DOCENTE") {
+            this.$$router.push("/docente/inicio");
+          } else if (authority == "ROLE_ESTUDIANTE") {
+            this.$$router.push("/estudiante/inicio");
+          }
+        }
+      });
+    },
+  },
+};
+</script>
 
 <style scoped>
 .logo {

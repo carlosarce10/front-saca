@@ -6,6 +6,8 @@
           <p class="mb-0 py-2 letter">
             © Universidad Tecnológica Emiliano Zapata.
           </p>
+          <hr />
+          <p class="mb-0 py-2 letter">Territorio de calidad</p>
         </div>
       </div>
     </footer>
@@ -17,6 +19,9 @@
   background: #00ab84;
 }
 .letter {
+  color: #ffffff;
+}
+hr {
   color: #ffffff;
 }
 </style>

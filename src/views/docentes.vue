@@ -2,18 +2,23 @@
   <div class="row fondo">
     <div class="home">
       <HeaderInicio />
+      <!-- Titulo -->
       <div class="container">
         <div class="row justify-content-lg-center">
           <div class="col-md-auto">
-            <h1>Consulta de Cursos</h1>
+            <h1>Docentes</h1>
           </div>
         </div>
       </div>
+      <!-- Boton modal -->
       <div class="row">
         <div class="col-12 col-md-8" id="modal">
-          <b-button id="show-btn" @click="showModal">Registrar Curso</b-button>
+          <b-button id="show-btn" @click="mostrarModal"
+            >Registrar Docente</b-button
+          >
         </div>
       </div>
+      <!-- div de busqueda -->
       <div class="row justify-content-end">
         <div class="col-4">
           <b-form>
@@ -28,64 +33,76 @@
               <button
                 size="sm"
                 class="my-2 my-sm-0 btn btn-secondary"
-                type="submit">
+                type="submit"
+              >
                 Buscar
               </button>
             </div>
           </b-form>
         </div>
       </div>
-      
-      <b-modal ref="my-modal" hide-footer title="Registro">
+
+      <!-- form del modal -->
+      <b-modal ref="docentes-modal" hide-footer title="Registro">
         <div>
           <b-form >
             <b-form-group id="input-group-1" style="padding: 5px;">
               <b-form-input
-                id="titulo"
-                v-model="form.titulo"
+                id="nombre"
+                v-model="form.nombre"
                 type="text"
-                placeholder="Titulo"
+                placeholder="Nombre"
                 required
               ></b-form-input>
             </b-form-group>
 
             <b-form-group id="input-group-2" style="padding: 5px;">
               <b-form-input
-                id="descripcion"
-                v-model="form.descripcion"
-                placeholder="Ingrese la descripcion"
+                id="apellidoPaterno"
+                v-model="form.apellidoPaterno"
+                placeholder="Apellido Paterno"
                 required
               ></b-form-input>
             </b-form-group>
 
             <b-form-group id="input-group-3" style="padding: 5px;">
               <b-form-input
-                id="requisitos"
-                v-model="form.requisitos"
-                placeholder="Ingrese los requisitos"
+                id="apellidoMaterno"
+                v-model="form.apellidoMaterno"
+                placeholder="Apellido Paterno"
                 required
               ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-4" style="padding: 5px;">
+            <b-form-group id="input-group-4" style="padding: 5px;" >
               <b-form-input
-                id="duracion"
-                v-model="form.duracion"
-                placeholder="Ingrese la duración"
+                id="nickname"
+                v-model="form.nickname"
+                placeholder="Nickname"
                 required
               ></b-form-input>
             </b-form-group>
 
             <b-form-group id="input-group-5" style="padding: 5px;">
-              <b-form-textarea
-                id="temario"
-                v-model="form.temario"
-                placeholder="Ingrese el temario"
+              <b-form-input
+                id="email"
+                v-model="form.email"
+                placeholder="Email"
                 required
-              ></b-form-textarea>
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-6" style="padding: 5px;" >
+              <b-form-input
+                id="password"
+                v-model="form.password"
+                placeholder="Contraseña"
+                required
+              ></b-form-input>
             </b-form-group>
           </b-form>
           <div>
+            
             <b-button
               class="mt-2"
               variant="outline-success"
@@ -103,20 +120,20 @@
           </div>
         </div>
       </b-modal>
-      <br />
+      <!-- Tabla -->
       <div id="table">
         <b-table :items="items" :fields="fields" caption-top>
           <template #cell(actions)>
-            <button class="btn btn-primary" @click="mostrar()" >Editar</button>
+            <button class="btn btn-primary" @click="mostrar()">Editar</button>
             <button @click="mostrar()" class="btn btn-danger">Eliminar</button>
           </template>
         </b-table>
       </div>
-
       <Footer class="fixed-bottom" />
     </div>
   </div>
 </template>
+
 <script>
 import HeaderInicio from "@/components/HeaderInicio.vue";
 import Footer from "@/components/Footer.vue";
@@ -140,23 +157,24 @@ export default {
         name: "",
         food: null,
         checked: [],
-      }
+      },
     };
   },
   methods: {
     mostrar() {
       alert("Hola bbs");
     },
-    showModal() {
-      this.$refs["my-modal"].show();
+    mostrarModal() {
+      this.$refs["docentes-modal"].show();
     },
     hideModal() {
-      this.$refs["my-modal"].hide();
+      this.$refs["docentes-modal"].hide();
     },
     registrar() {},
   },
 };
 </script>
+
 <style scoped>
 #table {
   width: 65%;

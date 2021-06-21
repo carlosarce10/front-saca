@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Registro from "../views/Registro.vue";
 import InicioSesion from "../views/InicioSesion.vue";
 import Admin from "../views/Admin/InicioAdmin.vue";
 import Docente from "../views/Docente/InicioDocente.vue";
@@ -16,7 +17,12 @@ const routes = [
     component: Home,
   },
   {
-    path: "/InicioSesion",
+    path: "/registro",
+    name: "Registro",
+    component: Registro,
+  },
+  {
+    path: "/inicioSesion",
     name: "InicioSesion",
     component: InicioSesion,
   },

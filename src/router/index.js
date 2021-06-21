@@ -3,11 +3,11 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Registro from "../views/Registro.vue";
 import InicioSesion from "../views/InicioSesion.vue";
-//import Admin from "../views/Admin/InicioAdmin.vue";
-//import Docente from "../views/Docente/InicioDocente.vue";
-//import Estudiante from "../views/Estudiante/InicioEstudiante.vue";
-import consultaCursos from "../views/consultaCursos.vue";
-import docentes from "../views/docentes.vue";
+import Admin from "../views/Admin/InicioAdmin.vue";
+import Docente from "../views/Docente/InicioDocente.vue";
+import Estudiante from "../views/Estudiante/InicioEstudiante.vue";
+import ConsultaCursos from "../views/Admin/consultaCursos.vue";
+import Docentes from "../views/Admin/docentes.vue";
 
 Vue.use(VueRouter);
 
@@ -28,14 +28,29 @@ const routes = [
     component: InicioSesion,
   },
   {
-    path: "/consultaCursos",
+    path: "/administrador/consultaCursos",
     name: "consultaCursos",
-    component: consultaCursos,
+    component: ConsultaCursos,
   },
   {
-    path: "/docentes",
+    path: "/administrador/docentes",
     name: "docentes",
-    component: docentes,
+    component: Docentes,
+  },
+  {
+    path: "/administrador/inicio",
+    name: "Admin",
+    component: Admin,
+  },
+  {
+    path: "/estudiante/inicio",
+    name: "Estudiante",
+    component: Estudiante,
+  },
+  {
+    path: "/docente/inicio",
+    name: "Docente",
+    component: Docente,
   },
 ];
 

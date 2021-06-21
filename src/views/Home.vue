@@ -1,5 +1,5 @@
 <template>
-  <div class="fondo">
+  <div class="row fondo">
     <div class="home">
       <HeaderInicio />
       <Footer class="fixed-bottom" />
@@ -19,5 +19,3 @@ export default {
   },
 };
 </script>
-<style>
-</style>

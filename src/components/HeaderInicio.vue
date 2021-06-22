@@ -86,11 +86,4 @@
   height: 55px;
   margin-right: 40px;
 }
-.linea {
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
-  height: 0.5px;
-  max-width: 200px;
-  padding: 0;
-  margin: 20px auto 10px auto;
-}
 </style>

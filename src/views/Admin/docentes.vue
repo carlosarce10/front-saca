@@ -152,12 +152,7 @@ export default {
         { Requesitos: 21, Titulo: "Larsen", Descripcion: "Shaw" },
         { Requesitos: 89, Titulo: "Geneva", Descripcion: "Wilson" },
       ],
-      form: {
-        email: "",
-        name: "",
-        food: null,
-        checked: [],
-      },
+      
     };
   },
   methods: {

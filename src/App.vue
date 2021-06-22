@@ -73,4 +73,11 @@ input[type="password"] {
   padding-top: 1%;
   padding-bottom: 0.5%;
 }
+.linea {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  height: 0.5px;
+  max-width: 200px;
+  padding: 0;
+  margin: 20px auto 10px auto;
+}
 </style>

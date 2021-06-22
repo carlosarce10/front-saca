@@ -3,7 +3,7 @@
     <div class="offset-5 col">
       <img src="../assets/Logo-utez.png" class="logo" />
     </div>
-    <div class="offset-5 col-2 sesion">
+    <div class="offset-5 col-2 sesion ">
       <p class="fs-4 letter letra">Login</p>
       <b-form>
         <div class="col-11 mx-auto form-group">
@@ -18,9 +18,6 @@
             required
             style="margin-top: 5%"
           />
-          <div class="error errorMsg" v-if="!$v.nickname.required">
-            Este campo no puede ir vacío
-          </div>
         </div>
         <div class="col-11 mx-auto form-group">
           <b-icon icon="lock-fill" class="form-control-icon"></b-icon>
@@ -33,9 +30,6 @@
             required
             style="margin-top: 10%"
           />
-          <div class="error errorMsg" v-if="!$v.password.required">
-            Este campo no puede ir vacío
-          </div>
         </div>
       </b-form>
       <div class="d-grid gap-2 col-6 mx-auto">
@@ -101,7 +95,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.token !== null || response.data.token !== "") {
-            let authority = response.data.authorities[0].authority;
+            let authority = response.data.authorities[1].authority;
             let nickname = response.data.username;
             let token = response.data.token;
 
@@ -121,6 +115,7 @@ export default {
           }
         })
         .catch((error) => {
+          console.log("->>>",error)
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({

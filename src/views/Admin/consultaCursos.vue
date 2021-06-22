@@ -112,7 +112,22 @@
               variant="outline-success"
               style="margin: 5px"
               type="submit"
-              @click="registrar">Guardar
+              @click="registrar"
+              :disabled="
+                !(
+                  !$v.titulo.$invalid &&
+                  $v.titulo.$dirty &&
+                  !$v.descripcion.$invalid &&
+                  $v.descripcion.$dirty &&
+                  !$v.requisitos.$invalid &&
+                  $v.requisitos.$dirty &&
+                  !$v.duracion.$invalid &&
+                  $v.duracion.$dirty &&
+                  !$v.temario.$invalid &&
+                  $v.temario.$dirty 
+                )
+              "
+              >Guardar
             </b-button>
             <b-button
                 class="mt-2"
@@ -126,12 +141,32 @@
       </b-modal>
       <br />
       <div id="table">
-        <b-table :items="listCursos"  caption-top>
-          <template #cell(acciones)>
-            <button class="btn btn-primary" @click="mostrar()" >Editar</button>
-            <button @click="mostrar()" class="btn btn-danger">Eliminar</button>
-          </template>
-        </b-table>
+        <table class="table">
+          <thead style="background-color: #00ab84;">
+            <tr style="color: white">
+              <th scope="col">#</th>
+              <th scope="col">Titulo</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Requisitos</th>
+              <th scope="col">Temario</th>
+              <th scope="col">Duración</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(curso, item) in listCursos" :key="curso.idCurso">
+              <th>{{item+1}}  </th>
+              <td>{{curso.titulo}}  </td>
+              <td>{{curso.descripcion}}  </td>
+              <td>{{curso.requisitos}}  </td>
+              <td>{{curso.temario}}  </td>
+              <td>{{curso.duracion}}  </td>
+              <td>
+                <button @click="eliminar(curso.idCurso)" class="btn btn-danger">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <Footer class="fixed-bottom" />
@@ -152,9 +187,6 @@ export default {
   },
   data() {
     return {
-      headers:[
-        
-      ],
       listCursos: [],
       curso:{},
       titulo: "",
@@ -236,6 +268,54 @@ export default {
           }
       }).finally(() => (this.loading = false));
     },
+    eliminar(id){
+      console.log(id);
+      this.$swal({
+        title: "¿Estás seguro de eliminar este curso?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#64b5f6",
+        cancelButtonColor: "#ff7674",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          api
+            .doDelete("cursos/curso/delete/" + id)
+            .then(() => {
+              this.$swal({
+                title: "!Curso eliminado exitosamente!",
+                icon: "success",
+              });
+              this.getCursos();
+            })
+            .catch((error) => {
+              let errorResponse = error.response.data;
+              if (errorResponse.errorExists) {
+                this.$swal({
+                  title: "Oops! Ha ocurrido un error en el servidor.",
+                  html:
+                    "<span style='font-size:14pt'><b>" +
+                    errorResponse.code +
+                    "</b> " +
+                    errorResponse.message +
+                    "<br>Contacte a su operador para más detalles.</span>",
+                  icon: "error",
+                });
+              } else {
+                this.$swal({
+                  title: "Oops! Ha ocurrido un error en el servidor.",
+                  html:
+                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  icon: "error",
+                });
+              }
+            })
+            .finally(() => (this.loading = false));
+        }
+      });
+    },
     status(validation) {
       return {
         error: validation.$error,
@@ -265,7 +345,7 @@ export default {
 <style scoped>
 #table {
   width: 65%;
-  margin-left: 20%;
+  margin-left: 15%;
 }
 #modal {
   position: absolute;

@@ -1,142 +1,298 @@
 <template>
-  <div class="row fondo">
-    <div class="home">
-      <HeaderInicio />
-      <!-- Titulo -->
-      <div class="container">
-        <div class="row justify-content-lg-center">
-          <div class="col-md-auto">
-            <h1>Docentes</h1>
+  <div class="fondo">
+    <div><HeaderInicio /></div>
+    <div class="row" style="margin-top: 2%">
+      <div class="offset-8 col-3">
+        <div class="row px-2">
+          <!-- Boton modal -->
+          <div id="modal" class="col-1 centrar">
+            <b-button
+              id="show-btn"
+              @click="mostrarModal"
+              variant="outline-success"
+              ><b-icon icon="clipboard-plus"
+            /></b-button>
+          </div>
+          <!-- div de busqueda -->
+          <div class="col-9 centrar">
+            <form>
+              <div class="form-group">
+                <b-icon
+                  style="margin-left: 20px"
+                  icon="search"
+                  class="form-control-icon"
+                ></b-icon>
+                <input
+                  class="buscador form-control"
+                  placeholder="  Buscar docente..."
+                  aria-label="Search"
+                />
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      <!-- Boton modal -->
-      <div class="row">
-        <div class="col-12 col-md-8" id="modal">
-          <b-button id="show-btn" @click="mostrarModal"
-            >Registrar Docente</b-button
-          >
-        </div>
-      </div>
-      <!-- div de busqueda -->
-      <div class="row justify-content-end">
-        <div class="col-4">
-          <b-form>
-            <div class="buscador">
-              <b-form-input
-                size="sm"
-                class="mr-sm-2"
-                placeholder="Buscar..."
-              ></b-form-input>
-            </div>
-            <div class="btnBuscador">
-              <button
-                size="sm"
-                class="my-2 my-sm-0 btn btn-secondary"
-                type="submit"
-              >
-                Buscar
-              </button>
-            </div>
-          </b-form>
-        </div>
-      </div>
+    </div>
 
-      <!-- form del modal -->
-      <b-modal ref="docentes-modal" hide-footer title="Registro">
+    <!-- form del modal -->
+    <b-modal ref="docentes-modal" hide-footer title="Registro">
+      <div class="row">
         <div>
-          <b-form >
-            <b-form-group id="input-group-1" style="padding: 5px;">
+          <div class="row">
+            <div class="col-5 centrar">
               <b-form-input
                 id="nombre"
-                v-model="form.nombre"
                 type="text"
-                placeholder="Nombre"
+                v-model="$v.nombre.$model"
+                :class="status($v.nombre)"
+                placeholder="Nombre(s)"
                 required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-2" style="padding: 5px;">
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.nombre.required && $v.nombre.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+            </div>
+            <br />
+            <div class="col-5 centrar">
               <b-form-input
-                id="apellidoPaterno"
-                v-model="form.apellidoPaterno"
-                placeholder="Apellido Paterno"
+                id="apellidoA"
+                type="text"
+                v-model="$v.apellidoPaterno.$model"
+                :class="status($v.apellidoPaterno)"
+                placeholder="Apellido paterno"
                 required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-3" style="padding: 5px;">
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.apellidoPaterno.required && $v.apellidoPaterno.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-5 centrar">
               <b-form-input
-                id="apellidoMaterno"
-                v-model="form.apellidoMaterno"
-                placeholder="Apellido Paterno"
+                id="apellidoM"
+                type="text"
+                v-model="$v.apellidoMaterno.$model"
+                :class="status($v.apellidoMaterno)"
+                placeholder="Apellido Materno"
                 required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-4" style="padding: 5px;" >
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.apellidoMaterno.required && $v.apellidoMaterno.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+            </div>
+            <br />
+            <div class="col-5 centrar">
               <b-form-input
                 id="nickname"
-                v-model="form.nickname"
+                type="text"
+                v-model="$v.nickname.$model"
+                :class="status($v.nickname)"
                 placeholder="Nickname"
                 required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-5" style="padding: 5px;">
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.nickname.required && $v.nickname.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-11 centrar">
               <b-form-input
                 id="email"
-                v-model="form.email"
-                placeholder="Email"
+                type="text"
+                v-model="$v.email.$model"
+                :class="status($v.email)"
+                placeholder="Correo"
                 required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group id="input-group-6" style="padding: 5px;" >
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.email.required && $v.email.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+            </div>
+            <br />
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-5 centrar">
               <b-form-input
-                id="password"
-                v-model="form.password"
+                id="pass1"
+                type="password"
+                v-model="$v.password.$model"
+                :class="status($v.password)"
                 placeholder="Contraseña"
                 required
-              ></b-form-input>
-            </b-form-group>
-          </b-form>
-          <div>
-            
-            <b-button
-              class="mt-2"
-              variant="outline-success"
-              style="margin: 5px"
-              type="submit"
-              @click="registrar">Guardar
-            </b-button>
-            <b-button
-                class="mt-2"
-                variant="outline-danger"
-                style="margin: 5px"
-                block
-                @click="hideModal">Cerrar
-            </b-button>
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.password.required && $v.password.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+            </div>
+            <br />
+            <div class="col-5 centrar">
+              <b-form-input
+                id="pass2"
+                type="password"
+                v-model="$v.passwordRepeat.$model"
+                :class="status($v.passwordRepeat)"
+                placeholder="Confirmar contrseña"
+                required
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.passwordRepeat.required && $v.passwordRepeat.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+              <div
+                class="error errorMsg"
+                v-if="
+                  !$v.passwordRepeat.sameAspassword && $v.passwordRepeat.$dirty
+                "
+              >
+                La contraseña no coincide
+              </div>
+            </div>
           </div>
+          <br />
+          <div class="row">
+            <div class="col-11 centrar">
+              <b-form-input
+                id="direccion"
+                type="text"
+                v-model="$v.direccion.$model"
+                :class="status($v.direccion)"
+                placeholder="Dirección"
+                required
+              />
+              <div
+                class="error errorMsg"
+                v-if="!$v.direccion.required && $v.direccion.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+            </div>
+            <br />
+          </div>
+          <hr />
         </div>
-      </b-modal>
-      <!-- Tabla -->
-      <div id="table">
-        <b-table :items="items" :fields="fields" caption-top>
-          <template #cell(actions)>
-            <button class="btn btn-primary" @click="mostrar()">Editar</button>
-            <button @click="mostrar()" class="btn btn-danger">Eliminar</button>
-          </template>
-        </b-table>
+        <div>
+          <b-button
+            class="mt-2"
+            variant="outline-success"
+            style="margin: 5px"
+            type="submit"
+            @click="registrar()"
+            :disabled="
+              !(
+                !$v.nombre.$invalid &&
+                $v.nombre.$dirty &&
+                !$v.apellidoPaterno.$invalid &&
+                $v.apellidoPaterno.$dirty &&
+                !$v.apellidoMaterno.$invalid &&
+                $v.apellidoMaterno.$dirty &&
+                !$v.nickname.$invalid &&
+                $v.nickname.$dirty &&
+                !$v.email.$invalid &&
+                $v.email.$dirty &&
+                !$v.password.$invalid &&
+                $v.password.$dirty &&
+                !$v.direccion.$invalid &&
+                $v.direccion.$dirty &&
+                !$v.passwordRepeat.$invalid &&
+                $v.passwordRepeat.$dirty
+              )
+            "
+            >Ok
+          </b-button>
+          <b-button
+            class="mt-2"
+            variant="outline-danger"
+            style="margin: 5px"
+            block
+            @click="hideModal"
+            >Cerrar
+          </b-button>
+        </div>
       </div>
-      <Footer class="fixed-bottom" />
+    </b-modal>
+    <!-- Tabla -->
+    <div class="row" style="margin-top: 2%">
+      <div class="col-10 centrar" style="background-color: #f8f8f8">
+        <table class="table table-borderless table-hover">
+          <thead class="table-success">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre(s)</th>
+              <th scope="col">Apellido Paterno</th>
+              <th scope="col">Apellido Materno</th>
+              <th scope="col">Nickname</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(usuario, item) in usuarios" :key="usuario.id">
+              <th>
+                {{ item + 1 }}
+              </th>
+              <td>
+                {{ usuario.nombre }}
+              </td>
+              <td>
+                {{ usuario.apellidoPaterno }}
+              </td>
+              <td>
+                {{ usuario.apellidoMaterno }}
+              </td>
+              <td>
+                {{ usuario.nickname }}
+              </td>
+              <td>
+                {{ usuario.email }}
+              </td>
+              <td>
+                <button
+                  class="btn btn-danger"
+                  @click="eliminar(usuario.idUsuario)"
+                >
+                  eliminar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
+    <Footer class="fixed-bottom" />
   </div>
 </template>
 
 <script>
 import HeaderInicio from "@/components/HeaderInicio.vue";
 import Footer from "@/components/Footer.vue";
+import api from "../../util/api";
+import { required, sameAs } from "vuelidate/lib/validators";
 
 export default {
   name: "Home",
@@ -146,19 +302,20 @@ export default {
   },
   data() {
     return {
-      fields: ["Titulo", "Descripcion", "Requesitos", "Duración", "Acciones"],
-      items: [
-        { Requesitos: 40, Titulo: "Dickerson", Descripcion: "Macdonald" },
-        { Requesitos: 21, Titulo: "Larsen", Descripcion: "Shaw" },
-        { Requesitos: 89, Titulo: "Geneva", Descripcion: "Wilson" },
-      ],
-      form: {
-        email: "",
-        name: "",
-        food: null,
-        checked: [],
-      },
+      nombre: "",
+      apellidoPaterno: "",
+      apellidoMaterno: "",
+      nickname: "",
+      email: "",
+      password: "",
+      passwordRepeat: "",
+      direccion: "",
+      usuario: {},
+      usuarios: [],
     };
+  },
+  beforeMount() {
+    this.getDocente();
   },
   methods: {
     mostrar() {
@@ -170,32 +327,159 @@ export default {
     hideModal() {
       this.$refs["docentes-modal"].hide();
     },
-    registrar() {},
+    registrar() {
+      this.usuario = {
+        nombre: this.nombre,
+        apellidoPaterno: this.apellidoPaterno,
+        apellidoMaterno: this.apellidoMaterno,
+        nickname: this.nickname,
+        email: this.email,
+        password: this.password,
+        direccion: this.direccion,
+      };
+      api
+        .doPost("cursos/docente/save", this.usuario)
+        .then(() => {
+          this.$swal({
+            title: "El usuario se registro exitosamente",
+            icon: "success",
+          });
+          this.onReset();
+          this.getDocente();
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
+    },
+    getDocente() {
+      api
+        .doGet("cursos/docente/getAll")
+        .then((response) => (this.usuarios = response.data))
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
+    },
+    eliminar(id) {
+      this.$swal({
+        title: "¿Estás seguro de eliminar este docente?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#64b5f6",
+        cancelButtonColor: "#ff7674",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          api
+            .doDelete("cursos/docente/delete/" + id)
+            .then(() => {
+              this.$swal({
+                title: "!Curso eliminado exitosamente!",
+                icon: "success",
+              });
+              this.getDocente();
+            })
+            .catch((error) => {
+              let errorResponse = error.response.data;
+              if (errorResponse.errorExists) {
+                this.$swal({
+                  title: "Oops! Ha ocurrido un error en el servidor.",
+                  html:
+                    "<span style='font-size:14pt'><b>" +
+                    errorResponse.code +
+                    "</b> " +
+                    errorResponse.message +
+                    "<br>Contacte a su operador para más detalles.</span>",
+                  icon: "error",
+                });
+              } else {
+                this.$swal({
+                  title: "Oops! Ha ocurrido un error en el servidor.",
+                  html:
+                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  icon: "error",
+                });
+              }
+            })
+            .finally(() => (this.loading = false));
+        }
+      });
+    },
+    onReset() {
+      this.nombre = "";
+      this.apellidoPaterno = "";
+      this.apellidoMaterno = "";
+      this.nickname = "";
+      this.email = "";
+      this.password = "";
+      this.passwordRepeat = "";
+      this.direccion = "";
+    },
+    status(validation) {
+      return {
+        error: validation.$error,
+        dirty: validation.$dirty,
+      };
+    },
+  },
+  validations: {
+    nombre: { required },
+    apellidoPaterno: { required },
+    apellidoMaterno: { required },
+    nickname: { required },
+    email: { required },
+    password: { required },
+    passwordRepeat: { required, sameAspassword: sameAs("password") },
+    direccion: { required },
   },
 };
 </script>
 
 <style scoped>
-#table {
-  width: 65%;
-  margin-left: 20%;
-}
-#modal {
-  position: absolute;
-  float: left;
-  margin-top: -30px;
-  padding-left: 25px;
-}
-
 .buscador {
-  width: 250px;
-  float: right;
-  margin-right: 100px;
-  margin-top: -30px;
+  border: 1px solid #00ab84;
 }
-.btnBuscador {
-  float: right;
-  margin-right: -340px;
-  margin-top: -30px;
+.centrar {
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

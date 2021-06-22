@@ -6,8 +6,7 @@
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
-      <div class="col-8"></div>
-      <div class="col-2">
+      <div class="offset-8 col-2">
         <b-button
           id="pagInicial"
           class="btnRegresar"

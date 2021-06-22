@@ -80,4 +80,12 @@ input[type="password"] {
   padding: 0;
   margin: 20px auto 10px auto;
 }
+.table-success {
+  --bs-table-bg: #00ab84 !important;
+  color: white !important;
+}
+.table {
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  margin-bottom: 0 !important;
+}
 </style>

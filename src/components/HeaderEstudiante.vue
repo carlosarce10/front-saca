@@ -6,7 +6,7 @@
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
-      <div class="col-8">
+      <!-- <div class="col-8">
         <form class="d-flex">
           <div class="form-group">
             <b-icon
@@ -21,6 +21,9 @@
             />
           </div>
         </form>
+      </div> -->
+      <div class="col-8">
+        <h3 class="titulo">Sistema Administrativo de Cursos Académicos</h3>
       </div>
       <div class="col-2">
         <img class="logoUser" id="popover1" src="../assets/user.png" />
@@ -43,6 +46,13 @@
           variant="link"
           href="/estudiante/inicio"
           >Inicio</b-button
+        ><br />
+        <b-button
+          style="color: #707273"
+          class="text-decoration-none"
+          variant="link"
+          href="/estudiante/cursos"
+          >Cursos</b-button
         ><br />
         <b-button
           style="color: #707273"
@@ -89,5 +99,12 @@
   margin-right: 40px;
   margin-top: -10px;
   margin-bottom: 5px;
+}
+.titulo {
+  font-family: serif;
+  color: #00ab84;
+  display: flex;
+  position: absolute;
+  top: 6%;
 }
 </style>

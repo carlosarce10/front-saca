@@ -9,6 +9,7 @@ import Docentes from "../views/Admin/docentes.vue";
 import Ofertas from "../views/Admin/Ofertas.vue";
 import Docente from "../views/Docente/InicioDocente.vue";
 import Estudiante from "../views/Estudiante/InicioEstudiante.vue";
+import CursosEstudiante from "../views/Estudiante/CursosEstudiante.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
@@ -57,6 +58,12 @@ const routes = [
     path: "/estudiante/inicio",
     name: "Estudiante",
     component: Estudiante,
+    meta: { roles: ["ROLE_ESTUDIANTE"] },
+  },
+  {
+    path: "/estudiante/cursos",
+    name: "CursosEstudiante",
+    component: CursosEstudiante,
     meta: { roles: ["ROLE_ESTUDIANTE"] },
   },
   {

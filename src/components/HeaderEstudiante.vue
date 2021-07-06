@@ -2,7 +2,7 @@
   <div class="header">
     <div class="row align-items-center">
       <div class="col-2">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/estudiante/inicio">
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
@@ -27,12 +27,12 @@
       </div>
       <b-popover target="popover1" placement="auto" triggers="hover">
         <div class="row align-items-center">
-          <div class="col-5">
+          <div class="col-4">
             <img class="logo2" id="popover1" src="../assets/user.png" />
           </div>
-          <div class="col-6">
+          <div class="col-7">
             <h4 style="color: #707273; font-family: 'Times New Roman'">
-              Usuario
+              Estudiante
             </h4>
           </div>
           <div class="linea"></div>
@@ -41,15 +41,15 @@
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/inicioSesion"
-          >Iniciar sesión</b-button
+          href="/estudiante/inicio"
+          >Inicio</b-button
         ><br />
         <b-button
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/registro"
-          >Registrarse</b-button
+          href="/"
+          >Cerrar sesión</b-button
         >
         <div class="linea"></div>
         <p style="color: #707273; text-align: center">

@@ -2,14 +2,14 @@
   <div class="fondo">
     <div><HeaderRegistro /></div>
     <div class="row">
-      <div class="col-4 estilo">
+      <div class="col-5 estilo">
         <b-card-group deck>
           <b-card>
             <template #header>
-              <h4 style="color: #00ab84">Registrarse</h4>
+              <h4 style="color: #00ab84">Registrate!</h4>
             </template>
             <div class="row">
-              <div class="col-5 centrar">
+              <div class="col-3 centrar">
                 <b-form-input
                   id="nombre"
                   type="text"
@@ -25,8 +25,7 @@
                   Este campo no puede ir vacío
                 </div>
               </div>
-              <br />
-              <div class="col-5 centrar">
+              <div class="col-3 centrar">
                 <b-form-input
                   id="apellidoA"
                   type="text"
@@ -44,10 +43,7 @@
                   Este campo no puede ir vacío
                 </div>
               </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col-5 centrar">
+              <div class="col-3 centrar">
                 <b-form-input
                   id="apellidoM"
                   type="text"
@@ -65,8 +61,10 @@
                   Este campo no puede ir vacío
                 </div>
               </div>
-              <br />
-              <div class="col-5 centrar">
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-3 centrar">
                 <b-form-input
                   id="nickname"
                   type="text"
@@ -82,10 +80,7 @@
                   Este campo no puede ir vacío
                 </div>
               </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col-11 centrar">
+              <div class="col-7 centrar">
                 <b-form-input
                   id="email"
                   type="text"
@@ -101,7 +96,25 @@
                   Este campo no puede ir vacío
                 </div>
               </div>
-              <br />
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-11 centrar">
+                <b-form-input
+                  id="direccion"
+                  type="text"
+                  v-model="$v.direccion.$model"
+                  :class="status($v.direccion)"
+                  placeholder="Dirección"
+                  required
+                />
+                <div
+                  class="error errorMsg"
+                  v-if="!$v.direccion.required && $v.direccion.$dirty"
+                >
+                  Este campo no puede ir vacío
+                </div>
+              </div>
             </div>
             <br />
             <div class="row">
@@ -125,7 +138,7 @@
               <div class="col-5 centrar">
                 <b-form-input
                   id="pass2"
-                  type="text"
+                  type="password"
                   v-model="$v.passwordRepeat.$model"
                   :class="status($v.passwordRepeat)"
                   placeholder="Confirmar contrseña"
@@ -149,25 +162,6 @@
               </div>
             </div>
             <br />
-            <div class="row">
-              <div class="col-11 centrar">
-                <b-form-input
-                  id="direccion"
-                  type="text"
-                  v-model="$v.direccion.$model"
-                  :class="status($v.direccion)"
-                  placeholder="Dirección"
-                  required
-                />
-                <div
-                  class="error errorMsg"
-                  v-if="!$v.direccion.required && $v.direccion.$dirty"
-                >
-                  Este campo no puede ir vacío
-                </div>
-              </div>
-              <br />
-            </div>
             <hr />
             <template>
               <b-button
@@ -194,7 +188,7 @@
                     $v.passwordRepeat.$dirty
                   )
                 "
-                >Ok</b-button
+                >Registrar</b-button
               >
             </template>
           </b-card>

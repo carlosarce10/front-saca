@@ -6,7 +6,10 @@
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
-      <div class="offset-8 col-2">
+      <div class="col-8">
+        <h3 class="titulo">Sistema Administrativo de Cursos Académicos</h3>
+      </div>
+      <div class="col-2">
         <b-button
           id="pagInicial"
           class="btnRegresar"
@@ -34,5 +37,12 @@
 }
 .navbar {
   justify-content: start;
+}
+.titulo {
+  font-family: serif;
+  color: #00ab84;
+  display: flex;
+  position: absolute;
+  top: 6%;
 }
 </style>

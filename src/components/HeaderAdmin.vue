@@ -2,37 +2,24 @@
   <div class="header">
     <div class="row align-items-center">
       <div class="col-2">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/administrador/inicio">
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
       <div class="col-8">
-        <form class="d-flex">
-          <div class="form-group">
-            <b-icon
-              style="margin-left: 20px"
-              icon="search"
-              class="form-control-icon"
-            ></b-icon>
-            <input
-              class="buscador form-control"
-              placeholder="  Buscar curso..."
-              aria-label="Search"
-            />
-          </div>
-        </form>
+        <h3 class="titulo">Sistema Administrativo de Cursos Académicos</h3>
       </div>
       <div class="col-2">
         <img class="logoUser" id="popover1" src="../assets/user.png" />
       </div>
       <b-popover target="popover1" placement="auto" triggers="hover">
         <div class="row align-items-center">
-          <div class="col-5">
+          <div class="col-3">
             <img class="logo2" id="popover1" src="../assets/user.png" />
           </div>
-          <div class="col-6">
+          <div class="col-8">
             <h4 style="color: #707273; font-family: 'Times New Roman'">
-              Usuario
+              Administrador
             </h4>
           </div>
           <div class="linea"></div>
@@ -41,15 +28,36 @@
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/inicioSesion"
-          >Iniciar sesión</b-button
+          href="/administrador/inicio"
+          >Inicio</b-button
         ><br />
         <b-button
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/registro"
-          >Registrarse</b-button
+          href="/administrador/docentes"
+          >Docentes</b-button
+        ><br />
+        <b-button
+          style="color: #707273"
+          class="text-decoration-none"
+          variant="link"
+          href="/administrador/cursos"
+          >Cursos</b-button
+        ><br />
+        <b-button
+          style="color: #707273"
+          class="text-decoration-none"
+          variant="link"
+          href="/administrador/ofertas"
+          >Ofertas</b-button
+        ><br />
+        <b-button
+          style="color: #707273"
+          class="text-decoration-none"
+          variant="link"
+          href="/"
+          >Cerrar sesión</b-button
         >
         <div class="linea"></div>
         <p style="color: #707273; text-align: center">
@@ -71,12 +79,6 @@
   margin-right: 60px;
   float: right;
 }
-.buscador {
-  border: 1px solid #00ab84;
-  position: relative;
-  float: left;
-  margin-left: 10px;
-}
 .navbar {
   justify-content: start;
 }
@@ -89,5 +91,12 @@
   margin-right: 40px;
   margin-top: -10px;
   margin-bottom: 5px;
+}
+.titulo {
+  font-family: serif;
+  color: #00ab84;
+  display: flex;
+  position: absolute;
+  top: 6%;
 }
 </style>

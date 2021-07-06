@@ -7,7 +7,10 @@
             © Universidad Tecnológica Emiliano Zapata.
           </p>
           <hr />
-          <p class="mb-0 py-2 letter">Territorio de calidad</p>
+          <p class="mb-0 py-2 letter">
+            Av. Universidad Tecnológica 1, Palo Escrito, 62765 Emiliano Zapata,
+            Mor.
+          </p>
         </div>
       </div>
     </footer>
@@ -23,5 +26,7 @@
 }
 hr {
   color: #ffffff;
+  margin-top: -2px;
+  margin-bottom: -2px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="fondo">
-    <div><HeaderInicio /></div>
+    <div><HeaderAdmin /></div>
     <div class="row" style="margin-top: 2%">
       <div class="offset-8 col-3">
         <div class="row px-2">
@@ -235,6 +235,7 @@
         </div>
       </div>
     </b-modal>
+
     <!-- Tabla -->
     <div class="row" style="margin-top: 2%">
       <div class="col-10 centrar" style="background-color: #f8f8f8">
@@ -289,7 +290,7 @@
 </template>
 
 <script>
-import HeaderInicio from "@/components/HeaderInicio.vue";
+import HeaderAdmin from "@/components/HeaderAdmin.vue";
 import Footer from "@/components/Footer.vue";
 import api from "../../util/api";
 import { required, sameAs } from "vuelidate/lib/validators";
@@ -297,7 +298,7 @@ import { required, sameAs } from "vuelidate/lib/validators";
 export default {
   name: "Home",
   components: {
-    HeaderInicio,
+    HeaderAdmin,
     Footer,
   },
   data() {

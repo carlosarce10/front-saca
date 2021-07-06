@@ -3,7 +3,7 @@
     <div class="offset-5 col">
       <img src="../assets/Logo-utez.png" class="logo" />
     </div>
-    <div class="offset-5 col-2 sesion ">
+    <div class="offset-5 col-2 sesion">
       <p class="fs-4 letter letra">Login</p>
       <b-form>
         <div class="col-11 mx-auto form-group">
@@ -95,11 +95,9 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.token !== null || response.data.token !== "") {
-            let authority = response.data.authorities[1].authority;
+            let authority = response.data.authorities[0].authority;
             let nickname = response.data.username;
             let token = response.data.token;
-
-            console.log(authority + " " + nickname + " " + token);
 
             localStorage.setItem("authority", authority);
             localStorage.setItem("username", nickname);
@@ -115,7 +113,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log("->>>",error)
+          console.log("->>>", error);
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({

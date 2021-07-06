@@ -319,9 +319,6 @@ export default {
     this.getDocente();
   },
   methods: {
-    mostrar() {
-      alert("Hola bbs");
-    },
     mostrarModal() {
       this.$refs["docentes-modal"].show();
     },

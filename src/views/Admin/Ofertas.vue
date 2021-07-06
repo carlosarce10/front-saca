@@ -55,11 +55,8 @@
             </div>
             <div class="col-3 centrar">
               <h6>Divisiones</h6>
-              <b-form-select v-model="division" class="form-select">
-                <b-form-select-option> DATIC </b-form-select-option>
-                <b-form-select-option> DACEA </b-form-select-option>
-                <b-form-select-option> DAMI </b-form-select-option>
-                <b-form-select-option> DATEFI </b-form-select-option>
+              <b-form-select :options="divisiones" v-model="division" class="form-select">
+                
               </b-form-select>
               <br />
             </div>
@@ -78,37 +75,22 @@
             </div>
             <div class="col-3 centrar">
               <h6>Modalidad</h6>
-              <b-form-select v-model="modalidad" class="form-select">
-                <b-form-select-option> Online </b-form-select-option>
-                <b-form-select-option> Presencial </b-form-select-option>
+              <b-form-select :options="modalidades" v-model="modalidad" class="form-select">
+               
               </b-form-select>
               <br />
             </div>
             <div class="col-3 centrar">
               <h6>Tipo</h6>
-              <b-form-select v-model="tipoCurso" class="form-select">
-                <b-form-select-option> Diplomado </b-form-select-option>
-                <b-form-select-option> Taller </b-form-select-option>
+              <b-form-select :options=tipoCursos v-model="tipoCurso" class="form-select">
+                
               </b-form-select>
               <br />
             </div>
             <div class="col-5 centrar">
               <h6>Clasificaciones</h6>
-              <b-form-select v-model="clasificacion" class="form-select">
-                <b-form-select-option>
-                  Tecnologías de la información y la comunicación
-                </b-form-select-option>
-                <b-form-select-option>
-                  Economía Administrativa
-                </b-form-select-option>
-                <b-form-select-option>
-                  Mecánica industrial
-                </b-form-select-option>
-                <b-form-select-option>
-                  Ciencias básicas y matemáticas
-                </b-form-select-option>
-                <b-form-select-option> Idiomas </b-form-select-option>
-                <b-form-select-option> Otros </b-form-select-option>
+              <b-form-select :options="clasificaciones" v-model="clasificacion" class="form-select">
+                
               </b-form-select>
               <br />
             </div>
@@ -130,9 +112,9 @@
             </div>
             <div class="col-3 centrar">
               <b-form-input
-                id="minAlum"
+                id="maxAlum"
                 type="number"
-                v-model="minAlum"
+                v-model="maxAlum"
                 placeholder="Máximo de participantes"
               />
               <br />
@@ -140,7 +122,7 @@
             <div class="col-5 centrar">
               <label for="datepicker-full-width">Periodo del curso</label>
               <b-form-datepicker
-                id="datepicker-full-width"
+                
                 v-model="fechaPeriodo"
                 menu-class="w-100"
                 calendar-width="100%"
@@ -150,7 +132,7 @@
             <div class="col-5 centrar">
               <label for="datepicker-full-width">Fecha de inicio</label>
               <b-form-datepicker
-                id="datepicker-full-width"
+                
                 v-model="fechaInicio"
                 menu-class="w-100"
                 calendar-width="100%"
@@ -161,7 +143,7 @@
             <div class="col-5" style="margin-left: 4%">
               <label for="datepicker-full-width">Fecha a concluir</label>
               <b-form-datepicker
-                id="datepicker-full-width"
+                
                 v-model="fechaFin"
                 menu-class="w-100"
                 calendar-width="100%"
@@ -250,10 +232,30 @@ export default {
       fechaPeriodo: "",
       fechaInicio: "",
       fechaFin: "",
-      modalidad: [],
-      division: [],
-      clasificacion: [],
-      docente: [],
+      modalidades: [
+        {value:1,text:"Online"},
+        {value:2,text:"Presencial"}
+      ],
+      divisiones: [
+        {value:1,text:"DATEFI"},
+        {value:2,text:"DACEA"},
+        {value:3,text:"DAMI"},
+        {value:4,text:"DATIC"}
+      ],
+      clasificaciones: [
+        {value:1,text:"Tecnologías de la información y la comunicación"},
+        {value:2,text:"Economía Administrativa"},
+        {value:3,text:"Ciencias básicas y matemáticas"}
+
+      ],
+      tipoCursos:[
+        {value:"taller",text:"Taller"},
+        {value:"diplomado",text:"Diplomado"}
+      ],
+      modalidad:"",
+      division:"",
+      clasificacion:"",
+      docente: "",
       curso: [],
       ofertas: [],
       oferta: {},
@@ -289,13 +291,21 @@ export default {
         fechaPeriodoInscripcion: this.fechaPeriodo,
         fechaInicio: this.fechaInicio,
         fechaFin: this.fechaFin,
-        modalidades: {
-          id: this.modalidad,
-        },
-        division: {},
-        clasificacion: {},
-        docente: {},
-        curso: {},
+        modalidades: [
+          {idModalidad:this.modalidad}
+        ],
+        divisiones: [
+          {idDivision:this.division}
+        ],
+        clasificaciones: [
+          {idClasificacion:this.clasificacion}
+        ],
+        docentes: [
+          {idUsuario:this.docente}
+        ],
+        cursos: [
+          {idCurso:this.curso}
+        ]
       };
       api.doPost("cursos/oferta", this.oferta);
     },

@@ -406,6 +406,7 @@ export default {
           }
         })
         .finally(() => (this.loading = false));
+        this.hideModal();
     },
     eliminar(id) {
       console.log(id);

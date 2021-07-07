@@ -6,10 +6,7 @@
         <div class="row px-2">
           <!-- Boton modal -->
           <div id="modal" class="col-1 centrar">
-            <b-button
-              id="show-btn"
-              @click="mostrarModal"
-              variant="outline-success"
+            <b-button id="show-btn" @click="showModal" variant="outline-success"
               ><b-icon icon="clipboard-plus"
             /></b-button>
           </div>
@@ -54,13 +51,13 @@
             Este campo no puede ir vacío
           </div>
           <b-form-group id="input-group-2" style="padding: 5px">
-            <b-form-input
+            <b-form-textarea
               id="descripcion"
               v-model="$v.descripcion.$model"
               :class="status($v.descripcion)"
               placeholder="Ingrese la descripcion"
               required
-            ></b-form-input>
+            ></b-form-textarea>
           </b-form-group>
           <div
             class="error errorMsg"
@@ -70,13 +67,13 @@
           </div>
 
           <b-form-group id="input-group-3" style="padding: 5px">
-            <b-form-input
+            <b-form-textarea
               id="requisitos"
               v-model="$v.requisitos.$model"
               :class="status($v.requisitos)"
               placeholder="Ingrese los requisitos"
               required
-            ></b-form-input>
+            ></b-form-textarea>
           </b-form-group>
           <div
             class="error errorMsg"
@@ -121,7 +118,7 @@
           <b-button
             class="mt-2"
             variant="outline-success"
-            style="margin: 5px"
+            style="margin: 5px; float: right"
             type="submit"
             @click="registrar"
             :disabled="
@@ -143,7 +140,7 @@
           <b-button
             class="mt-2"
             variant="outline-danger"
-            style="margin: 5px"
+            style="margin: 5px; float: right"
             block
             @click="hideModal"
             >Cerrar
@@ -152,35 +149,148 @@
       </div>
     </b-modal>
     <br />
-    <div id="table">
-      <table class="table">
-        <thead style="background-color: #00ab84">
-          <tr style="color: white">
-            <th scope="col">#</th>
-            <th scope="col">Titulo</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Requisitos</th>
-            <th scope="col">Temario</th>
-            <th scope="col">Duración</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(curso, item) in listCursos" :key="curso.idCurso">
-            <th>{{ item + 1 }}</th>
-            <td>{{ curso.titulo }}</td>
-            <td>{{ curso.descripcion }}</td>
-            <td>{{ curso.requisitos }}</td>
-            <td>{{ curso.temario }}</td>
-            <td>{{ curso.duracion }}</td>
-            <td>
-              <button @click="eliminar(curso.idCurso)" class="btn btn-danger">
-                Eliminar
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row" style="margin-top: 2%">
+      <div class="col-10 centrar" style="background-color: #f8f8f8">
+        <table class="table table-borderless table-hover">
+          <thead class="table-success">
+            <tr style="color: white">
+              <th scope="col">#</th>
+              <th scope="col">Titulo</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Requisitos</th>
+              <th scope="col">Temario</th>
+              <th scope="col">Duración</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(curso, item) in listCursos" :key="curso.idCurso">
+              <th>{{ item + 1 }}</th>
+              <td>{{ curso.titulo }}</td>
+              <td>{{ curso.descripcion }}</td>
+              <td>{{ curso.requisitos }}</td>
+              <td>{{ curso.temario }}</td>
+              <td>{{ curso.duracion }}</td>
+              <td>
+                <button @click="eliminar(curso.idCurso)" class="btn ">
+                  <b-icon icon="trash-fill" aria-hidden="true" variant="danger"></b-icon>
+                </button>
+
+                <b-button
+                  id="show-btn"
+                  @click="recuperarCurso(curso.idCurso)"
+                  variant="outline-success"
+                  ><b-icon icon="pencil-square" aria-hidden="true" variant="success"></b-icon></b-button
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <b-modal ref="my-modalE" hide-footer title="Editar">
+          <div>
+            <b-form>
+              <b-form-group id="input-group-1" style="padding: 5px">
+                <b-form-input
+                  id="tituloE"
+                  v-model="$v.tituloE.$model"
+                  :class="status($v.tituloE)"
+                  type="text"
+                  placeholder="Titulo"
+                  required
+                ></b-form-input>
+              </b-form-group>
+              <div
+                class="error errorMsg"
+                v-if="!$v.tituloE.required && $v.tituloE.dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+              <b-form-group id="input-group-2" style="padding: 5px">
+                <b-form-textarea
+                  id="descripcionE"
+                  v-model="$v.descripcionE.$model"
+                  :class="status($v.descripcionE)"
+                  placeholder="Ingrese la descripcion"
+                  required
+                ></b-form-textarea>
+              </b-form-group>
+              <div
+                class="error errorMsg"
+                v-if="!$v.descripcionE.required && $v.descripcionE.dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+
+              <b-form-group id="input-group-3" style="padding: 5px">
+                <b-form-textarea
+                  id="requisitosE"
+                  v-model="$v.requisitosE.$model"
+                  :class="status($v.requisitosE)"
+                  placeholder="Ingrese los requisitos"
+                  required
+                ></b-form-textarea>
+              </b-form-group>
+              <div
+                class="error errorMsg"
+                v-if="!$v.requisitosE.required && $v.requisitosE.dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+
+              <b-form-group id="input-group-4" style="padding: 5px">
+                <b-form-input
+                  id="duracionE"
+                  v-model="$v.duracionE.$model"
+                  :class="status($v.duracionE)"
+                  placeholder="Ingrese la duración"
+                  required
+                ></b-form-input>
+              </b-form-group>
+              <div
+                class="error errorMsg"
+                v-if="!$v.duracionE.required && $v.duracionE.$dirty"
+              >
+                Este campo no puede ir vacío
+              </div>
+
+              <b-form-group id="input-group-5" style="padding: 5px">
+                <b-form-textarea
+                  id="temarioE"
+                  v-model="$v.temarioE.$model"
+                  :class="status($v.temarioE)"
+                  placeholder="Ingrese el temario"
+                  required
+                ></b-form-textarea>
+                <div
+                  class="error errorMsg"
+                  v-if="!$v.temarioE.required && $v.temarioE.dirty"
+                >
+                  Este campo no puede ir vacío
+                </div>
+              </b-form-group>
+            </b-form>
+            <div>
+              <b-button
+                class="mt-2"
+                variant="outline-success"
+                style="margin: 5px; float: right"
+                type="submit"
+                @click="editar"
+                
+                >Guardar
+              </b-button>
+              <b-button
+                class="mt-2"
+                variant="outline-danger"
+                style="margin: 5px; float: right"
+                block
+                @click="hideModalE"
+                >Cerrar
+              </b-button>
+            </div>
+          </div>
+        </b-modal>
+      </div>
     </div>
 
     <div><Footer class="fixed-bottom" /></div>
@@ -207,6 +317,14 @@ export default {
       requisitos: "",
       duracion: "",
       temario: "",
+
+      tituloE: "",
+      descripcionE: "",
+      requisitosE: "",
+      duracionE: "",
+      temarioE: "",
+      idCursoEdit: "",
+      cursoEdit:""
     };
   },
   beforeMount() {
@@ -233,11 +351,18 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    showModal() {
-      this.$refs["my-modal"].show();
+    showModal() {      
+      this.$refs["my-modal"].show();      
+    },
+     showModalE() {     
+      this.$refs["my-modalE"].show();
+                 
     },
     hideModal() {
       this.$refs["my-modal"].hide();
+    },
+     hideModalE() {
+      this.$refs["my-modalE"].hide();
     },
     registrar() {
       this.curso = {
@@ -320,8 +445,7 @@ export default {
               } else {
                 this.$swal({
                   title: "Oops! Ha ocurrido un error en el servidor.",
-                  html:
-                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
                   icon: "error",
                 });
               }
@@ -329,6 +453,90 @@ export default {
             .finally(() => (this.loading = false));
         }
       });
+    },
+    recuperarCurso(idCursoE){
+      console.log(idCursoE);
+      api
+        .doGet("cursos/curso/getOne/" + idCursoE)
+        .then((response) => {
+          this.tituloE = response.data.titulo;
+          this.descripcionE = response.data.descripcion;
+          this.requisitosE = response.data.requisitos;
+          this.duracionE = response.data.duracion;
+          this.temarioE = response.data.temario;
+          this.idCursoEdit = response.data.idCurso
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          }
+        });
+      this.showModalE();
+    },
+    editar() {
+      this.cursoEdit = {
+        idCurso: this.idCursoEdit,
+        titulo: this.tituloE,
+        descripcion: this.descripcionE,
+        requisitos: this.requisitosE,
+        temario: this.temarioE,
+        duracion: this.duracionE
+      }
+      api
+        .doPut("cursos/curso/update", this.cursoEdit)
+        .then(() => {
+          this.$swal({
+            title: "Curso modificado exitosamente!",
+            icon: "success",
+          });
+          this.getCursos();
+          this.cursoEdit.id = 0;
+          this.tituloE = "",
+          this.descripcionE = "",
+          this.requisitosE = "",
+          this.temarioE = "",
+          this.duracionE = ""
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          }
+        });
+        this.hideModalE();
     },
     status(validation) {
       return {
@@ -353,7 +561,23 @@ export default {
     temario: {
       required,
     },
+    tituloE: {
+      required,
+    },
+    descripcionE: {
+      required,
+    },
+    requisitosE: {
+      required,
+    },
+    duracionE: {
+      required,
+    },
+    temarioE: {
+      required,
+    },
   },
+  
 };
 </script>
 <style scoped>

@@ -199,7 +199,7 @@
           <b-button
             class="mt-2"
             variant="outline-success"
-            style="margin: 5px"
+            style="margin: 5px; float: right"
             type="submit"
             @click="registrar()"
             :disabled="
@@ -227,7 +227,7 @@
           <b-button
             class="mt-2"
             variant="outline-danger"
-            style="margin: 5px"
+            style="margin: 5px; float: right"
             block
             @click="hideModal"
             >Cerrar
@@ -278,10 +278,206 @@
                 >
                   eliminar
                 </button>
+                <button
+                  class="btn btn-success"
+                  @click="recuperarUser(usuario.idUsuario)"
+                >
+                  Editar
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
+        <!-- Modal editar -->
+        <b-modal ref="docentes-modalEdit" hide-footer title="Editar">
+          <div class="row">
+            <div>
+              <div class="row">
+                <div class="col-5 centrar">
+                  <label for="">Nombre</label>
+                  <b-form-input
+                    id="nombreE"
+                    type="text"
+                    v-model="$v.nombreE.$model"
+                    :class="status($v.nombreE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="!$v.nombreE.required && $v.nombreE.$dirty"
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                </div>
+                <br />
+                <div class="col-5 centrar">
+                  <label for="">Apellidos Paterno</label>
+                  <b-form-input
+                    id="apellidoAE"
+                    type="text"
+                    v-model="$v.apellidoPaternoE.$model"
+                    :class="status($v.apellidoPaternoE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="
+                      !$v.apellidoPaternoE.required &&
+                      $v.apellidoPaternoE.$dirty
+                    "
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-5 centrar">
+                  <label for="">Apellido Materno</label>
+                  <b-form-input
+                    id="apellidoME"
+                    type="text"
+                    v-model="$v.apellidoMaternoE.$model"
+                    :class="status($v.apellidoMaternoE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="
+                      !$v.apellidoMaternoE.required &&
+                      $v.apellidoMaternoE.$dirty
+                    "
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                </div>
+                <br />
+                <div class="col-5 centrar">
+                  <label for="">Nickname</label>
+                  <b-form-input
+                    id="nicknameE"
+                    type="text"
+                    v-model="$v.nicknameE.$model"
+                    :class="status($v.nicknameE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="!$v.nicknameE.required && $v.nicknameE.$dirty"
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-11 centrar">
+                  <label for="">Email</label>
+                  <b-form-input
+                    id="emailE"
+                    type="text"
+                    v-model="$v.emailE.$model"
+                    :class="status($v.emailE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="!$v.emailE.required && $v.emailE.$dirty"
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                </div>
+                <br />
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-5 centrar">
+                  <label for="">Cotraseña</label>
+                  <b-form-input
+                    id="pass1"
+                    type="password"
+                    v-model="$v.passwordE.$model"
+                    :class="status($v.passwordE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="!$v.passwordE.required && $v.passwordE.$dirty"
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                </div>
+                <br />
+                <div class="col-5 centrar">
+                  <label for="">Confirmar Contraseña</label>
+                  <b-form-input
+                    id="pass2"
+                    type="password"
+                    v-model="$v.passwordRepeatE.$model"
+                    :class="status($v.passwordRepeatE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="
+                      !$v.passwordRepeatE.required && $v.passwordRepeatE.$dirty
+                    "
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                  <div
+                    class="error errorMsg"
+                    v-if="
+                      !$v.passwordRepeatE.sameAspassword &&
+                      $v.passwordRepeatE.$dirty
+                    "
+                  >
+                    La contraseña no coincide
+                  </div>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col-11 centrar">
+                  <label for="">Dirección</label>
+                  <b-form-input
+                    id="direccion"
+                    type="text"
+                    v-model="$v.direccionE.$model"
+                    :class="status($v.direccionE)"
+                    required
+                  />
+                  <div
+                    class="error errorMsg"
+                    v-if="!$v.direccionE.required && $v.direccionE.$dirty"
+                  >
+                    Este campo no puede ir vacío
+                  </div>
+                </div>
+                <br />
+              </div>
+              <hr />
+            </div>
+            <div>
+              <b-button
+                class="mt-2"
+                variant="outline-success"
+                style="margin: 5px; float: right"
+                type="submit"
+                @click="editar()"
+                >Ok
+              </b-button>
+              <b-button
+                class="mt-2"
+                variant="outline-danger"
+                style="margin: 5px; float: right"
+                block
+                @click="hideModalE"
+                >Cerrar
+              </b-button>
+            </div>
+          </div>
+        </b-modal>
       </div>
     </div>
 
@@ -313,6 +509,18 @@ export default {
       direccion: "",
       usuario: {},
       usuarios: [],
+
+      nombreE: "",
+      apellidoPaternoE: "",
+      apellidoMaternoE: "",
+      nicknameE: "",
+      emailE: "",
+      passwordE: "",
+      passwordRepeatE: "",
+      direccionE: "",
+      usuarioE: {},
+      idUsuarioE: "",
+      roles: {}
     };
   },
   beforeMount() {
@@ -328,6 +536,12 @@ export default {
     hideModal() {
       this.$refs["docentes-modal"].hide();
     },
+    mostrarModalE() {
+      this.$refs["docentes-modalEdit"].show();
+    },
+    hideModalE() {
+      this.$refs["docentes-modalEdit"].hide();
+    },
     registrar() {
       this.usuario = {
         nombre: this.nombre,
@@ -336,7 +550,7 @@ export default {
         nickname: this.nickname,
         email: this.email,
         password: this.password,
-        direccion: this.direccion,
+        direccion: this.direccion,              
       };
       api
         .doPost("cursos/docente/save", this.usuario)
@@ -364,18 +578,20 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
         });
+        this.hideModal();
     },
     getDocente() {
+       console.log("entre al consulta docentes")
       api
         .doGet("cursos/docente/getAll")
         .then((response) => (this.usuarios = response.data))
         .catch((error) => {
+         
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({
@@ -391,12 +607,12 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
         });
+        console.log(this.usuarios)
     },
     eliminar(id) {
       this.$swal({
@@ -435,8 +651,7 @@ export default {
               } else {
                 this.$swal({
                   title: "Oops! Ha ocurrido un error en el servidor.",
-                  html:
-                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
                   icon: "error",
                 });
               }
@@ -455,6 +670,89 @@ export default {
       this.passwordRepeat = "";
       this.direccion = "";
     },
+    recuperarUser(id) {
+      console.log(id);
+      api
+        .doGet("cursos/docente/getOne/" + id)
+        .then((response) => {
+          this.nombreE = response.data.nombre,
+          this.apellidoPaternoE = response.data.apellidoPaterno,
+          this.apellidoMaternoE = response.data.apellidoMaterno,
+          this.nicknameE = response.data.nickname,
+          this.emailE = response.data.email,
+          this.direccionE = response.data.direccion,
+          this.idUsuarioE = response.data.idUsuario
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          }
+        });
+      this.mostrarModalE();
+    },
+    editar(){
+      this.usuarioE = {
+        idUsuario: this.idUsuarioE,
+        nombre: this.nombreE,
+        apellidoPaterno: this.apellidoPaternoE,
+        apellidoMaterno: this.apellidoMaternoE,
+        nickname: this.nicknameE,
+        email: this.emailE,
+        password: this.passwordE,
+        direccion: this.direccionE,
+        
+      }
+      api
+        .doPut("cursos/docente/update", this.usuarioE)
+        .then(() => {
+          this.$swal({
+            title: "Usuario modificado exitosamente!",
+            icon: "success",
+          });
+          this.getDocente();
+          this.onReset();
+        })
+        .catch((error) => {
+          console.log(error)
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          }
+        });
+        this.hideModalE();
+    },
     status(validation) {
       return {
         error: validation.$error,
@@ -471,6 +769,15 @@ export default {
     password: { required },
     passwordRepeat: { required, sameAspassword: sameAs("password") },
     direccion: { required },
+
+    nombreE: { required },
+    apellidoPaternoE: { required },
+    apellidoMaternoE: { required },
+    nicknameE: { required },
+    emailE: { required },
+    passwordE: { required },
+    passwordRepeatE: { required, sameAspassword: sameAs("passwordE") },
+    direccionE: { required },
   },
 };
 </script>

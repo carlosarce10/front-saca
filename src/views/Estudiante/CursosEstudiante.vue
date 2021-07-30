@@ -24,44 +24,132 @@
         </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 2%">
-      <div class="col-10 centrar" style="background-color: #f8f8f8">
-        <table class="table table-borderless table-hover">
-          <thead class="table-success">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Curso</th>
-              <th scope="col">Precio</th>
-              <th scope="col">Fecha Inicio</th>
-              <th scope="col">Fecha Fin</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(oferta, item) in ofertas" :key="oferta.idOferta">
-              <th>
-                {{ item + 1 }}
-              </th>
-              <td>
-                {{ oferta.cursos[item].titulo }}
-              </td>
-              <td>
-                {{ oferta.costo }}
-              </td>
-              <td>
-                {{ oferta.fechaInicio }}
-              </td>
-              <td>
-                {{ oferta.fechaFin }}
-              </td>
-              <td>
-                <button class="btn btn-success" variant="outline-success" @click="inscribir(oferta.idOferta)">
-                  Inscribir
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <!-- Modal de detalles del curso -->
+    <b-modal
+      ref="cursos-modalDetalles"
+      size="lg"
+      hide-footer
+      title="Detalles del curso"
+    >
+      <div class="row">
+        <div>
+          <div class="row">
+            <div class="col-12">
+              <h6>Título:</h6>
+              {{ curso }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Descripción:</h6>
+              {{ descripcion }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Requisitos:</h6>
+              {{ requisitos }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Temario:</h6>
+              {{ temario }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Duración:</h6>
+              {{ duracion }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Costo:</h6>
+              ${{ costo }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Periodo:</h6>
+              {{ fechaPeriodo }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Fecha de inicio:</h6>
+              {{ fechaInicio }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Fecha de finalización:</h6>
+              {{ fechaFin }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>División:</h6>
+              {{ division }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Modalidad:</h6>
+              {{ modalidad }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Clasificación:</h6>
+              {{ clasificacion }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Docente:</h6>
+              {{ docenteNombre }} {{ docenteApellidoP }} {{ docenteApellidoM }}
+            </div>
+            <div class="linea"></div>
+            <div class="col-12">
+              <h6>Tipo de curso:</h6>
+              {{ tipoCurso }}
+            </div>
+          </div>
+          <hr />
+        </div>
+        <div>
+          <b-button
+            class="mt-2"
+            variant="outline-danger"
+            style="margin: 5px; float: right"
+            block
+            @click="hideModalDetalles"
+            >Cerrar
+          </b-button>
+        </div>
+      </div>
+    </b-modal>
+
+    <!-- Cards de Cursos ofertados  -->
+    <div class="row">
+      <div
+        class="card col-3 mx-5"
+        style="margin-top: 1%; "
+        v-for="oferta in ofertas"
+        :key="oferta.idOferta"
+      >
+        <div class="card-body">
+          <h5 class="card-title">{{ oferta.cursos[0].titulo }}</h5>
+          <h6 class="card-subtitle">${{ oferta.costo }}</h6>
+          <br />
+          <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
+          <p class="card-text">Inicio del curso: {{ oferta.fechaInicio }}</p>
+          <p class="card-text">
+            Finalización del curoso: {{ oferta.fechaFin }}
+          </p>
+          <b-button
+            variant="outline-primary"
+            style="float: right; margin-left: 2%"
+            @click="mostrarModalDetalles(oferta.idOferta)"
+            >Ver detalles
+          </b-button>
+          <b-button
+            variant="outline-success"
+            @click="inscribir(oferta.idOferta)"
+            style="float: right"
+          >
+            Inscribir
+          </b-button>
+        </div>
       </div>
     </div>
     <div><Footer class="fixed-bottom" /></div>
@@ -80,18 +168,33 @@ export default {
   },
   data() {
     return {
+      requisitos: "",
+      temario: "",
+      duracion: "",
+      curso: "",
+      descripcion: "",
+      costo: "",
+      fechaPeriodo: "",
+      fechaInicio: "",
+      fechaFin: "",
+      modalidad: "",
+      division: "",
+      clasificacion: "",
+      docenteNombre: "",
+      docenteApellidoM: "",
+      docenteApellidoP: "",
+      tipoCurso: "",
+      ofertaId: "",
+      inscripcion: {},
       ofertas: [],
-      fechaFin:"",
-      fechaInicio:"",
-      inscripcion:{},
-      status:"",
-      id_oferta:"",
-      usuario_id_usuario:"",
+      status: "",
+      id_oferta: "",
+      usuario_id_usuario: "",
     };
   },
   beforeMount() {
     this.getCursosOferta();
-    console.log(localStorage)
+    console.log(localStorage);
   },
   methods: {
     getCursosOferta() {
@@ -114,30 +217,31 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
-        });        
+        });
     },
-    inscribir(idOferta){
-      console.log(idOferta)      
-      this.inscripcion={
+    inscribir(idOferta) {
+      console.log(idOferta);
+      this.inscripcion = {
         estatus: "espera",
         oferta: {
-          idOferta: idOferta
+          idOferta: idOferta,
         },
         usuario: {
-          nickname: localStorage.username
-        }
-      }
+          nickname: localStorage.username,
+        },
+      };
       api
         .doPost("cursos/inscripcion", this.inscripcion)
         .then(() => {
           this.$swal({
             title: "Se inscribio exitosamente exitosamente",
             icon: "success",
-          });          
+          });
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -155,14 +259,63 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
         });
-        
     },
-    
+    mostrarModalDetalles(id) {
+      api
+        .doGet("cursos/oferta/" + id)
+        .then((response) => {
+          this.costo = response.data.costo;
+          this.fechaPeriodo = response.data.fechaPeriodoInscripcion;
+          this.fechaInicio = response.data.fechaInicio;
+          this.fechaFin = response.data.fechaFin;
+          this.modalidad = response.data.modalidades[0].modalidad;
+          this.division = response.data.divisiones[0].division;
+          this.clasificacion = response.data.clasificaciones[0].clasificacion;
+          this.docenteNombre = response.data.docentes[0].nombre;
+          this.docenteApellidoP = response.data.docentes[0].apellidoPaterno;
+          this.docenteApellidoM = response.data.docentes[0].apellidoMaterno;
+          this.curso = response.data.cursos[0].titulo;
+          this.descripcion = response.data.cursos[0].descripcion;
+          this.requisitos = response.data.cursos[0].requisitos;
+          this.temario = response.data.cursos[0].temario;
+          this.duracion = response.data.cursos[0].duracion;
+          this.tipoCurso = response.data.tipoCurso;
+          this.ofertaId = response.data.idOferta;
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
+
+      this.$refs["cursos-modalDetalles"].show();
+    },
+    hideModalDetalles() {
+      this.$refs["cursos-modalDetalles"].hide();
+    },
   },
 };
 </script>
@@ -174,5 +327,8 @@ export default {
 .centrar {
   margin-left: auto;
   margin-right: auto;
+}
+h6 {
+  display: inline;
 }
 </style>

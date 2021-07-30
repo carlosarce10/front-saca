@@ -175,7 +175,6 @@
                 <button @click="eliminar(curso.idCurso)" class="btn ">
                   <b-icon icon="trash-fill" aria-hidden="true" variant="danger"></b-icon>
                 </button>
-
                 <b-button
                   id="show-btn"
                   @click="recuperarCurso(curso.idCurso)"
@@ -186,6 +185,8 @@
             </tr>
           </tbody>
         </table>
+
+        <!-- Modal editar -->
         <b-modal ref="my-modalE" hide-footer title="Editar">
           <div>
             <b-form>

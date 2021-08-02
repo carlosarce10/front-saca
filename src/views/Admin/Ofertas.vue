@@ -503,57 +503,40 @@
       </div>
     </b-modal>
 
-    <!-- Tabla -->
-    <div class="row" style="margin-top: 2%">
-      <div class="col-10 centrar" style="background-color: #f8f8f8">
-        <table class="table table-borderless table-hover">
-          <thead class="table-success">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Curso</th>
-              <th scope="col">Periodo</th>
-              <th scope="col">Fecha de inicio</th>
-              <th scope="col">Fecha a concluir</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(oferta, item) in ofertas" :key="oferta.id">
-              <th>
-                {{ item + 1 }}
-              </th>
-              <td>
-                {{ oferta.cursos[0].titulo }}
-              </td>
-              <td>
-                {{ oferta.fechaPeriodoInscripcion }}
-              </td>
-              <td>
-                {{ oferta.fechaInicio }}
-              </td>
-              <td>
-                {{ oferta.fechaFin }}
-              </td>
-              <td>
-                <b-button
+    <!-- Cards de Cursos ofertados  -->
+      <div class="row">
+        <div
+          class="card col-3 mx-5"
+          style="margin-top: 1%"
+          v-for="(oferta,item) in ofertasList"
+          :key="oferta.id"
+        >
+          <div class="card-body" >
+            <h5 class="card-title">{{ oferta.cursos[0].titulo }}</h5>
+            <h6 class="card-subtitle">${{ oferta.costo }}</h6>
+            <br />
+            <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
+            <p class="card-text" >Inicio del curso: {{ fechaInicioCard[item] }}</p>
+            <p class="card-text">
+              Finalización del curoso: {{ fechaFinCard[item] }}
+            </p>
+            <b-button
+                  style="float: right; margin-left: 2%"
                   variant="outline-danger"
                   @click="eliminar(oferta.idOferta)"
                 >
                   <b-icon icon="trash-fill" />
                 </b-button>
                 <b-button
-                  style="margin-left: 5%"
+                  style="float: right; margin-left: 2%"
                   variant="outline-primary"
                   @click="mostrarModalEdit(oferta.idOferta)"
                 >
                   <b-icon icon="pencil-square" />
                 </b-button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </div>
+        </div>
+      </div>    
     <div><Footer class="fixed-bottom" /></div>
   </div>
 </template>
@@ -602,7 +585,7 @@ export default {
       clasificacion: "",
       docente: "",
       curso: [],
-      ofertas: [],
+      ofertasList: [],
       oferta: {},
       ofertaEdit: {},
       listaCursos: [],
@@ -619,6 +602,9 @@ export default {
       clasificacionEdit: "",
       docenteEdit: "",
       cursoEdit: "",
+      fechaInicioCard:[],
+      fechaFinCard:[],
+
     };
   },
   beforeMount() {
@@ -644,8 +630,7 @@ export default {
           this.fechaFinEdit = response.data.fechaFin;
           this.modalidadEdit = response.data.modalidades[0].idModalidad;
           this.divisionEdit = response.data.divisiones[0].idDivision;
-          this.clasificacionEdit =
-            response.data.clasificaciones[0].idClasificacion;
+          this.clasificacionEdit = response.data.clasificaciones[0].idClasificacion;
           this.docenteEdit = response.data.docentes[0].idUsuario;
           this.cursoEdit = response.data.cursos[0].idCurso;
           this.tipoCursoEdit = response.data.tipoCurso;
@@ -679,22 +664,13 @@ export default {
     hideModalEdit() {
       this.$refs["cursos-modalEdit"].hide();
     },
-    /*     dateFormate() {
-      var d = new Date(this.fechaPeriodo);
-      var day = d.getUTCDate();
-      var month = d.getUTCMonth() + 1;
-      var year = d.getUTCFullYear();
-      this.fechaPeriodoF = year + "-" + month + "-" + day;
-      console.log(this.fechaPeriodoF);
-    }, */
+     
     getLists() {
       api.doGet("cursos/docente/getAll").then((resultDocente) => {
         this.listaDocentes = resultDocente.data;
-        console.log(this.listaDocentes);
       });
       api.doGet("cursos/curso/getAll").then((resultCurso) => {
         this.listaCursos = resultCurso.data;
-        console.log(this.listaCursos);
       });
     },
     registrar() {
@@ -719,8 +695,9 @@ export default {
             title: "La oferta se registro exitosamente",
             icon: "success",
           });
-          this.onReset();
           this.getOferta();
+          //this.onReset();
+          
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -746,31 +723,51 @@ export default {
         });
     },
     getOferta() {
+      //this.ofertasList = response.data
       api
         .doGet("cursos/oferta")
-        .then((response) => (this.ofertas = response.data))
+        .then((response) => {
+          this.ofertasList = response.data
+          let arrFechaF = [];
+          let arrFechaI = [];
+          for(let i = 0; i<this.ofertasList.length; i++){
+            arrFechaF.push(this.ofertasList[i].fechaFin)
+            arrFechaI.push(this.ofertasList[i].fechaInicio)
+          }
+          for(let j = 0; j< arrFechaF.length; j++){
+            let dateF  = new Date(arrFechaF[j]);
+            this.fechaFinCard[j] = (dateF.getDate()+1)+"-"+(dateF.getMonth()+1)+"-"+dateF.getFullYear();            
+          }
+          for(let k = 0; k< arrFechaI.length; k++){          
+            let dateI  = new Date(arrFechaI[k]);
+            this.fechaInicioCard[k] = (dateI.getDate()+1)+"-"+(dateI.getMonth()+1)+"-"+dateI.getFullYear();       
+          }
+        })
         .catch((error) => {
+          
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({
-              title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'><b>" +
-                errorResponse.code +
-                "</b> " +
-                errorResponse.message +
-                "<br>Para más información contacte a su operador.</span>",
+              title: "Oops! Ha ocurrido un error en el servidor.",
               icon: "error",
             });
           } else {
             this.$swal({
-              title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              title: "Oops! Ha ocurrido un error en el servidor.",
               icon: "error",
             });
           }
-        });
+        }).finally(() => (this.loading = false));
+    },
+    dateFormate() {
+      
+      /*this.fechaPeriodoF = this.ofertasList.fechaInicio
+      var d = new Date(this.fechaPeriodo);
+      var day = d.getUTCDate();
+      var month = d.getUTCMonth() + 1;
+      var year = d.getUTCFullYear();
+      this.fechaPeriodoF = year + "-" + month + "-" + day;
+      console.log(this.fechaPeriodoF)*/
     },
     eliminar(id) {
       this.$swal({

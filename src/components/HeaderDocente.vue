@@ -2,26 +2,10 @@
   <div class="header">
     <div class="row align-items-center">
       <div class="col-2">
-        <a class="navbar-brand" href="/estudiante/inicio">
+        <a class="navbar-brand" href="/administrador/inicio">
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
-      <!-- <div class="col-8">
-        <form class="d-flex">
-          <div class="form-group">
-            <b-icon
-              style="margin-left: 20px"
-              icon="search"
-              class="form-control-icon"
-            ></b-icon>
-            <input
-              class="buscador form-control"
-              placeholder="  Buscar curso..."
-              aria-label="Search"
-            />
-          </div>
-        </form>
-      </div> -->
       <div class="col-8">
         <h3 class="titulo">Sistema Administrativo de Cursos Académicos</h3>
       </div>
@@ -30,12 +14,12 @@
       </div>
       <b-popover target="popover1" placement="auto" triggers="hover">
         <div class="row align-items-center">
-          <div class="col-4">
+          <div class="col-3">
             <img class="logo2" id="popover1" src="../assets/user.png" />
           </div>
-          <div class="col-7">
+          <div class="col-8">
             <h4 style="color: #707273; font-family: 'Times New Roman'">
-              Estudiante
+              Administrador
             </h4>
           </div>
           <div class="linea"></div>
@@ -44,15 +28,22 @@
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/estudiante/inicio"
+          href="/docente/inicio"
           >Inicio</b-button
         ><br />
         <b-button
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/estudiante/misDiplomas"
+          href="/docente/cursos"
           >Mis Cursos</b-button
+        ><br />
+        <b-button
+          style="color: #707273"
+          class="text-decoration-none"
+          variant="link"
+          href="/docente/paseLista"
+          >Pase de Lista</b-button
         ><br />
         <b-button
           style="color: #707273"
@@ -80,12 +71,6 @@
   height: 55px;
   margin-right: 60px;
   float: right;
-}
-.buscador {
-  border: 1px solid #00ab84;
-  position: relative;
-  float: left;
-  margin-left: 10px;
 }
 .navbar {
   justify-content: start;

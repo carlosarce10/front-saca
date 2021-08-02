@@ -8,8 +8,9 @@ import ConsultaCursos from "../views/Admin/consultaCursos.vue";
 import Docentes from "../views/Admin/docentes.vue";
 import Ofertas from "../views/Admin/Ofertas.vue";
 import Docente from "../views/Docente/InicioDocente.vue";
-import Estudiante from "../views/Estudiante/InicioEstudiante.vue";
+import MisDiplomas from "../views/Estudiante/MisDiplomas.vue";
 import CursosEstudiante from "../views/Estudiante/CursosEstudiante.vue";
+import CursosDocente from "../views/Docente/CursosDocentes.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
@@ -55,21 +56,28 @@ const routes = [
     meta: { roles: ["ROLE_ADMIN"] },
   },
   {
-    path: "/estudiante/inicio",
-    name: "Estudiante",
-    component: Estudiante,
+    path: "/estudiante/misDiplomas",
+    name: "MisDiplomas",
+    component: MisDiplomas,
     meta: { roles: ["ROLE_ESTUDIANTE"] },
   },
   {
-    path: "/estudiante/cursos",
+    path: "/estudiante/inicio",
     name: "CursosEstudiante",
     component: CursosEstudiante,
     meta: { roles: ["ROLE_ESTUDIANTE"] },
   },
+
   {
     path: "/docente/inicio",
     name: "Docente",
     component: Docente,
+    meta: { roles: ["ROLE_DOCENTE"] },
+  },
+  {
+    path: "/docente/cursos",
+    name: "CursosDocente",
+    component: CursosDocente,
     meta: { roles: ["ROLE_DOCENTE"] },
   },
   {

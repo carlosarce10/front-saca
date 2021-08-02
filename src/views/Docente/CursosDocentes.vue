@@ -1,8 +1,30 @@
 <template>
-  <div class="row fondo">
-    <div class="home">
-      <HeaderInicio />
-      <!-- Modal de detalles del curso -->
+  <div class="fondo">
+    <div><HeaderDocente/></div>
+    <div class="row" style="margin-top: 2%">
+      <div class="offset-8 col-3">
+        <div class="row px-2">
+          <!-- div de busqueda -->
+          <div class="col-9 centrar">
+            <form>
+              <div class="form-group">
+                <b-icon
+                  style="margin-left: 20px"
+                  icon="search"
+                  class="form-control-icon"
+                ></b-icon>
+                <input
+                  class="buscador form-control"
+                  placeholder="  Buscar curso..."
+                  aria-label="Search"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal de detalles del curso -->
       <b-modal
         ref="cursos-modalDetalles"
         size="lg"
@@ -124,20 +146,18 @@
           </div>
         </div>
       </div>
-      <Footer class="fixed-bottom" />
-    </div>
+    <div><Footer class="fixed-bottom" /></div>
   </div>
 </template>
 
 <script>
-import HeaderInicio from "@/components/HeaderInicio.vue";
+import HeaderDocente from "@/components/HeaderDocente.vue";
 import Footer from "@/components/Footer.vue";
-import api from "../util/api";
+import api from "../../util/api";
 
 export default {
-  name: "Home",
   components: {
-    HeaderInicio,
+    HeaderDocente,
     Footer,
   },
   data() {

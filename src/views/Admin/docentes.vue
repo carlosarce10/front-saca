@@ -246,7 +246,6 @@
               <th scope="col">Nombre(s)</th>
               <th scope="col">Apellido Paterno</th>
               <th scope="col">Apellido Materno</th>
-              <th scope="col">Nickname</th>
               <th scope="col">Correo</th>
               <th scope="col">Acciones</th>
             </tr>
@@ -266,24 +265,21 @@
                 {{ usuario.apellidoMaterno }}
               </td>
               <td>
-                {{ usuario.nickname }}
-              </td>
-              <td>
                 {{ usuario.email }}
               </td>
               <td>
-                <button
-                  class="btn btn-danger"
-                  @click="eliminar(usuario.idUsuario)"
-                >
-                  eliminar
-                </button>
-                <button
-                  class="btn btn-success"
+                <b-button
+                  variant="outline-primary"
                   @click="recuperarUser(usuario.idUsuario)"
                 >
-                  Editar
-                </button>
+                  <b-icon icon="pencil-square" aria-hidden="true"></b-icon>
+                </b-button>
+                <b-button
+                  variant="outline-danger"
+                  @click="eliminar(usuario.idUsuario)"
+                >
+                  <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+                </b-button>
               </td>
             </tr>
           </tbody>
@@ -323,7 +319,7 @@
                     class="error errorMsg"
                     v-if="
                       !$v.apellidoPaternoE.required &&
-                      $v.apellidoPaternoE.$dirty
+                        $v.apellidoPaternoE.$dirty
                     "
                   >
                     Este campo no puede ir vacío
@@ -345,7 +341,7 @@
                     class="error errorMsg"
                     v-if="
                       !$v.apellidoMaternoE.required &&
-                      $v.apellidoMaternoE.$dirty
+                        $v.apellidoMaternoE.$dirty
                     "
                   >
                     Este campo no puede ir vacío
@@ -429,7 +425,7 @@
                     class="error errorMsg"
                     v-if="
                       !$v.passwordRepeatE.sameAspassword &&
-                      $v.passwordRepeatE.$dirty
+                        $v.passwordRepeatE.$dirty
                     "
                   >
                     La contraseña no coincide
@@ -520,7 +516,7 @@ export default {
       direccionE: "",
       usuarioE: {},
       idUsuarioE: "",
-      roles: {}
+      roles: {},
     };
   },
   beforeMount() {
@@ -547,7 +543,7 @@ export default {
         nickname: this.nickname,
         email: this.email,
         password: this.password,
-        direccion: this.direccion,              
+        direccion: this.direccion,
       };
       api
         .doPost("cursos/docente/save", this.usuario)
@@ -575,20 +571,20 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
         });
-        this.hideModal();
+      this.hideModal();
     },
     getDocente() {
-       console.log("entre al consulta docentes")
+      console.log("entre al consulta docentes");
       api
         .doGet("cursos/docente/getAll")
         .then((response) => (this.usuarios = response.data))
         .catch((error) => {
-         
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({
@@ -604,12 +600,13 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
         });
-        console.log(this.usuarios)
+      console.log(this.usuarios);
     },
     eliminar(id) {
       this.$swal({
@@ -648,7 +645,8 @@ export default {
               } else {
                 this.$swal({
                   title: "Oops! Ha ocurrido un error en el servidor.",
-                  html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  html:
+                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
                   icon: "error",
                 });
               }
@@ -672,61 +670,15 @@ export default {
       api
         .doGet("cursos/docente/getOne/" + id)
         .then((response) => {
-          this.nombreE = response.data.nombre,
-          this.apellidoPaternoE = response.data.apellidoPaterno,
-          this.apellidoMaternoE = response.data.apellidoMaterno,
-          this.nicknameE = response.data.nickname,
-          this.emailE = response.data.email,
-          this.direccionE = response.data.direccion,
-          this.idUsuarioE = response.data.idUsuario
+          (this.nombreE = response.data.nombre),
+            (this.apellidoPaternoE = response.data.apellidoPaterno),
+            (this.apellidoMaternoE = response.data.apellidoMaterno),
+            (this.nicknameE = response.data.nickname),
+            (this.emailE = response.data.email),
+            (this.direccionE = response.data.direccion),
+            (this.idUsuarioE = response.data.idUsuario);
         })
         .catch((error) => {
-          let errorResponse = error.response.data;
-          if (errorResponse.errorExists) {
-            this.$swal({
-              title: "Oops! Ha ocurrido un error en el servidor.",
-              html:
-                "<span style='font-size:14pt'><b>" +
-                errorResponse.code +
-                "</b> " +
-                errorResponse.message +
-                "<br>Contacte a su operador para más detalles.</span>",
-              icon: "error",
-            });
-          } else {
-            this.$swal({
-              title: "Oops! Ha ocurrido un error en el servidor.",
-              html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
-              icon: "error",
-            });
-          }
-        });
-      this.mostrarModalE();
-    },
-    editar(){
-      this.usuarioE = {
-        idUsuario: this.idUsuarioE,
-        nombre: this.nombreE,
-        apellidoPaterno: this.apellidoPaternoE,
-        apellidoMaterno: this.apellidoMaternoE,
-        nickname: this.nicknameE,
-        email: this.emailE,
-        password: this.passwordE,
-        direccion: this.direccionE,
-        
-      }
-      api
-        .doPut("cursos/docente/update", this.usuarioE)
-        .then(() => {
-          this.$swal({
-            title: "Usuario modificado exitosamente!",
-            icon: "success",
-          });
-          this.getDocente();
-          this.onReset();
-        })
-        .catch((error) => {
-          console.log(error)
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({
@@ -748,7 +700,53 @@ export default {
             });
           }
         });
-        this.hideModalE();
+      this.mostrarModalE();
+    },
+    editar() {
+      this.usuarioE = {
+        idUsuario: this.idUsuarioE,
+        nombre: this.nombreE,
+        apellidoPaterno: this.apellidoPaternoE,
+        apellidoMaterno: this.apellidoMaternoE,
+        nickname: this.nicknameE,
+        email: this.emailE,
+        password: this.passwordE,
+        direccion: this.direccionE,
+      };
+      api
+        .doPut("cursos/docente/update", this.usuarioE)
+        .then(() => {
+          this.$swal({
+            title: "Usuario modificado exitosamente!",
+            icon: "success",
+          });
+          this.getDocente();
+          this.onReset();
+        })
+        .catch((error) => {
+          console.log(error);
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Oops! Ha ocurrido un error en el servidor.",
+              html:
+                "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+              icon: "error",
+            });
+          }
+        });
+      this.hideModalE();
     },
     status(validation) {
       return {

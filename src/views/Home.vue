@@ -216,19 +216,20 @@ export default {
       api
         .doGet("cursos/oferta/" + id)
         .then((response) => {
-          let fechaP = new Date(response.data.fechaPeriodoInscripcion);
+          console.log(response)
+          //let fechaP = new Date(response.data.fechaPeriodoInscripcion);
           let fechaI = new Date(response.data.fechaInicio);
           let fechaF = new Date(response.data.fechaFin);
           this.costo = response.data.costo;
-          this.fechaPeriodo = (fechaP.getDate()+1)+ "-"+(fechaP.getMonth()+1)+"-"+fechaP.getFullYear();
+          this.fechaPeriodo = response.data.fechaPeriodoInscripcion
           this.fechaInicio = (fechaI.getDate()+1)+"-"+(fechaI.getMonth()+1)+"-"+fechaI.getFullYear();
           this.fechaFin = (fechaF.getDate()+1)+"-"+(fechaF.getMonth()+1)+"-"+fechaF.getFullYear();
           this.modalidad = response.data.modalidades[0].modalidad;
           this.division = response.data.divisiones[0].division;
           this.clasificacion = response.data.clasificaciones[0].clasificacion;
-          this.docenteNombre = response.data.docentes[0].nombre;
-          this.docenteApellidoP = response.data.docentes[0].apellidoPaterno;
-          this.docenteApellidoM = response.data.docentes[0].apellidoMaterno;
+          this.docenteNombre = response.data.docente.nombre;
+          this.docenteApellidoP = response.data.docente.apellidoPaterno;
+          this.docenteApellidoM = response.data.docente.apellidoMaterno;
           this.curso = response.data.cursos[0].titulo;
           this.descripcion = response.data.cursos[0].descripcion;
           this.requisitos = response.data.cursos[0].requisitos;
@@ -267,3 +268,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+h6 {
+  display: inline;
+}
+</style>

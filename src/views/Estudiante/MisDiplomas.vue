@@ -86,6 +86,7 @@ export default {
       api
         .doGet("cursos/oferta")
         .then((response) => {
+          console.log("Estado: " + response.data)
           this.ofertas = response.data;
           let arrFechaI = [];
           let arrFechaF = [];

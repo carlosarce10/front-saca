@@ -216,11 +216,12 @@ export default {
       api
         .doGet("cursos/oferta/" + id)
         .then((response) => {
-          let fechaP = new Date(response.data.fechaPeriodoInscripcion);
+          console.log(response)
+          //let fechaP = new Date(response.data.fechaPeriodoInscripcion);
           let fechaI = new Date(response.data.fechaInicio);
           let fechaF = new Date(response.data.fechaFin);
           this.costo = response.data.costo;
-          this.fechaPeriodo = (fechaP.getDate()+1)+ "-"+(fechaP.getMonth()+1)+"-"+fechaP.getFullYear();
+          this.fechaPeriodo = response.data.fechaPeriodoInscripcion
           this.fechaInicio = (fechaI.getDate()+1)+"-"+(fechaI.getMonth()+1)+"-"+fechaI.getFullYear();
           this.fechaFin = (fechaF.getDate()+1)+"-"+(fechaF.getMonth()+1)+"-"+fechaF.getFullYear();
           this.modalidad = response.data.modalidades[0].modalidad;

@@ -184,13 +184,12 @@
             </div>
             <div class="col-5 centrar">
               <label for="datepicker-full-width">Periodo del curso</label>
-              <b-form-datepicker
+              <b-form-select
+                :options="periodo"
                 v-model="$v.fechaPeriodo.$model"
                 :class="status($v.fechaPeriodo)"
-                menu-class="w-100"
-                calendar-width="100%"
-                class="mb-2"
-              ></b-form-datepicker>
+                class="form-select"
+              />
               <div class="error errorMsg" v-if="!$v.fechaPeriodo.required">
                 Este campo no puede ir vacío
               </div>
@@ -426,13 +425,12 @@
             </div>
             <div class="col-5 centrar">
               <label for="datepicker-full-width">Periodo del curso</label>
-              <b-form-datepicker
+              <b-form-select
+                :options="periodo"
                 v-model="$v.fechaPeriodoEdit.$model"
                 :class="status($v.fechaPeriodoEdit)"
-                menu-class="w-100"
-                calendar-width="100%"
-                class="mb-2"
-              ></b-form-datepicker>
+                class="form-select"
+              />
               <div class="error errorMsg" v-if="!$v.fechaPeriodoEdit.required">
                 Este campo no puede ir vacío
               </div>
@@ -581,13 +579,13 @@ export default {
         { value: 3, text: "Ciencias básicas y matemáticas" },
       ],
       tipoCursos: [
-        { value: "taller", text: "Taller" },
-        { value: "diplomado", text: "Diplomado" },
+        { value: "Taller", text: "Taller" },
+        { value: "Diplomado", text: "Diplomado" },
       ],
       periodo: [
-        { value: "Enero", text: "Abril" },
-        { value: "Mayo", text: "Agosto" },
-        { value: "Septiembre", text: "Diciembre" },
+        { value: "Enero - Abril", text: "Enero - Abril" },
+        { value: "Mayo - Agosto", text: "Mayo - Agosto" },
+        { value: "Septiembre - Diciembre", text: "Septiembre - Diciembre" },
       ],
       modalidad: "",
       division: "",
@@ -628,10 +626,11 @@ export default {
       this.$refs["cursos-modal"].hide();
     },
     mostrarModalEdit(id) {
+      this.onReset();
       api
         .doGet("cursos/oferta/" + id)
         .then((response) => {
-          console.log("DATA: " + response.data);
+          console.log(response)
           this.costoEdit = response.data.costo;
           this.minAlumEdit = response.data.minimoParticipantes;
           this.maxAlumEdit = response.data.maximoParticipantes;
@@ -827,6 +826,7 @@ export default {
       });
     },
     editar() {
+      
       this.ofertaEdit = {
         idOferta: this.ofertaId,
         costo: this.costoEdit,
@@ -842,6 +842,7 @@ export default {
         docente: { idUsuario: this.docenteEdit },
         cursos: [{ idCurso: this.cursoEdit }],
       };
+      
       api
         .doPut("cursos/oferta", this.ofertaEdit)
         .then(() => {

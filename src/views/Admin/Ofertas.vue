@@ -674,6 +674,7 @@ export default {
       });
     },
     registrar() {
+      //estado inactivo
       this.oferta = {
         costo: this.costo,
         minimoParticipantes: this.minAlum,

@@ -226,9 +226,9 @@ export default {
           this.modalidad = response.data.modalidades[0].modalidad;
           this.division = response.data.divisiones[0].division;
           this.clasificacion = response.data.clasificaciones[0].clasificacion;
-          this.docenteNombre = response.data.docentes[0].nombre;
-          this.docenteApellidoP = response.data.docentes[0].apellidoPaterno;
-          this.docenteApellidoM = response.data.docentes[0].apellidoMaterno;
+          this.docenteNombre = response.data.docente.nombre;
+          this.docenteApellidoP = response.data.docente.apellidoPaterno;
+          this.docenteApellidoM = response.data.docente.apellidoMaterno;
           this.curso = response.data.cursos[0].titulo;
           this.descripcion = response.data.cursos[0].descripcion;
           this.requisitos = response.data.cursos[0].requisitos;
@@ -267,3 +267,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+h6 {
+  display: inline;
+}
+</style>

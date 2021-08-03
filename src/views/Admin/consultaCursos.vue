@@ -31,6 +31,7 @@
       </div>
     </div>
 
+    <!-- Modal de registro de curso -->
     <b-modal ref="my-modal" hide-footer title="Registro">
       <div>
         <b-form>
@@ -149,6 +150,8 @@
       </div>
     </b-modal>
     <br />
+
+    <!-- Tabla de consulta -->
     <div class="row" style="margin-top: 2%">
       <div class="col-10 centrar" style="background-color: #f8f8f8">
         <table class="table table-borderless table-hover">
@@ -172,15 +175,17 @@
               <td>{{ curso.temario }}</td>
               <td>{{ curso.duracion }}</td>
               <td>
-                <button @click="eliminar(curso.idCurso)" class="btn ">
-                  <b-icon icon="trash-fill" aria-hidden="true" variant="danger"></b-icon>
-                </button>
                 <b-button
-                  id="show-btn"
                   @click="recuperarCurso(curso.idCurso)"
-                  variant="outline-success"
-                  ><b-icon icon="pencil-square" aria-hidden="true" variant="success"></b-icon></b-button
+                  variant="outline-primary"
+                  ><b-icon icon="pencil-square" aria-hidden="true"></b-icon
+                ></b-button>
+                <b-button
+                  variant="outline-danger"
+                  @click="eliminar(curso.idCurso)"
                 >
+                  <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+                </b-button>
               </td>
             </tr>
           </tbody>
@@ -277,7 +282,6 @@
                 style="margin: 5px; float: right"
                 type="submit"
                 @click="editar"
-                
                 >Guardar
               </b-button>
               <b-button
@@ -325,7 +329,7 @@ export default {
       duracionE: "",
       temarioE: "",
       idCursoEdit: "",
-      cursoEdit:""
+      cursoEdit: "",
     };
   },
   beforeMount() {
@@ -352,17 +356,16 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    showModal() {      
-      this.$refs["my-modal"].show();      
+    showModal() {
+      this.$refs["my-modal"].show();
     },
-     showModalE() {     
+    showModalE() {
       this.$refs["my-modalE"].show();
-                 
     },
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-     hideModalE() {
+    hideModalE() {
       this.$refs["my-modalE"].hide();
     },
     registrar() {
@@ -407,7 +410,7 @@ export default {
           }
         })
         .finally(() => (this.loading = false));
-        this.hideModal();
+      this.hideModal();
     },
     eliminar(id) {
       console.log(id);
@@ -447,7 +450,8 @@ export default {
               } else {
                 this.$swal({
                   title: "Oops! Ha ocurrido un error en el servidor.",
-                  html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  html:
+                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
                   icon: "error",
                 });
               }
@@ -456,7 +460,7 @@ export default {
         }
       });
     },
-    recuperarCurso(idCursoE){
+    recuperarCurso(idCursoE) {
       console.log(idCursoE);
       api
         .doGet("cursos/curso/getOne/" + idCursoE)
@@ -466,7 +470,7 @@ export default {
           this.requisitosE = response.data.requisitos;
           this.duracionE = response.data.duracion;
           this.temarioE = response.data.temario;
-          this.idCursoEdit = response.data.idCurso
+          this.idCursoEdit = response.data.idCurso;
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -499,8 +503,8 @@ export default {
         descripcion: this.descripcionE,
         requisitos: this.requisitosE,
         temario: this.temarioE,
-        duracion: this.duracionE
-      }
+        duracion: this.duracionE,
+      };
       api
         .doPut("cursos/curso/update", this.cursoEdit)
         .then(() => {
@@ -510,11 +514,11 @@ export default {
           });
           this.getCursos();
           this.cursoEdit.id = 0;
-          this.tituloE = "",
-          this.descripcionE = "",
-          this.requisitosE = "",
-          this.temarioE = "",
-          this.duracionE = ""
+          (this.tituloE = ""),
+            (this.descripcionE = ""),
+            (this.requisitosE = ""),
+            (this.temarioE = ""),
+            (this.duracionE = "");
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -538,7 +542,7 @@ export default {
             });
           }
         });
-        this.hideModalE();
+      this.hideModalE();
     },
     status(validation) {
       return {
@@ -579,7 +583,6 @@ export default {
       required,
     },
   },
-  
 };
 </script>
 <style scoped>

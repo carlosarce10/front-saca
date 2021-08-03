@@ -376,6 +376,7 @@
               <br />
             </div>
             <div class="col-3 centrar">
+              <h6>Costo</h6>
               <b-form-input
                 id="costo"
                 type="number"
@@ -391,6 +392,7 @@
               </div>
             </div>
             <div class="col-3 centrar">
+              <h6>Mínimo de alumnos</h6>
               <b-form-input
                 id="minAlum"
                 type="number"
@@ -406,6 +408,7 @@
               </div>
             </div>
             <div class="col-3 centrar">
+              <h6>Máximo de alumnos</h6>
               <b-form-input
                 id="maxAlum"
                 type="number"
@@ -504,39 +507,39 @@
     </b-modal>
 
     <!-- Cards de Cursos ofertados  -->
-      <div class="row">
-        <div
-          class="card col-3 mx-5"
-          style="margin-top: 1%"
-          v-for="(oferta,item) in ofertasList"
-          :key="oferta.id"
-        >
-          <div class="card-body" >
-            <h5 class="card-title">{{ oferta.cursos[0].titulo }}</h5>
-            <h6 class="card-subtitle">${{ oferta.costo }}</h6>
-            <br />
-            <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
-            <p class="card-text" >Inicio del curso: {{ fechaInicioCard[item] }}</p>
-            <p class="card-text">
-              Finalización del curoso: {{ fechaFinCard[item] }}
-            </p>
-            <b-button
-                  style="float: right; margin-left: 2%"
-                  variant="outline-danger"
-                  @click="eliminar(oferta.idOferta)"
-                >
-                  <b-icon icon="trash-fill" />
-                </b-button>
-                <b-button
-                  style="float: right; margin-left: 2%"
-                  variant="outline-primary"
-                  @click="mostrarModalEdit(oferta.idOferta)"
-                >
-                  <b-icon icon="pencil-square" />
-                </b-button>
-          </div>
+    <div class="row">
+      <div
+        class="card col-3 mx-5"
+        style="margin-top: 1%"
+        v-for="(oferta, item) in ofertasList"
+        :key="oferta.id"
+      >
+        <div class="card-body">
+          <h5 class="card-title">{{ oferta.cursos[0].titulo }}</h5>
+          <h6 class="card-subtitle">${{ oferta.costo }}</h6>
+          <br />
+          <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
+          <p class="card-text">Inicio del curso: {{ fechaInicioCard[item] }}</p>
+          <p class="card-text">
+            Finalización del curoso: {{ fechaFinCard[item] }}
+          </p>
+          <b-button
+            style="float: right; margin-left: 2%"
+            variant="outline-danger"
+            @click="eliminar(oferta.idOferta)"
+          >
+            <b-icon icon="trash-fill" />
+          </b-button>
+          <b-button
+            style="float: right; margin-left: 2%"
+            variant="outline-primary"
+            @click="mostrarModalEdit(oferta.idOferta)"
+          >
+            <b-icon icon="pencil-square" />
+          </b-button>
         </div>
-      </div>    
+      </div>
+    </div>
     <div><Footer class="fixed-bottom" /></div>
   </div>
 </template>
@@ -564,6 +567,7 @@ export default {
       modalidades: [
         { value: 1, text: "Online" },
         { value: 2, text: "Presencial" },
+        { value: 3, text: "Mixta" },
       ],
       divisiones: [
         { value: 1, text: "DATEFI" },
@@ -580,6 +584,11 @@ export default {
         { value: "taller", text: "Taller" },
         { value: "diplomado", text: "Diplomado" },
       ],
+      periodo: [
+        { value: "Enero", text: "Abril" },
+        { value: "Mayo", text: "Agosto" },
+        { value: "Septiembre", text: "Diciembre" },
+      ],
       modalidad: "",
       division: "",
       clasificacion: "",
@@ -589,7 +598,7 @@ export default {
       oferta: {},
       ofertaEdit: {},
       listaCursos: [],
-      listaDocentes: [],
+      listaDocentes: {},
       tipoCursoEdit: "",
       costoEdit: "",
       minAlumEdit: "",
@@ -622,6 +631,7 @@ export default {
       api
         .doGet("cursos/oferta/" + id)
         .then((response) => {
+          console.log("DATA: " + response.data);
           this.costoEdit = response.data.costo;
           this.minAlumEdit = response.data.minimoParticipantes;
           this.maxAlumEdit = response.data.maximoParticipantes;
@@ -631,7 +641,7 @@ export default {
           this.modalidadEdit = response.data.modalidades[0].idModalidad;
           this.divisionEdit = response.data.divisiones[0].idDivision;
           this.clasificacionEdit = response.data.clasificaciones[0].idClasificacion;
-          this.docenteEdit = response.data.docentes[0].idUsuario;
+          this.docenteEdit = response.data.docente.idUsuario;
           this.cursoEdit = response.data.cursos[0].idCurso;
           this.tipoCursoEdit = response.data.tipoCurso;
           this.ofertaId = response.data.idOferta;
@@ -664,7 +674,7 @@ export default {
     hideModalEdit() {
       this.$refs["cursos-modalEdit"].hide();
     },
-     
+
     getLists() {
       api.doGet("cursos/docente/getAll").then((resultDocente) => {
         this.listaDocentes = resultDocente.data;
@@ -682,11 +692,11 @@ export default {
         fechaInicio: this.fechaInicio,
         fechaFin: this.fechaFin,
         tipoCurso: this.tipoCurso,
+        cursos: [{ idCurso: this.curso }],
         modalidades: [{ idModalidad: this.modalidad }],
         divisiones: [{ idDivision: this.division }],
         clasificaciones: [{ idClasificacion: this.clasificacion }],
-        docentes: [{ idUsuario: this.docente }],
-        cursos: [{ idCurso: this.curso }],
+        docente: { idUsuario: this.docente },
       };
       api
         .doPost("cursos/oferta", this.oferta)
@@ -696,8 +706,8 @@ export default {
             icon: "success",
           });
           this.getOferta();
-          //this.onReset();
-          
+          this.onReset();
+
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -736,15 +746,15 @@ export default {
           }
           for(let j = 0; j< arrFechaF.length; j++){
             let dateF  = new Date(arrFechaF[j]);
-            this.fechaFinCard[j] = (dateF.getDate()+1)+"-"+(dateF.getMonth()+1)+"-"+dateF.getFullYear();            
+            this.fechaFinCard[j] = (dateF.getDate()+1)+"-"+(dateF.getMonth()+1)+"-"+dateF.getFullYear();
           }
-          for(let k = 0; k< arrFechaI.length; k++){          
+          for(let k = 0; k< arrFechaI.length; k++){
             let dateI  = new Date(arrFechaI[k]);
-            this.fechaInicioCard[k] = (dateI.getDate()+1)+"-"+(dateI.getMonth()+1)+"-"+dateI.getFullYear();       
+            this.fechaInicioCard[k] = (dateI.getDate()+1)+"-"+(dateI.getMonth()+1)+"-"+dateI.getFullYear();
           }
         })
         .catch((error) => {
-          
+
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({
@@ -760,7 +770,7 @@ export default {
         }).finally(() => (this.loading = false));
     },
     dateFormate() {
-      
+
       /*this.fechaPeriodoF = this.ofertasList.fechaInicio
       var d = new Date(this.fechaPeriodo);
       var day = d.getUTCDate();
@@ -829,7 +839,7 @@ export default {
         modalidades: [{ idModalidad: this.modalidadEdit }],
         divisiones: [{ idDivision: this.divisionEdit }],
         clasificaciones: [{ idClasificacion: this.clasificacionEdit }],
-        docentes: [{ idUsuario: this.docenteEdit }],
+        docente: { idUsuario: this.docenteEdit },
         cursos: [{ idCurso: this.cursoEdit }],
       };
       api
@@ -839,8 +849,8 @@ export default {
             title: "Se ha modificado exitosamente",
             icon: "success",
           });
-          this.onReset();
           this.getOferta();
+          this.onReset();
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -865,32 +875,32 @@ export default {
           }
         });
     },
-    /* onReset() {
-       this.tipoCurso = "",
-      this.costo= "",
-      this.minAlum= "",
-      this.maxAlum= "",
-      this.fechaPeriodo= "",
-      this.fechaInicio= "",
-      this.fechaFin= "",
-      this.modalidad= "",
-      this.division= "",
-      this.clasificacion= "", 
-      this.docente= "",
-      this.curso= "",
-      this.tipoCursoEdit= "", 
-      this.costoEdit= "",
-      this.minAlumEdit= "",
-      this.maxAlumEdit= "",
-      this.fechaPeriodoEdit= "",
-      this.fechaInicioEdit= "",
-      this.fechaFinEdit= "",
-      this.modalidadEdit = "",
-      this.divisionEdit= "",
-      this.clasificacionEdit = "", 
-      this.docenteEdit = "",
-      this.cursoEdit = "",
-    }, */
+    onReset() {
+      this.curso = "";
+      this.costo= "";
+      this.minAlum= "";
+      this.maxAlum= "";
+      this.fechaPeriodo= "";
+      this.fechaInicio= "";
+      this.fechaFin= "";
+      this.modalidad= "";
+      this.division= "";
+      this.clasificacion= "";
+      this.docente= "";
+      this.curso= "";
+      this.tipoCursoEdit= "";
+      this.costoEdit= "";
+      this.minAlumEdit= "";
+      this.maxAlumEdit= "";
+      this.fechaPeriodoEdit= "";
+      this.fechaInicioEdit= "";
+      this.fechaFinEdit= "";
+      this.modalidadEdit = "";
+      this.divisionEdit= "";
+      this.clasificacionEdit = "";
+      this.docenteEdit = "";
+      this.cursoEdit = "";
+    },
     status(validation) {
       return {
         error: validation.$error,

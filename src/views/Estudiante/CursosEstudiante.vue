@@ -202,7 +202,7 @@ export default {
   methods: {
     getCursosOferta() {
       api
-        .doGet("cursos/oferta")
+        .doGet("cursos/ofertaActivo")
         .then((response) => {
           this.ofertas = response.data;
           let arrFechaI = [];

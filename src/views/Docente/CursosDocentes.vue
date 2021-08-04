@@ -1,6 +1,6 @@
 <template>
   <div class="fondo">
-    <div><HeaderDocente/></div>
+    <div><HeaderDocente /></div>
     <div class="row" style="margin-top: 2%">
       <div class="offset-8 col-3">
         <div class="row px-2">
@@ -24,128 +24,83 @@
         </div>
       </div>
     </div>
-    <!-- Modal de detalles del curso -->
-      <b-modal
-        ref="cursos-modalDetalles"
-        size="lg"
-        hide-footer
-        title="Detalles del curso"
-      >
-        <div class="row">
-          <div>
-            <div class="row">
-              <div class="col-12">
-                <h6>Título:</h6>
-                {{ curso }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Descripción:</h6>
-                {{ descripcion }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Requisitos:</h6>
-                {{ requisitos }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Temario:</h6>
-                {{ temario }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Duración:</h6>
-                {{ duracion }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Costo:</h6>
-                ${{ costo }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Periodo:</h6>
-                {{ fechaPeriodo }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Fecha de inicio:</h6>
-                {{ fechaInicio }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Fecha de finalización:</h6>
-                {{ fechaFin }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>División:</h6>
-                {{ division }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Modalidad:</h6>
-                {{ modalidad }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Clasificación:</h6>
-                {{ clasificacion }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Docente:</h6>
-                {{ docenteNombre }} {{ docenteApellidoP }}
-                {{ docenteApellidoM }}
-              </div>
-              <div class="linea"></div>
-              <div class="col-12">
-                <h6>Tipo de curso:</h6>
-                {{ tipoCurso }}
-              </div>
+    <!-- Tabs de los cursos finalizados y en curso -->
+    <div class="container">
+      <b-tabs content-class="mt-6">
+        <b-tab title="En Curso" active>
+          <div class="row" style="margin-top: 2%">
+            <div class="col-10 centrar" style="background-color: #f8f8f8">
+              <table class="table table-borderless table-hover">
+                <thead class="table-success">
+                  <tr style="color: white">
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Requisitos</th>
+                    <th scope="col">Temario</th>
+                    <th scope="col">Duración</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(oferta, item) in listaOfertasActivas"
+                    :key="oferta.idOferta"
+                  >
+                    <th>{{ item + 1 }}</th>
+                    <td>{{ oferta.cursos[0].titulo }}</td>
+                    <td>{{ oferta.cursos[0].descripcion }}</td>
+                    <td>{{ fechaInicioCard[item] }}</td>
+                    <td>{{ fechaFinCard[item] }}</td>
+                    <td>{{ oferta.cursos[0].duracion }}</td>
+                    <td>
+                      <b-button
+                        @click="recuperarOferta(oferta.idOferta)"
+                        variant="outline-primary"
+                        ><b-icon icon="arrow-left-right" aria-hidden="true"></b-icon
+                      ></b-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <hr />
           </div>
-          <div>
-            <b-button
-              class="mt-2"
-              variant="outline-danger"
-              style="margin: 5px; float: right"
-              block
-              @click="hideModalDetalles"
-              >Cerrar
-            </b-button>
+        </b-tab>
+        <b-tab title="Finalizado">
+          <div class="row" style="margin-top: 2%">
+            <div class="col-10 centrar" style="background-color: #f8f8f8">
+              <table class="table table-borderless table-hover">
+                <thead class="table-success">
+                  <tr style="color: white">
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Requisitos</th>
+                    <th scope="col">Temario</th>
+                    <th scope="col">Duración</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(oferta, item) in listaOfertasFinalizadas"
+                    :key="oferta.idOferta"
+                  >
+                    <th>{{ item + 1 }}</th>
+                    <td>{{ oferta.titulo }}</td>
+                    <td>{{ oferta.descripcion }}</td>
+                    <td>{{ oferta.requisitos }}</td>
+                    <td>{{ oferta.temario }}</td>
+                    <td>{{ oferta.duracion }}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </b-modal>
-
-      <!-- Cards de Cursos ofertados  -->
-      <div class="row">
-        <div
-          class="card col-3 mx-5"
-          style="margin-top: 1%"
-          v-for="(oferta,item) in listaOfertas"
-          :key="oferta.idOferta"
-        >
-          <div class="card-body" >
-            <h5 class="card-title">{{ oferta.cursos[0].titulo }}</h5>
-            <h6 class="card-subtitle">${{ oferta.costo }}</h6>
-            <br />
-            <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
-            <p class="card-text" >Inicio del curso: {{ fechaInicioCard[item] }}</p>
-            <p class="card-text">
-              Finalización del curoso: {{ fechaFinCard[item] }}
-            </p>
-            <b-button
-              variant="outline-primary"
-              style="float: right; margin-left: 2%"
-              @click="mostrarModalDetalles(oferta.idOferta)"
-              >Ver detalles
-            </b-button>
-          </div>
-        </div>
-      </div>
+        </b-tab>
+      </b-tabs>
+    </div>
     <div><Footer class="fixed-bottom" /></div>
   </div>
 </template>
@@ -162,7 +117,8 @@ export default {
   },
   data() {
     return {
-      listaOfertas: [],
+      listaOfertasActivas: [],
+      listaOfertasFinalizadas:[],
       requisitos: "",
       temario: "",
       duracion: "",
@@ -181,36 +137,25 @@ export default {
       tipoCurso: "",
       fechaFinCard: [],
       fechaInicioCard: [],
+      idDoccente: "",
+      oferta:{}
     };
   },
   beforeMount() {
-    this.getOfertaCursos();
+    this.getIdDocente();  
   },
   methods: {
-    getOfertaCursos() {
+    getIdDocente() {
+      let nickname = localStorage.username;
       api
-        .doGet("cursos/oferta")
+        .doGet("cursos/usuario/get/" + nickname)
         .then((response) => {
-          this.listaOfertas = response.data          
-          let arrFechaI = [];
-          let arrFechaF = [];
-          for(let i=0; i<this.listaOfertas.length; i++){
-            arrFechaF.push(this.listaOfertas[i].fechaFin);
-            arrFechaI.push(this.listaOfertas[i].fechaInicio);
-            
-          }
-          for(let j=0; j< arrFechaI.length; j++){
-            let date  = new Date(arrFechaI[j]);
-            this.fechaInicioCard[j] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
-          }
-          for(let k=0; k< arrFechaF.length; k++){
-            let date  = new Date(arrFechaF[k]);
-            this.fechaFinCard[k] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
-          }
-          })
+          //this.idDoccente = response.data.idUsuario;
+          this.getOfertaCursosActivo(response.data.idUsuario)
+        })
         .catch((error) => {
           let errorResponse = error.response.data;
-          
+
           if (errorResponse.errorExists) {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
@@ -230,32 +175,158 @@ export default {
             });
           }
         });
-      console.log(this.listaOfertas);
     },
-    mostrarModalDetalles(id) {
+    getOfertaCursosActivo(id) {   
+      api
+        .doGet("cursos/ofertaDocente/" + id)
+        .then((response) => {
+          this.listaOfertasActivas = response.data;
+          console.log(response.data);
+          let arrFechaI = [];
+          let arrFechaF = [];
+          for (let i = 0; i < this.listaOfertasActivas.length; i++) {
+            arrFechaF.push(this.listaOfertasActivas[i].fechaFin);
+            arrFechaI.push(this.listaOfertasActivas[i].fechaInicio);
+          }
+          for (let j = 0; j < arrFechaI.length; j++) {
+            let date = new Date(arrFechaI[j]);
+            this.fechaInicioCard[j] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
+          }
+          for (let k = 0; k < arrFechaF.length; k++) {
+            let date = new Date(arrFechaF[k]);
+            this.fechaFinCard[k] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
+          }
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
+      
+    },
+    getOfrtasFinalaizadas(id){
+        api
+        .doGet("cursos/ofertaDocenteInactivo/" + id)
+        .then((response) => {
+          this.listaOfertasActivas = response.data;
+          console.log(response.data);
+          /*let arrFechaI = [];
+          let arrFechaF = [];
+          for (let i = 0; i < this.listaOfertas.length; i++) {
+            arrFechaF.push(this.listaOfertas[i].fechaFin);
+            arrFechaI.push(this.listaOfertas[i].fechaInicio);
+          }
+          for (let j = 0; j < arrFechaI.length; j++) {
+            let date = new Date(arrFechaI[j]);
+            this.fechaInicioCard[j] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
+          }
+          for (let k = 0; k < arrFechaF.length; k++) {
+            let date = new Date(arrFechaF[k]);
+            this.fechaFinCard[k] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
+          }*/
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
+    },
+    recuperarOferta(id) {
       api
         .doGet("cursos/oferta/" + id)
         .then((response) => {
-          let fechaP = new Date(response.data.fechaPeriodoInscripcion);
-          let fechaI = new Date(response.data.fechaInicio);
-          let fechaF = new Date(response.data.fechaFin);
-          this.costo = response.data.costo;
-          this.fechaPeriodo = (fechaP.getDate()+1)+ "-"+(fechaP.getMonth()+1)+"-"+fechaP.getFullYear();
-          this.fechaInicio = (fechaI.getDate()+1)+"-"+(fechaI.getMonth()+1)+"-"+fechaI.getFullYear();
-          this.fechaFin = (fechaF.getDate()+1)+"-"+(fechaF.getMonth()+1)+"-"+fechaF.getFullYear();
-          this.modalidad = response.data.modalidades[0].modalidad;
-          this.division = response.data.divisiones[0].division;
-          this.clasificacion = response.data.clasificaciones[0].clasificacion;
-          this.docenteNombre = response.data.docentes[0].nombre;
-          this.docenteApellidoP = response.data.docentes[0].apellidoPaterno;
-          this.docenteApellidoM = response.data.docentes[0].apellidoMaterno;
-          this.curso = response.data.cursos[0].titulo;
-          this.descripcion = response.data.cursos[0].descripcion;
-          this.requisitos = response.data.cursos[0].requisitos;
-          this.temario = response.data.cursos[0].temario;
-          this.duracion = response.data.cursos[0].duracion;
-          this.tipoCurso = response.data.tipoCurso;
-          this.ofertaId = response.data.idOferta;
+          console.log(response.data);
+          this.cambiarEstado(id,response.data);
+        })
+    },
+    cambiarEstado(id,data) {     
+      this.oferta = {
+        costo: data.costo,
+        minimoParticipantes: data.minimoParticipantes,
+        maximoParticipantes: data.maximoParticipantes,
+        fechaPeriodoInscripcion: data.fechaPeriodoInscripcion,
+        fechaInicio: data.fechaInicio,
+        fechaFin: data.fechaFin,
+        tipoCurso: data.tipoCurso,
+        estado: "finalizado",
+        cursos: [{ idCurso: data.cursos[0].idCurso }],
+        modalidades: [
+          { idModalidad: data.modalidades[0].idModalidad },
+        ],
+        divisiones: [{ idDivision: data.divisiones[0].idDivision}],
+        clasificaciones: [
+          { idClasificacion: data.clasificaciones[0].idClasificacion },
+        ],
+        docente: { idUsuario: data.docente.idUsuario },
+        idOferta: id,
+      };
+      console.log(this.oferta)
+      /*api
+        .doPut("cursos/oferta", this.oferta)
+        .then(() => {
+          this.$swal({
+            title: "Se cambio el estado exitosamente",
+            icon: "success",
+          });
+          this.getIdDocente();
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -273,17 +344,14 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
-        });
-
-      this.$refs["cursos-modalDetalles"].show();
+        });*/
     },
-    hideModalDetalles() {
-      this.$refs["cursos-modalDetalles"].hide();
-    },
+    
   },
 };
 </script>

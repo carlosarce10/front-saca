@@ -692,6 +692,7 @@ export default {
         fechaInicio: this.fechaInicio,
         fechaFin: this.fechaFin,
         tipoCurso: this.tipoCurso,
+        estado:"inactivo",
         cursos: [{ idCurso: this.curso }],
         modalidades: [{ idModalidad: this.modalidad }],
         divisiones: [{ idDivision: this.division }],

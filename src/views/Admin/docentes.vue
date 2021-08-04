@@ -505,7 +505,6 @@ export default {
       direccion: "",
       usuario: {},
       usuarios: [],
-
       nombreE: "",
       apellidoPaternoE: "",
       apellidoMaternoE: "",

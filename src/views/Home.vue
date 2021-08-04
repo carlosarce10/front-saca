@@ -221,7 +221,7 @@ export default {
           let fechaI = new Date(response.data.fechaInicio);
           let fechaF = new Date(response.data.fechaFin);
           this.costo = response.data.costo;
-          this.fechaPeriodo = response.data.fechaPeriodoInscripcion
+          this.fechaPeriodo = response.data.fechaPeriodoInscripcion;
           this.fechaInicio = (fechaI.getDate()+1)+"-"+(fechaI.getMonth()+1)+"-"+fechaI.getFullYear();
           this.fechaFin = (fechaF.getDate()+1)+"-"+(fechaF.getMonth()+1)+"-"+fechaF.getFullYear();
           this.modalidad = response.data.modalidades[0].modalidad;

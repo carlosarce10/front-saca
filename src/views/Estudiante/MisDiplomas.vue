@@ -1,20 +1,19 @@
 <template>
   <div class="fondo">
     <div><HeaderEstudiante /></div>
-    <h1>Mis Cursos</h1>
-    <!-- Cards de Cursos ofertados  -->
+    <!-- Cards de Cursos inscritos  -->
     <div class="row">
       <div
         class="card col-3 mx-5"
         style="margin-top: 1%; "
-        v-for="(oferta,item) in ofertas"
-        :key="oferta.idOferta"
+        v-for="(inscripcion, item) in inscripciones"
+        :key="inscripcion.idInscripcion"
       >
         <div class="card-body">
-          <h5 class="card-title">{{ oferta.cursos[0].titulo }}</h5>
-          <h6 class="card-subtitle">${{ oferta.costo }}</h6>
+          <h5 class="card-title">{{ inscripcion.oferta.cursos[0].titulo }}</h5>
+          <h6 class="card-subtitle">${{ inscripcion.oferta.costo }}</h6>
           <br />
-          <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
+          <h6 class="card-text">{{ inscripcion.oferta.cursos[0].descripcion }}</h6>
           <p class="card-text">Inicio del curso: {{ fechaInicioCard[item] }}</p>
           <p class="card-text">
             Finalización del curoso: {{ fechaFinCard[item] }}
@@ -22,15 +21,8 @@
           <b-button
             variant="outline-primary"
             style="float: right; margin-left: 2%"
-            @click="mostrarModalDetalles(oferta.idOferta)"
-            >Ver detalles
-          </b-button>
-          <b-button
-            variant="outline-success"
-            @click="inscribir(oferta.idOferta)"
-            style="float: right"
-          >
-            Inscribir
+            @click="mostrarModalDetalles(inscripcion.idInscripcion)"
+            >Ver asistencias
           </b-button>
         </div>
       </div>
@@ -69,42 +61,60 @@ export default {
       tipoCurso: "",
       ofertaId: "",
       inscripcion: {},
-      ofertas: [],
+      inscripciones: [],
       status: "",
       id_oferta: "",
       usuario_id_usuario: "",
       fechaInicioCard: [],
-      fechaFinCard:[]
+      fechaFinCard: [],
+      idEstudiante: "",
     };
   },
   beforeMount() {
-    this.getCursosOferta();
-  
+    this.getId();
   },
   methods: {
-    getCursosOferta() {
+    getId() {
+      let nickname = localStorage.username;
+      api.doGet("cursos/usuario/get/" + nickname).then((response) => {
+        this.getCursosOferta(response.data.idUsuario);
+      });
+    },
+    getCursosOferta(id) {
+      console.log("aidi")
       api
-        .doGet("cursos/oferta")
+        .doGet("cursos/inscripcion/inscripcionAceptada/" + id)
         .then((response) => {
-          console.log("Estado: " + response.data)
-          this.ofertas = response.data;
+          this.inscripciones = response.data;
+          console.log(this.inscripciones);
           let arrFechaI = [];
           let arrFechaF = [];
-          for(let i=0; i<this.ofertas.length; i++){
-            arrFechaF.push(this.ofertas[i].fechaFin);
-            arrFechaI.push(this.ofertas[i].fechaInicio);
-            
+          for (let i = 0; i < this.inscripciones.length; i++) {
+            console.log(this.inscripciones.oferta)
+            arrFechaF.push(this.inscripciones[i].oferta.fechaFin);
+            arrFechaI.push(this.inscripciones[i].oferta.fechaInicio);
           }
 
-          for(let j=0; j< arrFechaI.length; j++){
-            let date  = new Date(arrFechaI[j]);
-            this.fechaInicioCard[j] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+          for (let j = 0; j < arrFechaI.length; j++) {
+            let date = new Date(arrFechaI[j]);
+            this.fechaInicioCard[j] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
           }
-          for(let k=0; k< arrFechaF.length; k++){
-            let date  = new Date(arrFechaF[k]);
-            this.fechaFinCard[k] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+          for (let k = 0; k < arrFechaF.length; k++) {
+            let date = new Date(arrFechaF[k]);
+            this.fechaFinCard[k] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
           }
-
         })
         .catch((error) => {
           let errorResponse = error.response.data;

@@ -124,7 +124,7 @@
       <div
         class="card col-3 mx-5"
         style="margin-top: 1%; "
-        v-for="(oferta,item) in ofertas"
+        v-for="(oferta, item) in ofertas"
         :key="oferta.idOferta"
       >
         <div class="card-body">
@@ -191,8 +191,8 @@ export default {
       id_oferta: "",
       usuario_id_usuario: "",
       fechaInicioCard: [],
-      fechaFinCard:[],
-      listaIncripcion:[]
+      fechaFinCard: [],
+      listaIncripcion: [],
     };
   },
   beforeMount() {
@@ -207,21 +207,31 @@ export default {
           this.ofertas = response.data;
           let arrFechaI = [];
           let arrFechaF = [];
-          for(let i=0; i<this.ofertas.length; i++){
+          for (let i = 0; i < this.ofertas.length; i++) {
             arrFechaF.push(this.ofertas[i].fechaFin);
             arrFechaI.push(this.ofertas[i].fechaInicio);
-            
           }
 
-          for(let j=0; j< arrFechaI.length; j++){
-            let date  = new Date(arrFechaI[j]);
-            this.fechaInicioCard[j] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+          for (let j = 0; j < arrFechaI.length; j++) {
+            let date = new Date(arrFechaI[j]);
+            this.fechaInicioCard[j] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
           }
-          for(let k=0; k< arrFechaF.length; k++){
-            let date  = new Date(arrFechaF[k]);
-            this.fechaFinCard[k] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+          for (let k = 0; k < arrFechaF.length; k++) {
+            let date = new Date(arrFechaF[k]);
+            this.fechaFinCard[k] =
+              date.getDate() +
+              1 +
+              "-" +
+              (date.getMonth() + 1) +
+              "-" +
+              date.getFullYear();
           }
-
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -249,7 +259,7 @@ export default {
     inscribir(idOferta) {
       console.log(idOferta);
       this.inscripcion = {
-        estatus: "espera",
+        estatus: "en espera",
         oferta: {
           idOferta: idOferta,
         },
@@ -257,13 +267,28 @@ export default {
           nickname: localStorage.username,
         },
       };
-      api
-        .doPost("cursos/inscripcion", this.inscripcion)
-        .then(() => {
-          this.$swal({
-            title: "Se inscribio exitosamente exitosamente",
-            icon: "success",
-          });
+      this.$swal({
+        title: "¿Estás seguro que te deseas inscribir en este curso?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#64b5f6",
+        cancelButtonColor: "#ff7674",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+        reverseButtons: true,
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            api
+              .doPost("cursos/inscripcion", this.inscripcion)
+              .then(() => {
+                this.$swal({
+                  title: "¡Se ha mandado tu solicitud, realiza tu pago para ingresar al curso!",
+                  icon: "success",
+                });
+                this.getCursosOferta();
+              })
+          }
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -294,7 +319,7 @@ export default {
         .then((response) => {
           let fechaP = response.data.fechaPeriodoInscripcion.split("T");
           let fechaI = response.data.fechaInicio.split("T");
-          let fechaF = response.data.fechaFin.split("T"); 
+          let fechaF = response.data.fechaFin.split("T");
           this.costo = response.data.costo;
           this.fechaPeriodo = fechaP[0];
           this.fechaInicio = fechaI[0];
@@ -341,12 +366,12 @@ export default {
     hideModalDetalles() {
       this.$refs["cursos-modalDetalles"].hide();
     },
-    getInscripcion(){
+    getInscripcion() {
       api
         .doGet("cursos/inscripcion")
         .then((response) => {
           this.listaIncripcion = response.data;
-          console.log(this.listaIncripcion)
+          console.log(this.listaIncripcion);
         })
         .catch((error) => {
           let errorResponse = error.response.data;

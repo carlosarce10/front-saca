@@ -794,7 +794,7 @@ export default {
             .doDelete("cursos/oferta/" + id)
             .then(() => {
               this.$swal({
-                title: "!Oferta eliminada exitosamente!",
+                title: "¡Oferta eliminada exitosamente!",
                 icon: "success",
               });
               this.getOferta();

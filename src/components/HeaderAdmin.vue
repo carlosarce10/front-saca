@@ -29,7 +29,7 @@
           class="text-decoration-none"
           variant="link"
           href="/administrador/inicio"
-          >Inicio</b-button
+          >Solicitudes</b-button
         ><br />
         <b-button
           style="color: #707273"

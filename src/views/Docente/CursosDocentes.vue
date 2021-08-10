@@ -41,9 +41,10 @@
                     <th scope="col">Duración</th>
                     <th scope="col">Acciones</th>
                   </tr>
-                </thead>
+                </thead>                
                 <tbody>
-                  <tr
+                                                     
+                  <tr                   
                     v-for="(oferta, item) in listaOfertasActivas"
                     :key="oferta.idOferta"
                   >
@@ -61,8 +62,11 @@
                       ></b-button>
                     </td>
                   </tr>
-                </tbody>
+                </tbody>                 
               </table>
+              <div class="alert alert-success" role="alert" v-if="listaOfertasActivas.length === 0">
+                No hay cursos disponibles
+              </div>
             </div>
           </div>
         </b-tab>
@@ -83,19 +87,29 @@
                 </thead>
                 <tbody>
                   <tr
+                   
                     v-for="(oferta, item) in listaOfertasFinalizadas"
                     :key="oferta.idOferta"
                   >
-                    <th>{{ item + 1 }}</th>
-                    <td>{{ oferta.titulo }}</td>
-                    <td>{{ oferta.descripcion }}</td>
-                    <td>{{ oferta.requisitos }}</td>
-                    <td>{{ oferta.temario }}</td>
-                    <td>{{ oferta.duracion }}</td>
-                    <td></td>
+                   <th>{{ item + 1 }}</th>
+                    <td>{{ oferta.cursos[0].titulo }}</td>
+                    <td>{{ oferta.cursos[0].descripcion }}</td>
+                    <td>{{ fechaInicioCard[item] }}</td>
+                    <td>{{ fechaFinCard[item] }}</td>
+                    <td>{{ oferta.cursos[0].duracion }}</td>
+                    <td>
+                      <b-button
+                        @click="liberarCurso(oferta.idOferta)"
+                        variant="outline-primary"
+                        ><b-icon icon="arrow-left-right" aria-hidden="true"></b-icon
+                      ></b-button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
+              <div class="alert alert-success" role="alert" v-if="listaOfertasFinalizadas.length === 0">
+                No hay cursos disponibles
+              </div>
             </div>
           </div>
         </b-tab>
@@ -152,6 +166,7 @@ export default {
         .then((response) => {
           //this.idDoccente = response.data.idUsuario;
           this.getOfertaCursosActivo(response.data.idUsuario)
+          this.getOfrtasFinalaizadas(response.data.idUsuario);
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -235,15 +250,15 @@ export default {
     },
     getOfrtasFinalaizadas(id){
         api
-        .doGet("cursos/ofertaDocenteInactivo/" + id)
+        .doGet("cursos/ofertaDocenteFinalizado/" + id)
         .then((response) => {
-          this.listaOfertasActivas = response.data;
+          this.listaOfertasFinalizadas = response.data;
           console.log(response.data);
-          /*let arrFechaI = [];
+          let arrFechaI = [];
           let arrFechaF = [];
-          for (let i = 0; i < this.listaOfertas.length; i++) {
-            arrFechaF.push(this.listaOfertas[i].fechaFin);
-            arrFechaI.push(this.listaOfertas[i].fechaInicio);
+          for (let i = 0; i < this.listaOfertasFinalizadas.length; i++) {
+            arrFechaF.push(this.listaOfertasFinalizadas[i].fechaFin);
+            arrFechaI.push(this.listaOfertasFinalizadas[i].fechaInicio);
           }
           for (let j = 0; j < arrFechaI.length; j++) {
             let date = new Date(arrFechaI[j]);
@@ -264,7 +279,7 @@ export default {
               (date.getMonth() + 1) +
               "-" +
               date.getFullYear();
-          }*/
+          }
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -319,7 +334,7 @@ export default {
         idOferta: id,
       };
       console.log(this.oferta)
-      /*api
+      api
         .doPut("cursos/oferta", this.oferta)
         .then(() => {
           this.$swal({
@@ -349,9 +364,11 @@ export default {
               icon: "error",
             });
           }
-        });*/
+        });
     },
-    
+    liberarCurso(){
+      
+    },
   },
 };
 </script>

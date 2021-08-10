@@ -60,6 +60,9 @@
             </tr>
           </tbody>
         </table>
+        <div class="alert alert-success" role="alert" v-if="listaOfertasActivas.length === 0">
+          No hay cursos disponibles
+        </div>
       </div>
     </div>
     <div><Footer class="fixed-bottom" /></div>

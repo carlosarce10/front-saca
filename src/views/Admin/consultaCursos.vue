@@ -190,7 +190,9 @@
             </tr>
           </tbody>
         </table>
-
+        <div class="alert alert-success" role="alert" v-if="listCursos.length === 0">
+          No hay cursos registrados
+        </div>
         <!-- Modal editar -->
         <b-modal ref="my-modalE" hide-footer title="Editar">
           <div>

@@ -284,6 +284,9 @@
             </tr>
           </tbody>
         </table>
+        <div class="alert alert-success" role="alert" v-if="usuarios.length === 0">
+          No hay usuarios registrados
+        </div>
         <!-- Modal editar -->
         <b-modal ref="docentes-modalEdit" hide-footer title="Editar">
           <div class="row">

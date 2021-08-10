@@ -68,6 +68,9 @@
             </tr>
           </tbody>
         </table>
+        <div class="alert alert-success" role="alert" v-if="ofertas.length === 0">
+          No hay solicitudes de  inscripciones
+        </div>
       </div>
     </div>
     <!-- Modal de detalles del curso -->

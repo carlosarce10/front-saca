@@ -29,7 +29,7 @@
           class="text-decoration-none"
           variant="link"
           href="/administrador/inicio"
-          >Solicitudes</b-button
+          >Solicitudes de inscripción</b-button
         ><br />
         <b-button
           style="color: #707273"

@@ -35,11 +35,11 @@
     </div>
 
     <!-- form del modal -->
-    <b-modal ref="docentes-modal" hide-footer title="Registro">
+    <b-modal size="lg" ref="docentes-modal" hide-footer title="Registro">
       <div class="row">
         <div>
           <div class="row">
-            <div class="col-5 centrar">
+            <div class="col-3 centrar">
               <b-form-input
                 id="nombre"
                 type="text"
@@ -56,7 +56,7 @@
               </div>
             </div>
             <br />
-            <div class="col-5 centrar">
+            <div class="col-3 centrar">
               <b-form-input
                 id="apellidoA"
                 type="text"
@@ -72,16 +72,13 @@
                 Este campo no puede ir vacío
               </div>
             </div>
-          </div>
-          <br />
-          <div class="row">
-            <div class="col-5 centrar">
+            <div class="col-3 centrar">
               <b-form-input
                 id="apellidoM"
                 type="text"
                 v-model="$v.apellidoMaterno.$model"
                 :class="status($v.apellidoMaterno)"
-                placeholder="Apellido Materno"
+                placeholder="Apellido materno"
                 required
               />
               <div
@@ -91,27 +88,10 @@
                 Este campo no puede ir vacío
               </div>
             </div>
-            <br />
-            <div class="col-5 centrar">
-              <b-form-input
-                id="nickname"
-                type="text"
-                v-model="$v.nickname.$model"
-                :class="status($v.nickname)"
-                placeholder="Nickname"
-                required
-              />
-              <div
-                class="error errorMsg"
-                v-if="!$v.nickname.required && $v.nickname.$dirty"
-              >
-                Este campo no puede ir vacío
-              </div>
-            </div>
           </div>
           <br />
           <div class="row">
-            <div class="col-11 centrar">
+            <div class="col-4 centrar">
               <b-form-input
                 id="email"
                 type="text"
@@ -127,11 +107,7 @@
                 Este campo no puede ir vacío
               </div>
             </div>
-            <br />
-          </div>
-          <br />
-          <div class="row">
-            <div class="col-5 centrar">
+            <div class="col-3 centrar">
               <b-form-input
                 id="pass1"
                 type="password"
@@ -148,7 +124,7 @@
               </div>
             </div>
             <br />
-            <div class="col-5 centrar">
+            <div class="col-3 centrar">
               <b-form-input
                 id="pass2"
                 type="password"
@@ -172,27 +148,11 @@
                 La contraseña no coincide
               </div>
             </div>
-          </div>
-          <br />
-          <div class="row">
-            <div class="col-11 centrar">
-              <b-form-input
-                id="direccion"
-                type="text"
-                v-model="$v.direccion.$model"
-                :class="status($v.direccion)"
-                placeholder="Dirección"
-                required
-              />
-              <div
-                class="error errorMsg"
-                v-if="!$v.direccion.required && $v.direccion.$dirty"
-              >
-                Este campo no puede ir vacío
-              </div>
-            </div>
             <br />
           </div>
+          <br />
+          <div class="row"></div>
+          <br />
           <hr />
         </div>
         <div>
@@ -210,14 +170,10 @@
                 $v.apellidoPaterno.$dirty &&
                 !$v.apellidoMaterno.$invalid &&
                 $v.apellidoMaterno.$dirty &&
-                !$v.nickname.$invalid &&
-                $v.nickname.$dirty &&
                 !$v.email.$invalid &&
                 $v.email.$dirty &&
                 !$v.password.$invalid &&
                 $v.password.$dirty &&
-                !$v.direccion.$invalid &&
-                $v.direccion.$dirty &&
                 !$v.passwordRepeat.$invalid &&
                 $v.passwordRepeat.$dirty
               )
@@ -246,7 +202,7 @@
               <th scope="col">Nombre(s)</th>
               <th scope="col">Apellido Paterno</th>
               <th scope="col">Apellido Materno</th>
-              <th scope="col">Correo</th>
+              <th scope="col">Correo electrónico</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -284,16 +240,20 @@
             </tr>
           </tbody>
         </table>
-        <div class="alert alert-success" role="alert" v-if="usuarios.length === 0">
+        <div
+          class="alert alert-success"
+          role="alert"
+          v-if="usuarios.length === 0"
+        >
           No hay usuarios registrados
         </div>
         <!-- Modal editar -->
-        <b-modal ref="docentes-modalEdit" hide-footer title="Editar">
+        <b-modal size="lg" ref="docentes-modalEdit" hide-footer title="Editar">
           <div class="row">
             <div>
               <div class="row">
-                <div class="col-5 centrar">
-                  <label for="">Nombre</label>
+                <div class="col-3 centrar">
+                  <h6 for="">Nombre</h6>
                   <b-form-input
                     id="nombreE"
                     type="text"
@@ -309,8 +269,8 @@
                   </div>
                 </div>
                 <br />
-                <div class="col-5 centrar">
-                  <label for="">Apellidos Paterno</label>
+                <div class="col-3 centrar">
+                  <h6 for="">Apellidos Paterno</h6>
                   <b-form-input
                     id="apellidoAE"
                     type="text"
@@ -328,11 +288,8 @@
                     Este campo no puede ir vacío
                   </div>
                 </div>
-              </div>
-              <br />
-              <div class="row">
-                <div class="col-5 centrar">
-                  <label for="">Apellido Materno</label>
+                <div class="col-3 centrar">
+                  <h6 for="">Apellido Materno</h6>
                   <b-form-input
                     id="apellidoME"
                     type="text"
@@ -350,28 +307,11 @@
                     Este campo no puede ir vacío
                   </div>
                 </div>
-                <br />
-                <div class="col-5 centrar">
-                  <label for="">Nickname</label>
-                  <b-form-input
-                    id="nicknameE"
-                    type="text"
-                    v-model="$v.nicknameE.$model"
-                    :class="status($v.nicknameE)"
-                    required
-                  />
-                  <div
-                    class="error errorMsg"
-                    v-if="!$v.nicknameE.required && $v.nicknameE.$dirty"
-                  >
-                    Este campo no puede ir vacío
-                  </div>
-                </div>
               </div>
               <br />
               <div class="row">
-                <div class="col-11 centrar">
-                  <label for="">Email</label>
+                <div class="col-4 centrar">
+                  <h6 for="">Correo electrónico</h6>
                   <b-form-input
                     id="emailE"
                     type="text"
@@ -386,12 +326,8 @@
                     Este campo no puede ir vacío
                   </div>
                 </div>
-                <br />
-              </div>
-              <br />
-              <div class="row">
-                <div class="col-5 centrar">
-                  <label for="">Cotraseña</label>
+                <div class="col-3 centrar">
+                  <h6 for="">Cotraseña</h6>
                   <b-form-input
                     id="pass1"
                     type="password"
@@ -407,8 +343,8 @@
                   </div>
                 </div>
                 <br />
-                <div class="col-5 centrar">
-                  <label for="">Confirmar Contraseña</label>
+                <div class="col-3 centrar">
+                  <h6 for="">Confirmar Contraseña</h6>
                   <b-form-input
                     id="pass2"
                     type="password"
@@ -434,27 +370,9 @@
                     La contraseña no coincide
                   </div>
                 </div>
-              </div>
-              <br />
-              <div class="row">
-                <div class="col-11 centrar">
-                  <label for="">Dirección</label>
-                  <b-form-input
-                    id="direccion"
-                    type="text"
-                    v-model="$v.direccionE.$model"
-                    :class="status($v.direccionE)"
-                    required
-                  />
-                  <div
-                    class="error errorMsg"
-                    v-if="!$v.direccionE.required && $v.direccionE.$dirty"
-                  >
-                    Este campo no puede ir vacío
-                  </div>
-                </div>
                 <br />
               </div>
+              <br />
               <hr />
             </div>
             <div>
@@ -501,21 +419,17 @@ export default {
       nombre: "",
       apellidoPaterno: "",
       apellidoMaterno: "",
-      nickname: "",
       email: "",
       password: "",
       passwordRepeat: "",
-      direccion: "",
       usuario: {},
       usuarios: [],
       nombreE: "",
       apellidoPaternoE: "",
       apellidoMaternoE: "",
-      nicknameE: "",
       emailE: "",
       passwordE: "",
       passwordRepeatE: "",
-      direccionE: "",
       usuarioE: {},
       idUsuarioE: "",
       roles: {},
@@ -542,10 +456,9 @@ export default {
         nombre: this.nombre,
         apellidoPaterno: this.apellidoPaterno,
         apellidoMaterno: this.apellidoMaterno,
-        nickname: this.nickname,
         email: this.email,
         password: this.password,
-        direccion: this.direccion,
+        direccion: "zapata",
       };
       api
         .doPost("cursos/docente/save", this.usuario)
@@ -661,11 +574,9 @@ export default {
       this.nombre = "";
       this.apellidoPaterno = "";
       this.apellidoMaterno = "";
-      this.nickname = "";
       this.email = "";
       this.password = "";
       this.passwordRepeat = "";
-      this.direccion = "";
     },
     recuperarUser(id) {
       console.log(id);
@@ -678,7 +589,9 @@ export default {
             (this.nicknameE = response.data.nickname),
             (this.emailE = response.data.email),
             (this.direccionE = response.data.direccion),
-            (this.idUsuarioE = response.data.idUsuario);
+            (this.idUsuarioE = response.data.idUsuario),
+            this.passwordE = response.data.password;
+            this.passwordRepeatE = response.data.password;
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -710,10 +623,9 @@ export default {
         nombre: this.nombreE,
         apellidoPaterno: this.apellidoPaternoE,
         apellidoMaterno: this.apellidoMaternoE,
-        nickname: this.nicknameE,
         email: this.emailE,
         password: this.passwordE,
-        direccion: this.direccionE,
+        direccion: "zapata",
       };
       api
         .doPut("cursos/docente/update", this.usuarioE)
@@ -761,20 +673,16 @@ export default {
     nombre: { required },
     apellidoPaterno: { required },
     apellidoMaterno: { required },
-    nickname: { required },
     email: { required },
     password: { required },
     passwordRepeat: { required, sameAspassword: sameAs("password") },
-    direccion: { required },
 
     nombreE: { required },
     apellidoPaternoE: { required },
     apellidoMaternoE: { required },
-    nicknameE: { required },
     emailE: { required },
     passwordE: { required },
     passwordRepeatE: { required, sameAspassword: sameAs("passwordE") },
-    direccionE: { required },
   },
 };
 </script>

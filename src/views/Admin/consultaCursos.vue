@@ -21,7 +21,7 @@
                 ></b-icon>
                 <input
                   class="buscador form-control"
-                  placeholder="  Buscar oferta..."
+                  placeholder="  Buscar cursos..."
                   aria-label="Search"
                 />
               </div>
@@ -160,7 +160,6 @@
               <th scope="col">#</th>
               <th scope="col">Titulo</th>
               <th scope="col">Descripción</th>
-              <th scope="col">Requisitos</th>
               <th scope="col">Temario</th>
               <th scope="col">Duración</th>
               <th scope="col">Acciones</th>
@@ -171,7 +170,6 @@
               <th>{{ item + 1 }}</th>
               <td>{{ curso.titulo }}</td>
               <td>{{ curso.descripcion }}</td>
-              <td>{{ curso.requisitos }}</td>
               <td>{{ curso.temario }}</td>
               <td>{{ curso.duracion }}</td>
               <td>
@@ -198,6 +196,7 @@
           <div>
             <b-form>
               <b-form-group id="input-group-1" style="padding: 5px">
+                <h6>Título</h6>
                 <b-form-input
                   id="tituloE"
                   v-model="$v.tituloE.$model"
@@ -214,6 +213,7 @@
                 Este campo no puede ir vacío
               </div>
               <b-form-group id="input-group-2" style="padding: 5px">
+                <h6>Descripción</h6>
                 <b-form-textarea
                   id="descripcionE"
                   v-model="$v.descripcionE.$model"
@@ -230,6 +230,7 @@
               </div>
 
               <b-form-group id="input-group-3" style="padding: 5px">
+                <h6>Requisitos</h6>
                 <b-form-textarea
                   id="requisitosE"
                   v-model="$v.requisitosE.$model"
@@ -246,6 +247,7 @@
               </div>
 
               <b-form-group id="input-group-4" style="padding: 5px">
+                <h6>Duración</h6>
                 <b-form-input
                   id="duracionE"
                   v-model="$v.duracionE.$model"
@@ -262,6 +264,7 @@
               </div>
 
               <b-form-group id="input-group-5" style="padding: 5px">
+                <h6>Temario</h6>
                 <b-form-textarea
                   id="temarioE"
                   v-model="$v.temarioE.$model"

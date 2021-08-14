@@ -19,7 +19,7 @@
           </div>
           <div class="col-8">
             <h4 style="color: #707273; font-family: 'Times New Roman'">
-              Administrador
+              Docente
             </h4>
           </div>
           <div class="linea"></div>

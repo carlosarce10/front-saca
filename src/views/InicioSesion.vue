@@ -1,54 +1,56 @@
 <template>
   <div class="row fondo">
-    <div class="offset-5 col">
+    <div class="offset-5 col-5">
       <img src="../assets/Logo-utez.png" class="logo" />
     </div>
-    <div class="offset-5 col-2 sesion">
-      <p class="fs-4 letter letra">Login</p>
-      <b-form>
-        <div class="col-11 mx-auto form-group">
-          <b-icon icon="person-circle" class="form-control-icon"></b-icon>
-          <b-form-input
-            class="form-control"
-            id="usuario"
-            v-model="$v.nickname.$model"
-            :class="status($v.nickname)"
-            type="text"
-            placeholder="Usuario"
-            required
-            style="margin-top: 5%"
-          />
+    <div class="centrarDiv">
+      <div class="col-3 sesion" style="padding-top: 1%">
+        <p class="fs-4 letter letra">Inicio de sesión</p>
+        <b-form style="padding-top: 1%">
+          <div class="col-11 mx-auto form-group">
+            <b-icon icon="person-circle" class="form-control-icon"></b-icon>
+            <b-form-input
+              class="form-control"
+              id="usuario"
+              v-model="$v.nickname.$model"
+              :class="status($v.nickname)"
+              type="text"
+              placeholder="Usuario"
+              required
+              style="margin-top: 5%"
+            />
+          </div>
+          <div class="col-11 mx-auto form-group">
+            <b-icon icon="lock-fill" class="form-control-icon"></b-icon>
+            <b-form-input
+              id="contrasenia"
+              v-model="$v.password.$model"
+              :class="status($v.password)"
+              type="password"
+              placeholder="Contraseña"
+              required
+              style="margin-top: 10%"
+            />
+          </div>
+        </b-form>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button
+            type="button"
+            style="margin-top: 35%;"
+            class="btn btn-outline-success"
+            @click="authenticate()"
+            :disabled="
+              !(
+                !$v.nickname.$invalid &&
+                $v.nickname.$dirty &&
+                !$v.password.$invalid &&
+                $v.password.$dirty
+              )
+            "
+          >
+            Iniciar
+          </button>
         </div>
-        <div class="col-11 mx-auto form-group">
-          <b-icon icon="lock-fill" class="form-control-icon"></b-icon>
-          <b-form-input
-            id="contrasenia"
-            v-model="$v.password.$model"
-            :class="status($v.password)"
-            type="password"
-            placeholder="Contraseña"
-            required
-            style="margin-top: 10%"
-          />
-        </div>
-      </b-form>
-      <div class="d-grid gap-2 col-6 mx-auto">
-        <button
-          type="button"
-          style="margin-top: 30%"
-          class="btn btn-outline-success"
-          @click="authenticate()"
-          :disabled="
-            !(
-              !$v.nickname.$invalid &&
-              $v.nickname.$dirty &&
-              !$v.password.$invalid &&
-              $v.password.$dirty
-            )
-          "
-        >
-          GO
-        </button>
       </div>
     </div>
   </div>
@@ -164,7 +166,7 @@ export default {
   background: #f8f8f8;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 20px;
-  padding-bottom: 3%;
+  padding-bottom: 4%;
   margin-top: 1%;
 }
 .letra {
@@ -174,5 +176,9 @@ export default {
 .row {
   align-content: center;
   flex: wrap;
+}
+.centrarDiv {
+  justify-content: center;
+  align-items: center;
 }
 </style>

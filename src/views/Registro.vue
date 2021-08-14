@@ -6,7 +6,7 @@
         <b-card-group deck>
           <b-card>
             <template #header>
-              <h4 style="color: #00ab84">Registrate!</h4>
+              <h4 style="color: #00ab84">Regístrate</h4>
             </template>
             <div class="row">
               <div class="col-3 centrar">
@@ -49,7 +49,7 @@
                   type="text"
                   v-model="$v.apellidoMaterno.$model"
                   :class="status($v.apellidoMaterno)"
-                  placeholder="Apellido Materno"
+                  placeholder="Apellido materno"
                   required
                 />
                 <div
@@ -57,60 +57,6 @@
                   v-if="
                     !$v.apellidoMaterno.required && $v.apellidoMaterno.$dirty
                   "
-                >
-                  Este campo no puede ir vacío
-                </div>
-              </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col-3 centrar">
-                <b-form-input
-                  id="nickname"
-                  type="text"
-                  v-model="$v.nickname.$model"
-                  :class="status($v.nickname)"
-                  placeholder="Nickname"
-                  required
-                />
-                <div
-                  class="error errorMsg"
-                  v-if="!$v.nickname.required && $v.nickname.$dirty"
-                >
-                  Este campo no puede ir vacío
-                </div>
-              </div>
-              <div class="col-7 centrar">
-                <b-form-input
-                  id="email"
-                  type="text"
-                  v-model="$v.email.$model"
-                  :class="status($v.email)"
-                  placeholder="Correo"
-                  required
-                />
-                <div
-                  class="error errorMsg"
-                  v-if="!$v.email.required && $v.email.$dirty"
-                >
-                  Este campo no puede ir vacío
-                </div>
-              </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col-11 centrar">
-                <b-form-input
-                  id="direccion"
-                  type="text"
-                  v-model="$v.direccion.$model"
-                  :class="status($v.direccion)"
-                  placeholder="Dirección"
-                  required
-                />
-                <div
-                  class="error errorMsg"
-                  v-if="!$v.direccion.required && $v.direccion.$dirty"
                 >
                   Este campo no puede ir vacío
                 </div>
@@ -141,7 +87,7 @@
                   type="password"
                   v-model="$v.passwordRepeat.$model"
                   :class="status($v.passwordRepeat)"
-                  placeholder="Confirmar contrseña"
+                  placeholder="Confirmar contraseña"
                   required
                 />
                 <div
@@ -162,6 +108,24 @@
               </div>
             </div>
             <br />
+            <div class="row">
+              <div class="col-7" style="margin-left: 4%">
+                <b-form-input
+                  id="email"
+                  type="text"
+                  v-model="$v.email.$model"
+                  :class="status($v.email)"
+                  placeholder="Correo electrónico"
+                  required
+                />
+                <div
+                  class="error errorMsg"
+                  v-if="!$v.email.required && $v.email.$dirty"
+                >
+                  Este campo no puede ir vacío
+                </div>
+              </div>
+            </div>
             <hr />
             <template>
               <b-button
@@ -176,14 +140,10 @@
                     $v.apellidoPaterno.$dirty &&
                     !$v.apellidoMaterno.$invalid &&
                     $v.apellidoMaterno.$dirty &&
-                    !$v.nickname.$invalid &&
-                    $v.nickname.$dirty &&
                     !$v.email.$invalid &&
                     $v.email.$dirty &&
                     !$v.password.$invalid &&
                     $v.password.$dirty &&
-                    !$v.direccion.$invalid &&
-                    $v.direccion.$dirty &&
                     !$v.passwordRepeat.$invalid &&
                     $v.passwordRepeat.$dirty
                   )
@@ -218,11 +178,10 @@ export default {
       nombre: "",
       apellidoPaterno: "",
       apellidoMaterno: "",
-      nickname: "",
       email: "",
       password: "",
       passwordRepeat: "",
-      direccion: "",
+      direccion:"",
       usuario: {},
     };
   },
@@ -232,10 +191,9 @@ export default {
         nombre: this.nombre,
         apellidoPaterno: this.apellidoPaterno,
         apellidoMaterno: this.apellidoMaterno,
-        nickname: this.nickname,
         email: this.email,
         password: this.password,
-        direccion: this.direccion,
+        direccion: "zapata",
       };
       api
         .doPost("auth/register", this.usuario)
@@ -274,11 +232,9 @@ export default {
       this.nombre = "";
       this.apellidoPaterno = "";
       this.apellidoMaterno = "";
-      this.nickname = "";
       this.email = "";
       this.password = "";
       this.passwordRepeat = "";
-      this.direccion = "";
     },
     status(validation) {
       return {
@@ -291,11 +247,9 @@ export default {
     nombre: { required },
     apellidoPaterno: { required },
     apellidoMaterno: { required },
-    nickname: { required },
     email: { required },
     password: { required },
     passwordRepeat: { required, sameAspassword: sameAs("password") },
-    direccion: { required },
   },
 };
 </script>

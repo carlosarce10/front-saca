@@ -41,10 +41,9 @@
                     <th scope="col">Duración</th>
                     <th scope="col">Acciones</th>
                   </tr>
-                </thead>                
+                </thead>
                 <tbody>
-                                                     
-                  <tr                   
+                  <tr
                     v-for="(oferta, item) in listaOfertasActivas"
                     :key="oferta.idOferta"
                   >
@@ -58,13 +57,20 @@
                       <b-button
                         @click="recuperarOferta(oferta.idOferta)"
                         variant="outline-primary"
-                        ><b-icon icon="arrow-left-right" aria-hidden="true"></b-icon
+                        ><b-icon
+                          icon="arrow-left-right"
+                          aria-hidden="true"
+                        ></b-icon
                       ></b-button>
                     </td>
                   </tr>
-                </tbody>                 
+                </tbody>
               </table>
-              <div class="alert alert-success" role="alert" v-if="listaOfertasActivas.length === 0">
+              <div
+                class="alert alert-success"
+                role="alert"
+                v-if="listaOfertasActivas.length === 0"
+              >
                 No hay cursos disponibles
               </div>
             </div>
@@ -87,11 +93,10 @@
                 </thead>
                 <tbody>
                   <tr
-                   
                     v-for="(oferta, item) in listaOfertasFinalizadas"
                     :key="oferta.idOferta"
                   >
-                   <th>{{ item + 1 }}</th>
+                    <th>{{ item + 1 }}</th>
                     <td>{{ oferta.cursos[0].titulo }}</td>
                     <td>{{ oferta.cursos[0].descripcion }}</td>
                     <td>{{ fechaInicioCard[item] }}</td>
@@ -99,15 +104,20 @@
                     <td>{{ oferta.cursos[0].duracion }}</td>
                     <td>
                       <b-button
-                        @click="liberarCurso(oferta.idOferta)"
+                        @click="recuperarInscripciones(oferta.idOferta)"
                         variant="outline-primary"
-                        ><b-icon icon="arrow-left-right" aria-hidden="true"></b-icon
+                        id="button-liberar"
+                        ><b-icon icon="check2" aria-hidden="true"></b-icon
                       ></b-button>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="alert alert-success" role="alert" v-if="listaOfertasFinalizadas.length === 0">
+              <div
+                class="alert alert-success"
+                role="alert"
+                v-if="listaOfertasFinalizadas.length === 0"
+              >
                 No hay cursos disponibles
               </div>
             </div>
@@ -132,7 +142,7 @@ export default {
   data() {
     return {
       listaOfertasActivas: [],
-      listaOfertasFinalizadas:[],
+      listaOfertasFinalizadas: [],
       requisitos: "",
       temario: "",
       duracion: "",
@@ -152,11 +162,12 @@ export default {
       fechaFinCard: [],
       fechaInicioCard: [],
       idDoccente: "",
-      oferta:{}
+      oferta: {},
+      inscripción: {},
     };
   },
   beforeMount() {
-    this.getIdDocente();  
+    this.getIdDocente();
   },
   methods: {
     getIdDocente() {
@@ -165,7 +176,7 @@ export default {
         .doGet("cursos/usuario/get/" + nickname)
         .then((response) => {
           //this.idDoccente = response.data.idUsuario;
-          this.getOfertaCursosActivo(response.data.idUsuario)
+          this.getOfertaCursosActivo(response.data.idUsuario);
           this.getOfrtasFinalaizadas(response.data.idUsuario);
         })
         .catch((error) => {
@@ -191,7 +202,7 @@ export default {
           }
         });
     },
-    getOfertaCursosActivo(id) {   
+    getOfertaCursosActivo(id) {
       api
         .doGet("cursos/ofertaDocente/" + id)
         .then((response) => {
@@ -207,20 +218,18 @@ export default {
             let date = new Date(arrFechaI[j]);
             this.fechaInicioCard[j] =
               date.getDate() +
-              1 +
-              "-" +
+              "/" +
               (date.getMonth() + 1) +
-              "-" +
+              "/" +
               date.getFullYear();
           }
           for (let k = 0; k < arrFechaF.length; k++) {
             let date = new Date(arrFechaF[k]);
             this.fechaFinCard[k] =
               date.getDate() +
-              1 +
-              "-" +
+              "/" +
               (date.getMonth() + 1) +
-              "-" +
+              "/" +
               date.getFullYear();
           }
         })
@@ -246,13 +255,13 @@ export default {
             });
           }
         });
-      
     },
-    getOfrtasFinalaizadas(id){
-        api
+    getOfrtasFinalaizadas(id) {
+      api
         .doGet("cursos/ofertaDocenteFinalizado/" + id)
         .then((response) => {
           this.listaOfertasFinalizadas = response.data;
+          //this.checarEstado(response.data.idOferta);
           console.log(response.data);
           let arrFechaI = [];
           let arrFechaF = [];
@@ -304,15 +313,25 @@ export default {
           }
         });
     },
-    recuperarOferta(id) {
+    checarEstado(id) {
       api
-        .doGet("cursos/oferta/" + id)
+        .doGet("cursos/inscripcion/inscripcionOferta/" + id)
         .then((response) => {
           console.log(response.data);
-          this.cambiarEstado(id,response.data);
-        })
+          if (response.data.estado == "liberado") {
+            document
+              .getElementById("button-liberar")
+              .setAttribute("disabled", "");
+          }
+        });
     },
-    cambiarEstado(id,data) {     
+    recuperarOferta(id) {
+      api.doGet("cursos/oferta/" + id).then((response) => {
+        console.log(response.data);
+        this.cambiarEstado(id, response.data);
+      });
+    },
+    cambiarEstado(id, data) {
       this.oferta = {
         costo: data.costo,
         minimoParticipantes: data.minimoParticipantes,
@@ -323,25 +342,36 @@ export default {
         tipoCurso: data.tipoCurso,
         estado: "finalizado",
         cursos: [{ idCurso: data.cursos[0].idCurso }],
-        modalidades: [
-          { idModalidad: data.modalidades[0].idModalidad },
-        ],
-        divisiones: [{ idDivision: data.divisiones[0].idDivision}],
+        modalidades: [{ idModalidad: data.modalidades[0].idModalidad }],
+        divisiones: [{ idDivision: data.divisiones[0].idDivision }],
         clasificaciones: [
           { idClasificacion: data.clasificaciones[0].idClasificacion },
         ],
         docente: { idUsuario: data.docente.idUsuario },
         idOferta: id,
       };
-      console.log(this.oferta)
-      api
-        .doPut("cursos/oferta", this.oferta)
-        .then(() => {
-          this.$swal({
-            title: "Se cambio el estado exitosamente",
-            icon: "success",
-          });
-          this.getIdDocente();
+      console.log(this.oferta);
+
+      this.$swal({
+        title: "¿Estás seguro de Finalizar el curso?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#64b5f6",
+        cancelButtonColor: "#ff7674",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+        reverseButtons: true,
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            api.doPut("cursos/oferta", this.oferta).then(() => {
+              this.$swal({
+                title: "Se finalizo el curso exitosamente",
+                icon: "success",
+              });
+              this.getIdDocente();
+            });
+          }
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -359,16 +389,79 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
         });
     },
-    liberarCurso(){
-      
+    recuperarInscripciones(id) {
+      api
+        .doGet("cursos/inscripcion/inscripcionOferta/" + id)
+        .then((response) => {
+          console.log(response.data);
+          this.liberarCurso(response.data);
+        });
+    },
+    liberarCurso(data) {
+      let arrIncripcion = [];
+      for (let i = 0; i < data.length; i++) {
+        this.inscripción = {
+          idInscripcion: data[i].idInscripcion,
+          estatus: "liberado",
+          oferta: { idOferta: data[i].oferta.idOferta },
+          usuario: { nickname: data[i].usuario.nickname },
+        };
+        arrIncripcion.push(this.inscripción);
+      }
+      console.log("-->> ", arrIncripcion);
+      //document.getElementById("button-liberar").setAttribute("disabled", "");
+      this.$swal({
+        title: "¿Estás seguro que deseas liberar a los alumnos del curso?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#64b5f6",
+        cancelButtonColor: "#ff7674",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+        reverseButtons: true,
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            for (let j = 0; j < arrIncripcion.length; j++) {
+              //console.log(arrIncripcion[j])
+              api.doPut("cursos/inscripcion", arrIncripcion[j]).then(() => {
+                this.$swal({
+                  title: "Se liberó los alumnos",
+                  icon: "success",
+                });
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
     },
   },
 };
 </script>
+ 

@@ -535,6 +535,13 @@
           >
             <b-icon icon="pencil-square" />
           </b-button>
+          <b-button
+            style="float: right; margin-left: 2%"
+            variant="outline-primary"
+            @click="recuperarOferta(oferta.idOferta)"
+          >
+            <b-icon icon="arrow-left-right" aria-hidden="true"></b-icon>
+          </b-button>
         </div>
       </div>
     </div>
@@ -609,9 +616,8 @@ export default {
       clasificacionEdit: "",
       docenteEdit: "",
       cursoEdit: "",
-      fechaInicioCard:[],
-      fechaFinCard:[],
-
+      fechaInicioCard: [],
+      fechaFinCard: [],
     };
   },
   beforeMount() {
@@ -630,7 +636,7 @@ export default {
       api
         .doGet("cursos/oferta/" + id)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           this.costoEdit = response.data.costo;
           this.minAlumEdit = response.data.minimoParticipantes;
           this.maxAlumEdit = response.data.maximoParticipantes;
@@ -639,7 +645,8 @@ export default {
           this.fechaFinEdit = response.data.fechaFin;
           this.modalidadEdit = response.data.modalidades[0].idModalidad;
           this.divisionEdit = response.data.divisiones[0].idDivision;
-          this.clasificacionEdit = response.data.clasificaciones[0].idClasificacion;
+          this.clasificacionEdit =
+            response.data.clasificaciones[0].idClasificacion;
           this.docenteEdit = response.data.docente.idUsuario;
           this.cursoEdit = response.data.cursos[0].idCurso;
           this.tipoCursoEdit = response.data.tipoCurso;
@@ -661,8 +668,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -692,7 +698,7 @@ export default {
         fechaInicio: this.fechaInicio,
         fechaFin: this.fechaFin,
         tipoCurso: this.tipoCurso,
-        estado:"inactivo",
+        estado: "inactivo",
         cursos: [{ idCurso: this.curso }],
         modalidades: [{ idModalidad: this.modalidad }],
         divisiones: [{ idDivision: this.division }],
@@ -708,7 +714,6 @@ export default {
           });
           this.getOferta();
           this.onReset();
-
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -726,8 +731,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -738,24 +742,33 @@ export default {
       api
         .doGet("cursos/oferta")
         .then((response) => {
-          this.ofertasList = response.data
+          this.ofertasList = response.data;
           let arrFechaF = [];
           let arrFechaI = [];
-          for(let i = 0; i<this.ofertasList.length; i++){
-            arrFechaF.push(this.ofertasList[i].fechaFin)
-            arrFechaI.push(this.ofertasList[i].fechaInicio)
+          for (let i = 0; i < this.ofertasList.length; i++) {
+            arrFechaF.push(this.ofertasList[i].fechaFin);
+            arrFechaI.push(this.ofertasList[i].fechaInicio);
           }
-          for(let j = 0; j< arrFechaF.length; j++){
-            let dateF  = new Date(arrFechaF[j]);
-            this.fechaFinCard[j] = (dateF.getDate()+1)+"-"+(dateF.getMonth()+1)+"-"+dateF.getFullYear();
+          for (let j = 0; j < arrFechaF.length; j++) {
+            let dateF = new Date(arrFechaF[j]);
+            this.fechaFinCard[j] =
+              dateF.getDate() +
+              "/" +
+              (dateF.getMonth() + 1) +
+              "/" +
+              dateF.getFullYear();
           }
-          for(let k = 0; k< arrFechaI.length; k++){
-            let dateI  = new Date(arrFechaI[k]);
-            this.fechaInicioCard[k] = (dateI.getDate()+1)+"-"+(dateI.getMonth()+1)+"-"+dateI.getFullYear();
+          for (let k = 0; k < arrFechaI.length; k++) {
+            let dateI = new Date(arrFechaI[k]);
+            this.fechaInicioCard[k] =
+              dateI.getDate() +
+              "/" +
+              (dateI.getMonth() + 1) +
+              "/" +
+              dateI.getFullYear();
           }
         })
         .catch((error) => {
-
           let errorResponse = error.response.data;
           if (errorResponse.errorExists) {
             this.$swal({
@@ -768,17 +781,65 @@ export default {
               icon: "error",
             });
           }
-        }).finally(() => (this.loading = false));
+        })
+        .finally(() => (this.loading = false));
     },
-    dateFormate() {
+    recuperarOferta(id) {
+      api.doGet("cursos/oferta/" + id).then((response) => {
+        console.log(response);
+        this.cambiarEstado(response.data, id);
+      });
+    },
+    cambiarEstado(data, id) {
+      this.ofertaEdit = {
+        costo: data.costo,
+        minimoParticipantes: data.minimoParticipantes,
+        maximoParticipantes: data.maximoParticipantes,
+        fechaPeriodoInscripcion: data.fechaPeriodoInscripcion,
+        fechaInicio: data.fechaInicio,
+        fechaFin: data.fechaFin,
+        tipoCurso: data.tipoCurso,
+        estado: "activo",
+        cursos: [{ idCurso: data.cursos[0].idCurso }],
+        modalidades: [{ idModalidad: data.modalidades[0].idModalidad }],
+        divisiones: [{ idDivision: data.divisiones[0].idDivision }],
+        clasificaciones: [
+          { idClasificacion: data.clasificaciones[0].idClasificacion },
+        ],
+        docente: { idUsuario: data.docente.idUsuario },
+        idOferta: id,
+      };
 
-      /*this.fechaPeriodoF = this.ofertasList.fechaInicio
-      var d = new Date(this.fechaPeriodo);
-      var day = d.getUTCDate();
-      var month = d.getUTCMonth() + 1;
-      var year = d.getUTCFullYear();
-      this.fechaPeriodoF = year + "-" + month + "-" + day;
-      console.log(this.fechaPeriodoF)*/
+      api
+        .doPut("cursos/oferta", this.ofertaEdit)
+        .then(() => {
+          this.$swal({
+            title: "Se ha modificado el estado ",
+            icon: "success",
+          });
+          this.getOferta();
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
     },
     eliminar(id) {
       this.$swal({
@@ -817,8 +878,7 @@ export default {
               } else {
                 this.$swal({
                   title: "Oops! Ha ocurrido un error en el servidor.",
-                  html:
-                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
                   icon: "error",
                 });
               }
@@ -828,7 +888,6 @@ export default {
       });
     },
     editar() {
-      
       this.ofertaEdit = {
         idOferta: this.ofertaId,
         costo: this.costoEdit,
@@ -843,8 +902,9 @@ export default {
         clasificaciones: [{ idClasificacion: this.clasificacionEdit }],
         docente: { idUsuario: this.docenteEdit },
         cursos: [{ idCurso: this.cursoEdit }],
+        estado: "inactivo",
       };
-      
+
       api
         .doPut("cursos/oferta", this.ofertaEdit)
         .then(() => {
@@ -871,8 +931,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -880,26 +939,26 @@ export default {
     },
     onReset() {
       this.curso = "";
-      this.costo= "";
-      this.minAlum= "";
-      this.maxAlum= "";
-      this.fechaPeriodo= "";
-      this.fechaInicio= "";
-      this.fechaFin= "";
-      this.modalidad= "";
-      this.division= "";
-      this.clasificacion= "";
-      this.docente= "";
-      this.curso= "";
-      this.tipoCursoEdit= "";
-      this.costoEdit= "";
-      this.minAlumEdit= "";
-      this.maxAlumEdit= "";
-      this.fechaPeriodoEdit= "";
-      this.fechaInicioEdit= "";
-      this.fechaFinEdit= "";
+      this.costo = "";
+      this.minAlum = "";
+      this.maxAlum = "";
+      this.fechaPeriodo = "";
+      this.fechaInicio = "";
+      this.fechaFin = "";
+      this.modalidad = "";
+      this.division = "";
+      this.clasificacion = "";
+      this.docente = "";
+      this.curso = "";
+      this.tipoCursoEdit = "";
+      this.costoEdit = "";
+      this.minAlumEdit = "";
+      this.maxAlumEdit = "";
+      this.fechaPeriodoEdit = "";
+      this.fechaInicioEdit = "";
+      this.fechaFinEdit = "";
       this.modalidadEdit = "";
-      this.divisionEdit= "";
+      this.divisionEdit = "";
       this.clasificacionEdit = "";
       this.docenteEdit = "";
       this.cursoEdit = "";

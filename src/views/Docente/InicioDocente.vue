@@ -60,7 +60,11 @@
             </tr>
           </tbody>
         </table>
-        <div class="alert alert-success" role="alert" v-if="listaOfertasActivas.length === 0">
+        <div
+          class="alert alert-success"
+          role="alert"
+          v-if="listaOfertasActivas.length === 0"
+        >
           No hay cursos disponibles
         </div>
       </div>
@@ -126,20 +130,18 @@ export default {
             let date = new Date(arrFechaI[j]);
             this.fechaInicioCard[j] =
               date.getDate() +
-              1 +
-              "-" +
+              "/" +
               (date.getMonth() + 1) +
-              "-" +
+              "/" +
               date.getFullYear();
           }
           for (let k = 0; k < arrFechaF.length; k++) {
             let date = new Date(arrFechaF[k]);
             this.fechaFinCard[k] =
               date.getDate() +
-              1 +
-              "-" +
+              "/" +
               (date.getMonth() + 1) +
-              "-" +
+              "/" +
               date.getFullYear();
           }
         })
@@ -170,7 +172,7 @@ export default {
         .doGet("cursos/oferta/" + id)
         .then((response) => {
           console.log(response.data);
-          this.cambiarEstado(id,response.data);
+          this.cambiarEstado(id, response.data);
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -194,7 +196,7 @@ export default {
           }
         });
     },
-    cambiarEstado(id,data) {     
+    cambiarEstado(id, data) {
       this.oferta = {
         costo: data.costo,
         minimoParticipantes: data.minimoParticipantes,
@@ -205,24 +207,35 @@ export default {
         tipoCurso: data.tipoCurso,
         estado: "en curso",
         cursos: [{ idCurso: data.cursos[0].idCurso }],
-        modalidades: [
-          { idModalidad: data.modalidades[0].idModalidad },
-        ],
-        divisiones: [{ idDivision: data.divisiones[0].idDivision}],
+        modalidades: [{ idModalidad: data.modalidades[0].idModalidad }],
+        divisiones: [{ idDivision: data.divisiones[0].idDivision }],
         clasificaciones: [
           { idClasificacion: data.clasificaciones[0].idClasificacion },
         ],
         docente: { idUsuario: data.docente.idUsuario },
         idOferta: id,
       };
-      api
-        .doPut("cursos/oferta", this.oferta)
-        .then(() => {
-          this.$swal({
-            title: "Se cambio el estado exitosamente",
-            icon: "success",
-          });
-          this.getIdDocente();
+
+      this.$swal({
+        title: "¿Estás seguro que deseas iniciar el curso?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#64b5f6",
+        cancelButtonColor: "#ff7674",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+        reverseButtons: true,
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            api.doPut("cursos/oferta", this.oferta).then(() => {
+              this.$swal({
+                title: "Se cambio el estado exitosamente",
+                icon: "success",
+              });
+              this.getIdDocente();
+            });
+          }
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -240,8 +253,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }

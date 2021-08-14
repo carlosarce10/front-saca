@@ -197,7 +197,7 @@ export default {
   },
   beforeMount() {
     this.getCursosOferta();
-    this.getInscripcion();
+    //this.getInscripcion();
   },
   methods: {
     getCursosOferta() {
@@ -216,20 +216,18 @@ export default {
             let date = new Date(arrFechaI[j]);
             this.fechaInicioCard[j] =
               date.getDate() +
-              1 +
-              "-" +
+              "/" +
               (date.getMonth() + 1) +
-              "-" +
+              "/" +
               date.getFullYear();
           }
           for (let k = 0; k < arrFechaF.length; k++) {
             let date = new Date(arrFechaF[k]);
             this.fechaFinCard[k] =
               date.getDate() +
-              1 +
-              "-" +
+              "/" +
               (date.getMonth() + 1) +
-              "-" +
+              "/" +
               date.getFullYear();
           }
         })
@@ -366,7 +364,7 @@ export default {
     hideModalDetalles() {
       this.$refs["cursos-modalDetalles"].hide();
     },
-    getInscripcion() {
+    /*getInscripcion() {
       api
         .doGet("cursos/inscripcion")
         .then((response) => {
@@ -395,7 +393,7 @@ export default {
             });
           }
         });
-    },
+    },*/
   },
 };
 </script>

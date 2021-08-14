@@ -181,11 +181,11 @@ export default {
           }
           for(let j=0; j< arrFechaI.length; j++){
             let date  = new Date(arrFechaI[j]);
-            this.fechaInicioCard[j] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+            this.fechaInicioCard[j] = (date.getDate())+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
           }
           for(let k=0; k< arrFechaF.length; k++){
             let date  = new Date(arrFechaF[k]);
-            this.fechaFinCard[k] = (date.getDate()+1)+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
+            this.fechaFinCard[k] = (date.getDate())+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
           }
           })
         .catch((error) => {

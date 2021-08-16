@@ -102,7 +102,7 @@
       <div class="row">
         <div
           class="card col-3 mx-5"
-          style="margin-top: 1%"
+          style="margin-top: 1%;"
           v-for="(oferta,item) in listaOfertas"
           :key="oferta.idOferta"
         >

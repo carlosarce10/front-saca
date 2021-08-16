@@ -140,7 +140,6 @@ export default {
       });
     },
     getCursosOferta(id) {
-      console.log("aidi");
       api
         .doGet("cursos/inscripcion/inscripcionAceptada/" + id)
         .then((response) => {

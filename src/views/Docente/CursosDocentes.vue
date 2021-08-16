@@ -222,6 +222,7 @@ export default {
               (date.getMonth() + 1) +
               "/" +
               date.getFullYear();
+            console.log("fecha " +this.fechaInicioCard)
           }
           for (let k = 0; k < arrFechaF.length; k++) {
             let date = new Date(arrFechaF[k]);

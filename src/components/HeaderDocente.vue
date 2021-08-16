@@ -19,7 +19,7 @@
           </div>
           <div class="col-8">
             <h4 style="color: #707273; font-family: 'Times New Roman'">
-              Docente
+              &nbsp; &nbsp;Docente
             </h4>
           </div>
           <div class="linea"></div>
@@ -49,7 +49,7 @@
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/"
+          @click="logout()"
           >Cerrar sesión</b-button
         >
         <div class="linea"></div>
@@ -61,6 +61,17 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    methods: {
+      logout() {
+      localStorage.clear();
+      this.$router.push("/");
+    },
+    }
+  }
+</script>
 
 <style scoped>
 .logo {

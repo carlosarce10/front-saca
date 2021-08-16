@@ -29,7 +29,7 @@
     <div class="row">
       <div
         class="card col-3 mx-5"
-        style="margin-top: 1%;"
+        style="margin-top: 1%"
         v-for="(oferta, item) in listaOfertasActivas"
         :key="oferta.idOferta"
       >
@@ -70,7 +70,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(usuario, item) in usuarios" :key="usuario.idUsuario">
+            <tr v-for="(usuario, item) in lista" :key="usuario.estudiante">
               <th>
                 {{ item + 1 }}
               </th>
@@ -86,8 +86,8 @@
               <td>
                 <b-form-select
                   :options="estadoAsistencia"
-                  v-model="estado"
                   class="form-select"
+                  v-model="usuario.estado"
                 >
                 </b-form-select>
               </td>
@@ -144,6 +144,7 @@ export default {
         { value: "Inasistencia", text: "Falta" },
         { value: "Retardo", text: "Retardo" },
       ],
+      lista: [],
     };
   },
   beforeMount() {
@@ -177,8 +178,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -232,8 +232,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -243,10 +242,45 @@ export default {
       api
         .doGet("/cursos/usuarios/asistencia/" + id)
         .then((response) => {
+          this.lista=[]
+          //console.log(new Date)
           this.usuarios = response.data;
-          console.log(this.usuarios);
-          this.idUsuario = response.data[0].idUsuario;
-          console.log("aidi user: " + response.data.idUsuario);
+          
+          for (let index = 0; index < this.usuarios.length; index++) {
+            let alumno= {
+            nombre: "",
+            apellidoPaterno: "",
+            apellidoMaterno: "",
+            estudiante: {
+              idUsuario:""
+            },
+            oferta: {
+              idOferta:""
+            },
+            fechaAsistencia: "",
+            estado: "",
+          };
+            
+            alumno.estudiante.idUsuario = this.usuarios[index].idUsuario;
+            alumno.nombre = this.usuarios[index].nombre;
+            alumno.apellidoPaterno = this.usuarios[index].apellidoPaterno;
+            alumno.apellidoMaterno = this.usuarios[index].apellidoMaterno;
+            let fechaActual = new Date();
+            let dia = fechaActual.getDate();
+            let mes = fechaActual.getMonth() + 1;
+            let year = fechaActual.getFullYear();
+            if (mes < 10) {
+              fechaActual = year + "-0" + mes + "-" + dia;
+            } else {
+              fechaActual = year + "-" + mes + "-" + dia;
+            }
+            alumno.fechaAsistencia = fechaActual;
+            alumno.oferta.idOferta = this.idOferta;
+            this.lista.push(alumno);
+          }
+          console.log("impresion de la lista llena")
+          console.log(this.lista);
+          
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -264,8 +298,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -273,27 +306,9 @@ export default {
       this.$refs["cursos-modalLista"].show();
     },
     registrar() {
-      let fechaActual = new Date();
-      let dia = fechaActual.getDate();
-      let mes = fechaActual.getMonth() + 1;
-      let year = fechaActual.getFullYear();
-      if (mes < 10) {
-        fechaActual = year + "-0" + mes + "-" + dia;
-      } else {
-        fechaActual = year + "-" + mes + "-" + dia;
-      }
-      console.log("idEstudiante: " + this.idUsuario);
-      console.log("idOferta: " + this.idOferta);
-      console.log("Fecha; " + fechaActual);
-      console.log("estado: " + this.estado);
-      this.asistencia = {
-        estudiante: this.idUsuario,
-        oferta: this.idOferta,
-        fechaAsistencia: fechaActual,
-        estado: this.estado,
-      };
+      console.log(this.lista)
       api
-        .doPost("/cursos/asistencia")
+        .doPost("/cursos/asistencia",this.lista)
         .then(() => {
           this.$swal({
             title: "El pase de lista se ha registrado exitosamente",
@@ -318,8 +333,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }

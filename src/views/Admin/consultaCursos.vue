@@ -23,6 +23,7 @@
                   class="buscador form-control"
                   placeholder="  Buscar cursos..."
                   aria-label="Search"
+                  v-model= "buscar"
                 />
               </div>
             </form>
@@ -335,10 +336,18 @@ export default {
       temarioE: "",
       idCursoEdit: "",
       cursoEdit: "",
+      buscar:""
     };
   },
   beforeMount() {
     this.getCursos();
+  },
+  computed:{
+    items() {
+      return this.listCursos.filter(item => {
+        return item.titulo.toLowerCase().includes(this.buscar.toLowerCase());
+      });
+    }
   },
   methods: {
     getCursos() {

@@ -88,4 +88,8 @@ input[type="password"] {
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
   margin-bottom: 0 !important;
 }
+.cardEstilo {
+  background-color: #00ab84;
+  color: white;
+}
 </style>

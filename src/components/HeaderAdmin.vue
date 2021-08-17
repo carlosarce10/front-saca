@@ -56,7 +56,7 @@
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
-          href="/"
+          @click="logout()"
           >Cerrar sesión</b-button
         >
         <div class="linea"></div>
@@ -68,6 +68,17 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    methods: {
+      logout() {
+      localStorage.clear();
+      this.$router.push("/");
+    },
+    }
+  }
+</script>
 
 <style scoped>
 .logo {

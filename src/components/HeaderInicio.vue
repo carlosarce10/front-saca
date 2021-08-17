@@ -1,27 +1,12 @@
 <template>
   <div class="header">
     <div class="row align-items-center">
-      <div class="col-2">
+      <div class="col-10">
         <a class="navbar-brand" href="/">
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
-      <div class="col-8">
-        <form class="d-flex">
-          <div class="form-group">
-            <b-icon
-              style="margin-left: 20px"
-              icon="search"
-              class="form-control-icon"
-            ></b-icon>
-            <input
-              class="buscador form-control"
-              placeholder="  Buscar curso..."
-              aria-label="Search"
-            />
-          </div>
-        </form>
-      </div>
+      
       <div class="col-2">
         <img class="logoUser" id="popover1" src="../assets/user.png" />
       </div>

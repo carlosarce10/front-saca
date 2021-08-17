@@ -2,6 +2,24 @@
   <div class="row fondo">
     <div class="home">
       <HeaderInicio />
+      <!--<div class="row">
+        <div class="col-md-3 offset-md-3">
+            <form>
+              <div class="form-group">
+                <b-icon
+                  style="margin-left: 20px"
+                  icon="search"
+                  class="form-control-icon"
+                ></b-icon>
+                <input
+                  class="buscador form-control"
+                  placeholder="  Buscar cursos..."
+                  aria-label="Search"
+                />
+              </div>
+            </form>
+          </div>
+      </div>-->
       <!-- Modal de detalles del curso -->
       <b-modal
         ref="cursos-modalDetalles"

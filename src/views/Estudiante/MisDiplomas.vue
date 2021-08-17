@@ -1,6 +1,30 @@
 <template>
   <div class="fondo">
     <div><HeaderEstudiante /></div>
+    <div class="row" style="margin-top: 2%">
+      <div class="offset-8 col-3">
+        <div class="row px-2">
+          <!-- div de busqueda -->
+          <div class="col-9 centrar">
+            <form>
+              <div class="form-group">
+                <b-icon
+                  style="margin-left: 20px"
+                  icon="search"
+                  class="form-control-icon"
+                ></b-icon>
+                <input
+                  class="buscador form-control"
+                  placeholder="  Buscar curso..."
+                  aria-label="Search"
+                  v-model="buscar"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Cards de Cursos inscritos  -->
     <div class="container" style="margin-top: 2%">
       <div>
@@ -10,7 +34,7 @@
               <div
                 class="card col-3 mx-5"
                 style="margin-top: 2%"
-                v-for="(inscripcion, item) in inscripciones"
+                v-for="(inscripcion, item) in getAllCursos"
                 :key="inscripcion.idInscripcion"
               >
                 <div class="card-body">
@@ -55,7 +79,7 @@
               <div
                 class="card col-3 mx-5"
                 style="margin-top: 1%"
-                v-for="(inscripcion, item) in inscripcionesLiberadas"
+                v-for="(inscripcion, item) in getAllCursosFinalizados"
                 :key="inscripcion.idInscripcion"
               >
                 <div class="card-body">
@@ -195,10 +219,39 @@ export default {
       OfertaID: "",
       usuarioID: "",
       asistencias: [],
+      buscar:"",
     };
   },
   beforeMount() {
     this.getId();
+  },
+  computed:{
+    getAllCursos(){
+      if (!this.buscar) {
+        return this.inscripciones;
+      } else {
+        return this.inscripciones.filter((inscripcion) => {
+          return [inscripcion.oferta.cursos[0].titulo, inscripcion.oferta.cursos[0].descripcion,inscripcion.oferta.docente.nombre ].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    },
+    getAllCursosFinalizados(){
+      if (!this.buscar) {
+        return this.inscripcionesLiberadas;
+      } else {
+        return this.inscripcionesLiberadas.filter((inscripcion) => {
+          return [inscripcion.oferta.cursos[0].titulo, inscripcion.oferta.cursos[0].descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     hideModal() {

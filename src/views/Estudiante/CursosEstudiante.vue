@@ -17,6 +17,7 @@
                   class="buscador form-control"
                   placeholder="  Buscar curso..."
                   aria-label="Search"
+                  v-model="buscar"
                 />
               </div>
             </form>
@@ -124,7 +125,7 @@
       <div
         class="card col-3 mx-5"
         style="margin-top: 1%; "
-        v-for="(oferta, item) in ofertas"
+        v-for="(oferta, item) in getAllCursosOferta"
         :key="oferta.idOferta"
       >
         <div class="card-body">
@@ -193,11 +194,27 @@ export default {
       fechaInicioCard: [],
       fechaFinCard: [],
       listaIncripcion: [],
+      buscar:"",
     };
   },
   beforeMount() {
     this.getCursosOferta();
     //this.getInscripcion();
+  },
+  computed:{
+    getAllCursosOferta(){
+      if (!this.buscar) {
+        return this.ofertas;
+      } else {
+        return this.ofertas.filter((oferta) => {
+          return [oferta.cursos[0].titulo , oferta.cursos[0].descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     getCursosOferta() {

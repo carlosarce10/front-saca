@@ -17,6 +17,7 @@
                   class="buscador form-control"
                   placeholder="  Buscar curso..."
                   aria-label="Search"
+                  v-model="buscar"
                 />
               </div>
             </form>
@@ -30,7 +31,7 @@
       <div
         class="card col-3 mx-5"
         style="margin-top: 1%"
-        v-for="(oferta, item) in listaOfertasActivas"
+        v-for="(oferta, item) in getAllOfertas"
         :key="oferta.idOferta"
       >
         <div class="card-body">
@@ -145,10 +146,26 @@ export default {
         { value: "Retardo", text: "Retardo" },
       ],
       lista: [],
+      buscar:"",
     };
   },
   beforeMount() {
     this.getIdDocente();
+  },
+  computed:{
+    getAllOfertas(){
+      if (!this.buscar) {
+        return this.listaOfertasActivas;
+      } else {
+        return this.listaOfertasActivas.filter((oferta) => {
+          return [oferta.cursos[0].titulo , oferta.cursos[0].descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     hideModal() {

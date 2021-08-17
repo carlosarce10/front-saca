@@ -26,6 +26,7 @@
                   class="buscador form-control"
                   placeholder="  Buscar docente..."
                   aria-label="Search"
+                  v-model="buscar"
                 />
               </div>
             </form>
@@ -207,7 +208,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(usuario, item) in usuarios" :key="usuario.id">
+            <tr v-for="(usuario, item) in getAllDocentes" :key="usuario.id">
               <th>
                 {{ item + 1 }}
               </th>
@@ -433,10 +434,26 @@ export default {
       usuarioE: {},
       idUsuarioE: "",
       roles: {},
+      buscar:""
     };
   },
   beforeMount() {
     this.getDocente();
+  },
+  computed:{
+    getAllDocentes(){
+      if (!this.buscar) {
+        return this.usuarios;
+      } else {
+        return this.usuarios.filter((user) => {
+          return [user.nombre , user.apellidoMaterno, user.apellidoPaterno].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     mostrarModal() {

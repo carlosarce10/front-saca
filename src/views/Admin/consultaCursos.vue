@@ -23,7 +23,7 @@
                   class="buscador form-control"
                   placeholder="  Buscar cursos..."
                   aria-label="Search"
-                  v-model= "buscar"
+                  v-model="buscar"
                 />
               </div>
             </form>
@@ -167,7 +167,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(curso, item) in listCursos" :key="curso.idCurso">
+            <tr v-for="(curso, item) in getAllCursos" :key="curso.idCurso">
               <th>{{ item + 1 }}</th>
               <td>{{ curso.titulo }}</td>
               <td>{{ curso.descripcion }}</td>
@@ -189,7 +189,11 @@
             </tr>
           </tbody>
         </table>
-        <div class="alert alert-success" role="alert" v-if="listCursos.length === 0">
+        <div
+          class="alert alert-success"
+          role="alert"
+          v-if="listCursos.length === 0"
+        >
           No hay cursos registrados
         </div>
         <!-- Modal editar -->
@@ -336,18 +340,26 @@ export default {
       temarioE: "",
       idCursoEdit: "",
       cursoEdit: "",
-      buscar:""
+      buscar: "",
     };
   },
   beforeMount() {
     this.getCursos();
   },
-  computed:{
-    items() {
-      return this.listCursos.filter(item => {
-        return item.titulo.toLowerCase().includes(this.buscar.toLowerCase());
-      });
-    }
+  computed: {
+    getAllCursos() {
+      if (!this.buscar) {
+        return this.listCursos;
+      } else {
+        return this.listCursos.filter((curso) => {
+          return [curso.titulo, curso.descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    },
   },
   methods: {
     getCursos() {
@@ -464,8 +476,7 @@ export default {
               } else {
                 this.$swal({
                   title: "Oops! Ha ocurrido un error en el servidor.",
-                  html:
-                    "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+                  html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
                   icon: "error",
                 });
               }
@@ -502,8 +513,7 @@ export default {
           } else {
             this.$swal({
               title: "Oops! Ha ocurrido un error en el servidor.",
-              html:
-                "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+              html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
               icon: "error",
             });
           }
@@ -550,8 +560,7 @@ export default {
           } else {
             this.$swal({
               title: "Oops! Ha ocurrido un error en el servidor.",
-              html:
-                "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
+              html: "<span style='font-size:14pt'>Contacte a su operador para más detalles.</span>",
               icon: "error",
             });
           }
@@ -565,6 +574,7 @@ export default {
       };
     },
   },
+
   validations: {
     titulo: {
       required,

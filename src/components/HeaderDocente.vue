@@ -36,14 +36,14 @@
           class="text-decoration-none"
           variant="link"
           href="/docente/cursos"
-          >Mis Cursos</b-button
+          >Mis cursos</b-button
         ><br />
         <b-button
           style="color: #707273"
           class="text-decoration-none"
           variant="link"
           href="/docente/paseLista"
-          >Pase de Lista</b-button
+          >Pase de lista</b-button
         ><br />
         <b-button
           style="color: #707273"
@@ -63,14 +63,14 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      logout() {
+export default {
+  methods: {
+    logout() {
       localStorage.clear();
       this.$router.push("/");
     },
-    }
-  }
+  },
+};
 </script>
 
 <style scoped>

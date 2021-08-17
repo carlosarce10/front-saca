@@ -55,6 +55,7 @@
                     <td>{{ oferta.cursos[0].duracion }}</td>
                     <td>
                       <b-button
+                        id="finalizarCurso"
                         @click="recuperarOferta(oferta.idOferta)"
                         variant="outline-primary"
                         ><b-icon
@@ -62,6 +63,13 @@
                           aria-hidden="true"
                         ></b-icon
                       ></b-button>
+                      <b-tooltip
+                        target="finalizarCurso"
+                        triggers="hover"
+                        variant="primary"
+                      >
+                        Finalizar curso
+                      </b-tooltip>
                     </td>
                   </tr>
                 </tbody>
@@ -109,6 +117,13 @@
                         id="button-liberar"
                         ><b-icon icon="check2" aria-hidden="true"></b-icon
                       ></b-button>
+                      <b-tooltip
+                        target="button-liberar"
+                        triggers="hover"
+                        variant="primary"
+                      >
+                        Liberar alumnos
+                      </b-tooltip>
                     </td>
                   </tr>
                 </tbody>
@@ -196,7 +211,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -222,7 +238,7 @@ export default {
               (date.getMonth() + 1) +
               "/" +
               date.getFullYear();
-            console.log("fecha " +this.fechaInicioCard)
+            console.log("fecha " + this.fechaInicioCard);
           }
           for (let k = 0; k < arrFechaF.length; k++) {
             let date = new Date(arrFechaF[k]);
@@ -251,7 +267,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -308,7 +325,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -390,7 +408,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -456,7 +475,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -465,4 +485,3 @@ export default {
   },
 };
 </script>
- 

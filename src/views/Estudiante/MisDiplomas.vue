@@ -2,86 +2,151 @@
   <div class="fondo">
     <div><HeaderEstudiante /></div>
     <!-- Cards de Cursos inscritos  -->
-    <div class="row">
-      <b-tabs content-class="mt-6">
-        <b-tab title="Cursos Aceptados" active>
-          <div
-            class="card col-3 mx-5"
-            style="margin-top: 1%"
-            v-for="(inscripcion, item) in inscripciones"
-            :key="inscripcion.idInscripcion"
-          >
-            <div class="card-body">
-              <h5 class="card-title">
-                {{ inscripcion.oferta.cursos[0].titulo }}
-              </h5>
-              <h6 class="card-subtitle">${{ inscripcion.oferta.costo }}</h6>
-              <br />
-              <h6 class="card-text">
-                {{ inscripcion.oferta.cursos[0].descripcion }}
-              </h6>
-              <p class="card-text">
-                Inicio del curso: {{ fechaInicioCard[item] }}
-              </p>
-              <p class="card-text">
-                Finalización del curoso: {{ fechaFinCard[item] }}
-              </p>
-              <b-button
-                variant="outline-primary"
-                style="float: right; margin-left: 2%"
-                @click="mostrarModalDetalles(inscripcion.idInscripcion)"
-                >Ver asistencias
-              </b-button>
+    <div class="container" style="margin-top: 2%">
+      <div>
+        <b-tabs content-class="mt-6">
+          <b-tab title="Cursos Aceptados" active>
+            <div class="row">
+              <div
+                class="card col-3 mx-5"
+                style="margin-top: 2%"
+                v-for="(inscripcion, item) in inscripciones"
+                :key="inscripcion.idInscripcion"
+              >
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ inscripcion.oferta.cursos[0].titulo }}
+                  </h5>
+                  <h6 class="card-text">
+                    {{ inscripcion.oferta.cursos[0].descripcion }}
+                  </h6>
+                  <br />
+                  <h6 class="card-subtitle">
+                    Docente: {{ inscripcion.oferta.docente.nombre }}
+                    {{ inscripcion.oferta.docente.apellidoPaterno }}
+                    {{ inscripcion.oferta.docente.apellidoMaterno }}
+                  </h6>
+                  <br />
+                  <p class="card-text">
+                    Inicio del curso: {{ fechaInicioCard[item] }}
+                  </p>
+                  <p class="card-text">
+                    Finalización del curoso: {{ fechaFinCard[item] }}
+                  </p>
+                  <b-button
+                    variant="outline-primary"
+                    style="float: right; margin-left: 2%"
+                    @click="mostrarModalAsistencia(inscripcion.idInscripcion)"
+                    >Ver asistencias
+                  </b-button>
+                </div>
+              </div>
+              <div
+                class="alert alert-success"
+                role="alert"
+                v-if="inscripciones.length === 0"
+              >
+                No hay cursos aceptados
+              </div>
             </div>
-          </div>
-          <div
-            class="alert alert-success"
-            role="alert"
-            v-if="inscripciones.length === 0"
-          >
-            No hay cursos aceptados
-          </div>
-        </b-tab>
-        <b-tab title="Cursos Liberados">
-          <div
-            class="card col-3 mx-5"
-            style="margin-top: 1%"
-            v-for="(inscripcion, item) in inscripcionesLiberadas"
-            :key="inscripcion.idInscripcion"
-          >
-            <div class="card-body">
-              <h5 class="card-title">
-                {{ inscripcion.oferta.cursos[0].titulo }}
-              </h5>
-              <h6 class="card-subtitle">${{ inscripcion.oferta.costo }}</h6>
-              <br />
-              <h6 class="card-text">
-                {{ inscripcion.oferta.cursos[0].descripcion }}
-              </h6>
-              <p class="card-text">
-                Inicio del curso: {{ fechaInicioCardF[item] }}
-              </p>
-              <p class="card-text">
-                Finalización del curoso: {{ fechaFinCardF[item] }}
-              </p>
-              <b-button
-                variant="outline-primary"
-                style="float: right; margin-left: 2%"
-                @click="descargarDiploma(inscripcion.idInscripcion)"
-                >Descargar Diploma
-              </b-button>
+          </b-tab>
+          <b-tab title="Cursos Liberados">
+            <div class="row">
+              <div
+                class="card col-3 mx-5"
+                style="margin-top: 1%"
+                v-for="(inscripcion, item) in inscripcionesLiberadas"
+                :key="inscripcion.idInscripcion"
+              >
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ inscripcion.oferta.cursos[0].titulo }}
+                  </h5>
+                  <h6 class="card-subtitle">${{ inscripcion.oferta.costo }}</h6>
+                  <br />
+                  <h6 class="card-text">
+                    {{ inscripcion.oferta.cursos[0].descripcion }}
+                  </h6>
+                  <p class="card-text">
+                    Inicio del curso: {{ fechaInicioCardF[item] }}
+                  </p>
+                  <p class="card-text">
+                    Finalización del curoso: {{ fechaFinCardF[item] }}
+                  </p>
+                  <b-button
+                    variant="outline-primary"
+                    style="float: right; margin-left: 2%"
+                    @click="descargarDiploma(inscripcion.idInscripcion)"
+                    >Descargar Diploma
+                  </b-button>
+                </div>
+              </div>
+              <div
+                class="alert alert-success"
+                role="alert"
+                v-if="inscripcionesLiberadas.length === 0"
+              >
+                No hay cursos liberados
+              </div>
             </div>
-          </div>
-          <div
-            class="alert alert-success"
-            role="alert"
-            v-if="inscripcionesLiberadas.length === 0"
-          >
-            No hay cursos liberados
-          </div>
-        </b-tab>
-      </b-tabs>
+          </b-tab>
+        </b-tabs>
+      </div>
     </div>
+    <!--Modal pase de lista  -->
+    <b-modal
+      ref="asistencias-modal"
+      size="xl"
+      hide-footer
+      title="Asistencias"
+      scrollable
+    >
+      <div>
+        <table class="table table-borderless table-hover">
+          <thead class="table-success">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Curso</th>
+              <th scope="col">Docente</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Asistencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(asistencia, item) in asistencias" :key="asistencia.id">
+              <th>
+                {{ item + 1 }}
+              </th>
+              <td>
+                {{ asistencia.oferta.cursos[0].titulo }}
+              </td>
+              <td>
+                {{ asistencia.oferta.docente.nombre }}
+                {{ asistencia.oferta.docente.apellidoPaterno }}
+                {{ asistencia.oferta.docente.apellidoMaterno }}
+              </td>
+              <td>
+                {{ AsistenciaFecha[item] }}
+              </td>
+              <td>
+                {{ asistencia.estado }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <div>
+          <b-button
+            class="mt-2"
+            variant="outline-danger"
+            style="margin: 5px; float: right"
+            block
+            @click="hideModal"
+            >Cerrar
+          </b-button>
+        </div>
+      </div>
+    </b-modal>
     <div><Footer class="fixed-bottom" /></div>
   </div>
 </template>
@@ -120,18 +185,25 @@ export default {
       status: "",
       id_oferta: "",
       usuario_id_usuario: "",
+      AsistenciaFecha: [],
       fechaInicioCard: [],
       fechaFinCard: [],
       fechaInicioCardF: [],
       fechaFinCardF: [],
       idEstudiante: "",
       inscripcionesLiberadas: [],
+      OfertaID: "",
+      usuarioID: "",
+      asistencias: [],
     };
   },
   beforeMount() {
     this.getId();
   },
   methods: {
+    hideModal() {
+      this.$refs["asistencias-modal"].hide();
+    },
     getId() {
       let nickname = localStorage.username;
       api.doGet("cursos/usuario/get/" + nickname).then((response) => {
@@ -188,7 +260,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -241,15 +314,67 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
         });
     },
-    descargarDiploma(id) {     
-      
-      window.location = "http://localhost:8090/cursos/pdf/"+id;
+    mostrarModalAsistencia(id) {
+      api.doGet("/cursos/inscripcion/" + id).then((response) => {
+        console.log("id: " + id);
+        this.consultaAsistencia(
+          response.data.oferta.idOferta,
+          response.data.usuario.idUsuario
+        );
+      });
+    },
+    consultaAsistencia(oferta, alumno) {
+      api
+        .doGet("/cursos/asistencia/estudiante/" + oferta + "/" + alumno)
+        .then((response) => {
+          this.asistencias = response.data;
+          let arrFechaI = [];
+          for (let i = 0; i < this.asistencias.length; i++) {
+            arrFechaI.push(this.asistencias[i].fechaAsistencia);
+          }
+          for (let j = 0; j < arrFechaI.length; j++) {
+            let date = new Date(arrFechaI[j]);
+            this.AsistenciaFecha[j] =
+              date.getDate() +
+              "/" +
+              (date.getMonth() + 1) +
+              "/" +
+              date.getFullYear();
+          }
+        })
+        .catch((error) => {
+          let errorResponse = error.response.data;
+          if (errorResponse.errorExists) {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'><b>" +
+                errorResponse.code +
+                "</b> " +
+                errorResponse.message +
+                "<br>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          } else {
+            this.$swal({
+              title: "Ha ocurrido un error en el servidor!",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              icon: "error",
+            });
+          }
+        });
+      this.$refs["asistencias-modal"].show();
+    },
+    descargarDiploma(id) {
+      window.location = "http://localhost:8090/cursos/pdf/" + id;
     },
   },
 };

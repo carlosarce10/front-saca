@@ -52,10 +52,18 @@
               <td>{{ oferta.cursos[0].duracion }}</td>
               <td>
                 <b-button
+                  id="inciarCurso"
                   @click="recuperarOferta(oferta.idOferta)"
                   variant="outline-primary"
                   ><b-icon icon="arrow-left-right" aria-hidden="true"></b-icon
                 ></b-button>
+                <b-tooltip
+                  target="inciarCurso"
+                  triggers="hover"
+                  variant="primary"
+                >
+                  Iniciar curso
+                </b-tooltip>
               </td>
             </tr>
           </tbody>
@@ -161,7 +169,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -190,7 +199,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -253,7 +263,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }

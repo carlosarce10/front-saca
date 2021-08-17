@@ -70,7 +70,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(usuario, item) in lista" :key="usuario.estudiante">
+            <tr v-for="(usuario, item) in lista" :key="usuario.id">
               <th>
                 {{ item + 1 }}
               </th>
@@ -178,7 +178,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -232,7 +233,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -242,25 +244,24 @@ export default {
       api
         .doGet("/cursos/usuarios/asistencia/" + id)
         .then((response) => {
-          this.lista=[]
-          //console.log(new Date)
+          this.lista = [];
           this.usuarios = response.data;
-          
+
           for (let index = 0; index < this.usuarios.length; index++) {
-            let alumno= {
-            nombre: "",
-            apellidoPaterno: "",
-            apellidoMaterno: "",
-            estudiante: {
-              idUsuario:""
-            },
-            oferta: {
-              idOferta:""
-            },
-            fechaAsistencia: "",
-            estado: "",
-          };
-            
+            let alumno = {
+              nombre: "",
+              apellidoPaterno: "",
+              apellidoMaterno: "",
+              estudiante: {
+                idUsuario: "",
+              },
+              oferta: {
+                idOferta: "",
+              },
+              fechaAsistencia: "",
+              estado: "",
+            };
+
             alumno.estudiante.idUsuario = this.usuarios[index].idUsuario;
             alumno.nombre = this.usuarios[index].nombre;
             alumno.apellidoPaterno = this.usuarios[index].apellidoPaterno;
@@ -275,12 +276,9 @@ export default {
               fechaActual = year + "-" + mes + "-" + dia;
             }
             alumno.fechaAsistencia = fechaActual;
-            alumno.oferta.idOferta = this.idOferta;
+            alumno.oferta.idOferta = id;
             this.lista.push(alumno);
           }
-          console.log("impresion de la lista llena")
-          console.log(this.lista);
-          
         })
         .catch((error) => {
           let errorResponse = error.response.data;
@@ -298,7 +296,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -306,9 +305,9 @@ export default {
       this.$refs["cursos-modalLista"].show();
     },
     registrar() {
-      console.log(this.lista)
+      console.log(this.lista);
       api
-        .doPost("/cursos/asistencia",this.lista)
+        .doPost("/cursos/asistencia", this.lista)
         .then(() => {
           this.$swal({
             title: "El pase de lista se ha registrado exitosamente",
@@ -333,7 +332,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }

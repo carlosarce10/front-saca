@@ -6,22 +6,6 @@
           <img class="logo" src="../assets/Logo-utez.png" />
         </a>
       </div>
-      <!-- <div class="col-8">
-        <form class="d-flex">
-          <div class="form-group">
-            <b-icon
-              style="margin-left: 20px"
-              icon="search"
-              class="form-control-icon"
-            ></b-icon>
-            <input
-              class="buscador form-control"
-              placeholder="  Buscar curso..."
-              aria-label="Search"
-            />
-          </div>
-        </form>
-      </div> -->
       <div class="col-8">
         <h3 class="titulo">Sistema Administrativo de Cursos Académicos</h3>
       </div>
@@ -52,7 +36,7 @@
           class="text-decoration-none"
           variant="link"
           href="/estudiante/misDiplomas"
-          >Mis Cursos</b-button
+          >Mis cursos</b-button
         ><br />
         <b-button
           style="color: #707273"
@@ -72,14 +56,14 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      logout() {
+export default {
+  methods: {
+    logout() {
       localStorage.clear();
       this.$router.push("/");
     },
-    }
-  }
+  },
+};
 </script>
 
 <style scoped>

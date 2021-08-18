@@ -17,6 +17,7 @@
                   class="buscador form-control"
                   placeholder="  Buscar curso..."
                   aria-label="Search"
+                  v-model="buscar"
                 />
               </div>
             </form>
@@ -44,7 +45,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(oferta, item) in listaOfertasActivas"
+                    v-for="(oferta, item) in getAllOfertasActivas"
                     :key="oferta.idOferta"
                   >
                     <th>{{ item + 1 }}</th>
@@ -101,7 +102,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="(oferta, item) in listaOfertasFinalizadas"
+                    v-for="(oferta, item) in getAllOfertasFinalizadas"
                     :key="oferta.idOferta"
                   >
                     <th>{{ item + 1 }}</th>
@@ -179,10 +180,39 @@ export default {
       idDoccente: "",
       oferta: {},
       inscripción: {},
+      buscar:"",
     };
   },
   beforeMount() {
     this.getIdDocente();
+  },
+  computed:{
+    getAllOfertasActivas(){
+      if (!this.buscar) {
+        return this.listaOfertasActivas;
+      } else {
+        return this.listaOfertasActivas.filter((oferta) => {
+          return [oferta.cursos[0].titulo , oferta.cursos[0].descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    },
+    getAllOfertasFinalizadas(){
+      if (!this.buscar) {
+        return this.listaOfertasFinalizadas;
+      } else {
+        return this.listaOfertasFinalizadas.filter((oferta) => {
+          return [oferta.cursos[0].titulo , oferta.cursos[0].descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     getIdDocente() {

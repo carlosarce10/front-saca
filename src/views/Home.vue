@@ -2,8 +2,11 @@
   <div class="row fondo">
     <div class="home">
       <HeaderInicio />
-      <!--<div class="row">
-        <div class="col-md-3 offset-md-3">
+      <div class="row" style="margin-top: 2%">
+      <div class="offset-8 col-3">
+        <div class="row px-2">
+          <!-- div de busqueda -->
+          <div class="col-9 centrar">
             <form>
               <div class="form-group">
                 <b-icon
@@ -13,13 +16,16 @@
                 ></b-icon>
                 <input
                   class="buscador form-control"
-                  placeholder="  Buscar cursos..."
+                  placeholder="  Buscar curso..."
                   aria-label="Search"
+                  v-model="buscar"
                 />
               </div>
             </form>
           </div>
-      </div>-->
+        </div>
+      </div>
+    </div>
       <!-- Modal de detalles del curso -->
       <b-modal
         ref="cursos-modalDetalles"
@@ -121,7 +127,11 @@
         <div
           class="card col-3 mx-5"
           style="margin-top: 1%;"
+<<<<<<< HEAD
           v-for="(oferta, item) in listaOfertas"
+=======
+          v-for="(oferta,item) in getAllOfertasCursos"
+>>>>>>> 1f9c0d9fe1ca3ee1eeca995a2aaf972383b3a2e7
           :key="oferta.idOferta"
         >
           <div class="card-body">
@@ -181,10 +191,26 @@ export default {
       tipoCurso: "",
       fechaFinCard: [],
       fechaInicioCard: [],
+      buscar:"",
     };
   },
   beforeMount() {
     this.getOfertaCursos();
+  },
+  computed:{
+    getAllOfertasCursos(){
+       if (!this.buscar) {
+        return this.listaOfertas;
+      } else {
+        return this.listaOfertas.filter((oferta) => {
+          return [oferta.cursos[0].titulo, oferta.cursos[0].descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     getOfertaCursos() {

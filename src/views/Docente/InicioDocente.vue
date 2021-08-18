@@ -17,6 +17,7 @@
                   class="buscador form-control"
                   placeholder="  Buscar curso..."
                   aria-label="Search"
+                  v-model="buscar"
                 />
               </div>
             </form>
@@ -41,7 +42,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(oferta, item) in listaOfertasActivas"
+              v-for="(oferta, item) in getAllCursosOfertas"
               :key="oferta.idOferta"
             >
               <th>{{ item + 1 }}</th>
@@ -109,10 +110,26 @@ export default {
       division: "",
       clasisificacion: "",
       idDocente: "",
+      buscar:"",
     };
   },
   beforeMount() {
     this.getIdDocente();
+  },
+  computed:{
+    getAllCursosOfertas(){
+      if (!this.buscar) {
+        return this.listaOfertasActivas;
+      } else {
+        return this.listaOfertasActivas.filter((oferta) => {
+          return [oferta.cursos[0].titulo , oferta.cursos[0].descripcion].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     getIdDocente() {

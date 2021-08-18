@@ -2,6 +2,30 @@
   <div class="fondo">
     <div><HeaderAdmin /></div>
     <div class="row" style="margin-top: 2%">
+      <div class="offset-8 col-3">
+        <div class="row px-2">
+          <!-- div de busqueda -->
+          <div class="col-9 centrar">
+            <form>
+              <div class="form-group">
+                <b-icon
+                  style="margin-left: 20px"
+                  icon="search"
+                  class="form-control-icon"
+                ></b-icon>
+                <input
+                  class="buscador form-control"
+                  placeholder="  Buscar inscripcion..."
+                  aria-label="Search"
+                  v-model="buscar"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 2%">
       <div class="col-10 centrar" style="background-color: #f8f8f8">
         <!-- Tabla consulta de ofertas pendientes -->
         <table class="table table-borderless table-hover">
@@ -18,7 +42,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(oferta, item) in ofertas" :key="oferta.id">
+            <tr v-for="(oferta, item) in getAllOfertas" :key="oferta.id">
               <th class="text-center">
                 {{ item + 1 }}
               </th>
@@ -68,8 +92,12 @@
             </tr>
           </tbody>
         </table>
-        <div class="alert alert-success" role="alert" v-if="ofertas.length === 0">
-          No hay solicitudes de  inscripciones
+        <div
+          class="alert alert-success"
+          role="alert"
+          v-if="ofertas.length === 0"
+        >
+          No hay solicitudes de inscripciones
         </div>
       </div>
     </div>
@@ -192,10 +220,27 @@ export default {
       fechaFin: "",
       estudianteID: "",
       ofertaID: "",
+      buscar: "",
     };
   },
   beforeMount() {
     this.getOfertas();
+  },
+  computed: {
+    getAllOfertas(){
+      if (!this.buscar) {
+        return this.ofertas;
+      } else {
+        return this.ofertas.filter((oferta) => {
+          return [oferta.usuario.nombre,oferta.usuario.apellidoPaterno,oferta.usuario.apellidoMaterno,
+          oferta.cursos[0].titulo , oferta.cursos[0].descripcion, oferta.costo].find((field) => {
+            return field
+              .toLowerCase()
+              .includes(this.buscar.toLowerCase().trim());
+          });
+        });
+      }
+    }
   },
   methods: {
     getOfertas() {
@@ -220,8 +265,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -263,8 +307,7 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html:
-                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -338,7 +381,8 @@ export default {
           };
           api.doPut("cursos/inscripcion", this.inscripcion).then(() => {
             this.$swal({
-              title: "Se ha rechazado la solicitud de inscripción correctamente",
+              title:
+                "Se ha rechazado la solicitud de inscripción correctamente",
               icon: "success",
             });
             this.getOfertas();

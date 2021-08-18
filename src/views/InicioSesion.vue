@@ -1,14 +1,25 @@
 <template>
   <div class="row fondo">
-    <div class="offset-5 col-5">
-      <img src="../assets/Logo-utez.png" class="logo" />
+    <div class="centrar">
+      <center>
+        <img src="../assets/Logo-utez.png" class="logo" />
+      </center>
     </div>
-    <div class="centrarDiv">
-      <div class="col-3 sesion" style="padding-top: 1%">
-        <p class="fs-4 letter letra">Inicio de sesión</p>
+    <div class="row">
+      <div
+        class="offset-4 col-3 sesion"
+        style="padding-top: 1%:; margin-left: 37%;"
+      >
+        <p class="fs-4 letter letra">
+          Inicio de sesión
+        </p>
         <b-form style="padding-top: 1%">
           <div class="col-11 mx-auto form-group">
-            <b-icon icon="person-circle" class="form-control-icon"></b-icon>
+            <b-icon
+              style="margin-right: 40%;"
+              icon="person-circle"
+              class="form-control-icon"
+            ></b-icon>
             <b-form-input
               class="form-control"
               id="usuario"
@@ -171,7 +182,7 @@ export default {
 }
 .letra {
   margin-top: 5%;
-  margin-left: 5%;
+  margin-left: 5% !important;
 }
 .row {
   align-content: center;

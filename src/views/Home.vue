@@ -121,17 +121,19 @@
         <div
           class="card col-3 mx-5"
           style="margin-top: 1%;"
-          v-for="(oferta,item) in listaOfertas"
+          v-for="(oferta, item) in listaOfertas"
           :key="oferta.idOferta"
         >
-          <div class="card-body" >
+          <div class="card-body">
             <h5 class="card-title">{{ oferta.cursos[0].titulo }}</h5>
             <h6 class="card-subtitle">${{ oferta.costo }}</h6>
             <br />
             <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
-            <p class="card-text" >Inicio del curso: {{ fechaInicioCard[item] }}</p>
             <p class="card-text">
-              Finalización del curoso: {{ fechaFinCard[item] }}
+              Inicio del curso: {{ fechaInicioCard[item] }}
+            </p>
+            <p class="card-text">
+              Finalización del curso: {{ fechaFinCard[item] }}
             </p>
             <b-button
               variant="outline-primary"
@@ -189,26 +191,35 @@ export default {
       api
         .doGet("cursos/ofertaActivo")
         .then((response) => {
-          this.listaOfertas = response.data          
+          this.listaOfertas = response.data;
           let arrFechaI = [];
           let arrFechaF = [];
-          for(let i=0; i<this.listaOfertas.length; i++){
+          for (let i = 0; i < this.listaOfertas.length; i++) {
             arrFechaF.push(this.listaOfertas[i].fechaFin);
             arrFechaI.push(this.listaOfertas[i].fechaInicio);
-            
           }
-          for(let j=0; j< arrFechaI.length; j++){
-            let date  = new Date(arrFechaI[j]);
-            this.fechaInicioCard[j] = (date.getDate())+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+          for (let j = 0; j < arrFechaI.length; j++) {
+            let date = new Date(arrFechaI[j]);
+            this.fechaInicioCard[j] =
+              date.getDate() +
+              "/" +
+              (date.getMonth() + 1) +
+              "/" +
+              date.getFullYear();
           }
-          for(let k=0; k< arrFechaF.length; k++){
-            let date  = new Date(arrFechaF[k]);
-            this.fechaFinCard[k] = (date.getDate())+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+          for (let k = 0; k < arrFechaF.length; k++) {
+            let date = new Date(arrFechaF[k]);
+            this.fechaFinCard[k] =
+              date.getDate() +
+              "/" +
+              (date.getMonth() + 1) +
+              "/" +
+              date.getFullYear();
           }
-          })
+        })
         .catch((error) => {
           let errorResponse = error.response.data;
-          
+
           if (errorResponse.errorExists) {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
@@ -223,7 +234,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }
@@ -234,14 +246,26 @@ export default {
       api
         .doGet("cursos/oferta/" + id)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           //let fechaP = new Date(response.data.fechaPeriodoInscripcion);
           let fechaI = new Date(response.data.fechaInicio);
           let fechaF = new Date(response.data.fechaFin);
           this.costo = response.data.costo;
           this.fechaPeriodo = response.data.fechaPeriodoInscripcion;
-          this.fechaInicio = (fechaI.getDate()+1)+"-"+(fechaI.getMonth()+1)+"-"+fechaI.getFullYear();
-          this.fechaFin = (fechaF.getDate()+1)+"-"+(fechaF.getMonth()+1)+"-"+fechaF.getFullYear();
+          this.fechaInicio =
+            fechaI.getDate() +
+            1 +
+            "-" +
+            (fechaI.getMonth() + 1) +
+            "-" +
+            fechaI.getFullYear();
+          this.fechaFin =
+            fechaF.getDate() +
+            1 +
+            "-" +
+            (fechaF.getMonth() + 1) +
+            "-" +
+            fechaF.getFullYear();
           this.modalidad = response.data.modalidades[0].modalidad;
           this.division = response.data.divisiones[0].division;
           this.clasificacion = response.data.clasificaciones[0].clasificacion;
@@ -272,7 +296,8 @@ export default {
           } else {
             this.$swal({
               title: "Ha ocurrido un error en el servidor!",
-              html: "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
+              html:
+                "<span style='font-size:14pt'>Para más información contacte a su operador.</span>",
               icon: "error",
             });
           }

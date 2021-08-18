@@ -31,7 +31,7 @@
                     Inicio del curso: {{ fechaInicioCard[item] }}
                   </p>
                   <p class="card-text">
-                    Finalización del curoso: {{ fechaFinCard[item] }}
+                    Finalización del curso: {{ fechaFinCard[item] }}
                   </p>
                   <b-button
                     variant="outline-primary"
@@ -71,7 +71,7 @@
                     Inicio del curso: {{ fechaInicioCardF[item] }}
                   </p>
                   <p class="card-text">
-                    Finalización del curoso: {{ fechaFinCardF[item] }}
+                    Finalización del curso: {{ fechaFinCardF[item] }}
                   </p>
                   <b-button
                     variant="outline-primary"

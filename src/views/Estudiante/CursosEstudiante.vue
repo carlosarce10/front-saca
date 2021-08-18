@@ -134,7 +134,7 @@
           <h6 class="card-text">{{ oferta.cursos[0].descripcion }}</h6>
           <p class="card-text">Inicio del curso: {{ fechaInicioCard[item] }}</p>
           <p class="card-text">
-            Finalización del curoso: {{ fechaFinCard[item] }}
+            Finalización del curso: {{ fechaFinCard[item] }}
           </p>
           <b-button
             variant="outline-primary"
@@ -277,15 +277,14 @@ export default {
       })
         .then((result) => {
           if (result.isConfirmed) {
-            api
-              .doPost("cursos/inscripcion", this.inscripcion)
-              .then(() => {
-                this.$swal({
-                  title: "¡Se ha mandado tu solicitud, realiza tu pago para ingresar al curso!",
-                  icon: "success",
-                });
-                this.getCursosOferta();
-              })
+            api.doPost("cursos/inscripcion", this.inscripcion).then(() => {
+              this.$swal({
+                title:
+                  "¡Se ha mandado tu solicitud, realiza tu pago para ingresar al curso!",
+                icon: "success",
+              });
+              this.getCursosOferta();
+            });
           }
         })
         .catch((error) => {
